@@ -1,8 +1,7 @@
 {
-  "name": "OurJS", 
+  "name": "ourjs", 
   "description": "Free Blog, Website and CMS platform", 
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
       "websvr"         : "0.1.x"
     , "cssshrink"      : "0.x"
