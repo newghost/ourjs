@@ -24,7 +24,7 @@ start()
     #make sure it will running forever and error will be logged
     while true; do
         {
-            $NODE_EXE $WEB_DIR/$WEB_APP config.newspaper.js
+            $NODE_EXE $WEB_DIR/$WEB_APP config.magazine.js
             echo "Stopped unexpected, restarting \r\n\r\n"
         } 2>> $WEB_DIR/error.log
         sleep 1
