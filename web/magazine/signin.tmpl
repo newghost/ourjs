@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Signin - OurJS</title>
+<!--#include="head.part"-->
+</style>
+</head>
+<body>
+
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+
+<!--#include="navbar.part"-->
+
+<div class="row content-wrap">
+  <div class="large-4 columns">&nbsp;</div>
+  <div class="large-4 columns">
+    <form action="/user.signin.post/redirect" method="post">
+      <h3>Signin</h3>
+      <input type="text"      placeholder="Username" name="username">
+      <input type="password"  placeholder="Password" name="password">
+      <input type="checkbox"  checked="checked" name="autosign" id="autosign">
+      <label for="autosign">Auto Signin</label>
+      <button class="btn btn-large btn-primary" type="submit">Signin</button>
+    </form>
+  </div>
+  <div class="large-4 columns">&nbsp;</div>
+</div>
+
+<!--#include="foot.part"-->
+
+</div>
+</div>
+</body>
+</html>

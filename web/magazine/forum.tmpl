@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<title>{{=it.title}}</title>
+<!--#include="head.part"-->
+</head>
+<body class='forum'>
+
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+
+<!--#include="navbar.part"-->
+
+<div class="row">
+  <div class="large-12 columns">
+    <div class="keywords" id='keyNav'>
+      <ul>
+        {{ for(var keyword in it.keywords) { }}
+        <li><a href="/{{=it.keymeta}}/{{=keyword || '/'}}">{{=keyword || 'All'}}</a></li>
+        {{ } }}
+      </ul>
+    </div>
+    <ul class="threads">
+      {{~ it.articles:article:index }}
+      <li>
+        <div class="num">{{=(article.replies || []).length}}</div>
+        <a class="avatar"><img src="http://www.gravatar.com/avatar/{{=article.avatar}}"></a>
+        <div class="content">
+          {{?article.verify=='1'}}
+          <i class="icon-star-empty"></i>
+          {{?}}
+          <a href="/article/{{=article._id}}">{{=article.title || ''}}</a>
+        </div>
+        <div class="info">
+           • <a href="/forum/{{=article.keyword}}">{{=article.keyword}}</a>
+           • <a href="/userinfo/{{=article.poster}}">{{=article.poster}}</a>
+           • <span class="formatdate">{{=article.replyTime || article.postdate || 0}}</span>
+        </div>
+      </li>
+      {{~}}
+    </ul>
+    <div class="pagination">{{=it.pagination}}</div>
+  </div>
+</div>
+
+<!--#include="foot.part"-->
+
+</div>
+</div>
+
+</body>
+</html>

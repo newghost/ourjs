@@ -1,0 +1,16 @@
+<footer>
+  <div class="row">
+    <br>
+    <div class="large-6 columns">
+      <p>&copy; Copyright</p>
+    </div>
+    <div class="large-6 columns">
+      <ul class="inline-list right">
+        <li><a href="https://github.com/newghost/ourjs/blob/master/LICENSE">License / BSD</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/libs.min.js"></script>
+<script src="/js/prod.min.js"></script>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{=it.title || ''}} - OurJS</title>
+<!--#include="head.part"-->
+<script>var conf={ _id: "{{=it._id}}", username:"{{=it.username || ''}}", useravatar:"{{=it.useravatar || ''}}"} </script>
+</head>
+<body>
+
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+
+<!--#include="navbar.part"-->
+  
+<h1 class="hero-title">{{=it.title}}</h1>
+
+<div class="row">
+
+  <div class="large-12 columns article">
+
+    <div class="note text-center">
+      {{?it.category}}
+      <a class="category" href="/home/{{=it.category}}">{{=it.category}}</a>,
+      {{?}}
+      by <a class="author" href="/userinfo/{{=it.poster}}">{{=it.poster}}</a>
+      <a class="keyword"  href="/forum/{{=it.keyword}}">{{=it.keyword}}</a>
+      <span class="formatdate date">{{=it.publishTime || it.postdate}}</span>
+
+      {{?it.username == it.poster || it.isAdmin}}
+      <hr>
+      <a href="/root/delete/{{=it._id}}">
+        <i class="fa fa-trash-o"></i> Delete
+      </a>
+      &nbsp;
+      <a href="/root/edit/{{=it._id}}">
+        <i class="fa fa-pencil"></i> Edit
+      </a>
+      {{?}}
+      {{?it.isAdmin}}
+      &nbsp;
+      <a href="/root/publish/{{=it._id}}">
+        <i class="fa fa-share-square-o"></i> Publish
+      </a>
+      {{?}}
+    </div>
+
+    <br><br>
+
+
+    <div class="content">
+      {{=it.content || ''}}
+    </div>
+
+    <br><br><br><br>
+
+    <div class="comments">
+      <div class="title">{{=(it.replies || []).length}} COMMENTS</div>
+      <ul>
+        {{~ it.replies :reply:index }}
+        <li>
+          {{?reply.deleted}}
+          <div class="info">
+            #<b class="floor">{{=index}}</b> <s>Deleted</s>
+            <span class="formatdate text-right">{{=reply.postdate}}</span>
+          </div>
+          {{??}}
+          <a class="avatar"><img src="http://www.gravatar.com/avatar/{{=reply.avatar}}"></a>
+          <div class="info">
+            #<b class="floor">{{=index}}</b>
+            {{?reply.poster}}
+            <a href="/userinfo/{{=reply.poster || ''}}" target="_blank">{{=reply.poster || ''}}</a>
+            {{??}}
+            <a>{{=reply.nickname || ''}} (Guest)</a>
+            {{?}}
+            <span class="formatdate">{{=reply.postdate}}</span>
+          </div>
+          <div class="content">{{=reply.reply || ''}}</div>
+          <div class="command">
+            {{?it.username && !reply.deleted && (reply.poster == it.username || it.isAdmin)}}
+            <a class="remove"><i class="fa fa-times"></i> Delete</a>
+            {{?}}
+            <a class="reply"><i class="fa fa-share"></i> Reply</a>
+          </div>
+          {{?}}
+        </li>
+        {{~}}
+      </ul>
+      <form id="addReply">
+        <div class="editor"></div>
+        <table class="toolbar">
+          <tr>
+            {{?!it.username}}
+            <td> <input name="nickname" id="nickname" type="text" /> </td>
+            <td> 
+            <i class="fa fa-refresh refresh"></i>
+            </td>
+            {{?}}
+            <td> <button type="submit">Post Comment</button> </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--#include="foot.part"-->
+
+</div>
+</div>
+
+</body>
+</html>

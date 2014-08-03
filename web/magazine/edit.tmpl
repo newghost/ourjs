@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{=it.title || 'Edit Title'}} - OurJS</title>
+<!--#include="head.part"-->
+<script>var conf={ _id: "{{=it._id}}", username:"{{=it.username || ''}}", useravatar:"{{=it.useravatar || ''}}"} </script>
+</head>
+<body>
+
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+
+<!--#include="navbar.part"-->
+
+<div class="row">
+  <div class="large-12 columns article">
+    <br><br>
+    <h1 class="text-center">Edit</h1>
+    <br><br>
+    <form class="form-horizontal" method="post" id="editArticleForm" action="/root/edit.post">
+      <input type="text"  name="_id" readonly="readonly" value="{{=it._id || ''}}" placeholder="ID">
+      <br><br>
+      {{? it.isAdmin }}
+      <label>Poster
+        <input type="text" name="poster" readonly="readonly" value="{{=it.poster || ''}}"  placeholder="Poster">
+      </label>
+      <br><br>
+      {{?}}
+      <label>Title
+      <input type="text"  name="title"      value="{{=it.title || ''}}"  placeholder="Title">
+      </label>
+      <br><br>
+
+      {{? it.isAdmin }}
+      <label>Category
+        <select name="category" data-val="{{=it.category || ''}}">{{=it.categoryOpts}}</select>
+      </label>      
+      <br><br>
+
+      <label>Verify
+        <select name="verify" data-val="{{=it.verify || ''}}">
+          <option value="-1">Save Draft</option>
+          <option value="0">Save Post</option>
+          <option value="1">Publish to Homepage</option>
+        </select>
+      </label>
+      <br><br>
+      {{?}}
+      <label>Keyword
+        <select name="keyword" data-val="{{=it.keyword || ''}}">{{=it.keywordsOpts}}</select>
+      </label>
+      <br><br>
+
+      {{? it.isAdmin }}
+      <label>Summary</label>
+      <div id="summary" class="editor summary">{{=it.summary || ''}}</div>
+      <br><br>
+      {{?}}
+
+      <label>Content</label>
+      <div id="content" class="editor content">{{=it.content || ''}}</div>
+      <br><br>
+
+      <input type="hidden" name="summary">
+      <input type="hidden" name="content">
+
+      <div class="text-center">
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!--#include="foot.part"-->
+
+</div>
+</div>
+
+</body>
+</html>

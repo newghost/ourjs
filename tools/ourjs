@@ -1,0 +1,55 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides: ourjs
+# Required-Start: $network $remote_fs $local_fs
+# Required-Stop: $network $remote_fs $local_fs
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop node
+# Description: ourjs app
+### END INIT INFO
+
+WEB_DIR='/var/www/ourjs'
+WEB_APP='svr/ourjs.js'
+
+#location of node you want to use
+NODE_EXE=/root/local/bin/node
+
+start()
+{
+    echo "Start OurJS"
+    #important! change current folder, in order to make the relative path work.
+    cd $WEB_DIR
+    #make sure it will running forever and error will be logged
+    while true; do
+        {
+            $NODE_EXE $WEB_DIR/$WEB_APP config.newspaper.js
+            echo "Stopped unexpected, restarting \r\n\r\n"
+        } 2>> $WEB_DIR/error.log
+        sleep 1
+    done
+}
+
+stop()
+{
+    echo "This program cann't be stopped"
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        #start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/ourjs {start|stop|restart}"
+        ;;
+esac
+
+exit 0

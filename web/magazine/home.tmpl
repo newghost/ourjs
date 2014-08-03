@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<title>OurJS | Free Blog, Forum, Website Platform and CMS based on Node.JS</title>
+<!--#include="head.part"-->
+<script>var conf={{=it.conf}}</script>
+</head>
+<body>
+
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+  
+<!--#include="navbar.part"-->
+
+<header>
+  <div class="home-hero">
+    <!-- YOU CAN DELETE THESE CODES -->
+    <!--Fork me on github -->
+    <a href="https://github.com/newghost/ourjs"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+    
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="hero-text">
+          <br><br>
+          <h1 class="brand">Our<b>JS</b></h1>
+          <br>
+          <h2 class="desc">Free Blog, Forum, Website Platform and CMS <br> based on Node.JS (Beta)</h2>
+          <a class="install-tip"  href="#install-tag">Install OurJS</a>
+          <br><br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="share-bar">
+    <!-- YOU CAN DELETE THESE CODES -->
+    <!-- Share Button: Begin -->
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_pinterest_large' displayText='Pinterest'></span>
+    <span class='st_sina_large' displayText='Sina'></span>
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "d64da7f1-9a98-4c1a-beb7-53ab85f4e5e0", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+    <!-- Share Button: End -->
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="highlight">
+    <br><br><br>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <h3 class="title">Simple, Full-Stack</h3>
+        <p>Front-end and back-end using the same programming language JavaScript.</p>
+      </div>
+      <div class="large-4 columns">
+        <h3 class="title">NoDB, No Configuration</h3>
+        <p>Not only database: data stored in JSON files also support mongodb etc.</p>
+      </div>
+      <div class="large-4 columns">
+        <h3 class="title">High Performance</h3>
+        <p>All the data stored in the cache layer(memory), you can access the data with zero-time delay.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="install-tag"><hr></div>
+
+  <div class="highlight">
+    <div class="row">
+      <div class="large-4 columns">
+        <div class="category">Install</div>
+      </div>
+      <div class="large-8 columns">
+        <h4 class="title">10 seconds Install</h4>
+        <p>
+          You need install <a href="http://nodejs.org" target="_blank">node.js (npm)</a> first then running shell:
+        </p>
+        <pre style="font-size: 12px;"> npm install ourjs && cp node_modules/ourjs ./ourjs && ./ourjs/ourjs.sh </pre>
+        <p>
+          <b>Note:</b> If you are a windows user, please install <a href="http://msysgit.github.io/" target="_blank">mysysgit</a> and running it in "Git Bash" (right click menu).
+        </p>
+        <p>Trying at <a href="http://localhost:8054">http://localhost:8054</a> (refresh twice to establish the cache)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row"><hr></div>
+
+  <!-- YOU CAN DELETE THESE CODES -->
+  <!-- Ads: Begin -->
+  <div class="row">
+    <div class="ads">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1941367294435664"
+           data-ad-slot="5092336836"
+           data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+  <div class="row"><hr></div>
+  <!-- Ads: End -->
+
+  <div id="articles">
+    {{~ it.articles :article:index }}
+    <div class="article highlight row">
+      <div class="large-4 columns">
+        {{?article.imgurl}}
+        <img src="{{=article.imgurl}}">
+        {{??}}
+        <div><a class="category" href="/home/{{=article.category}}">{{=article.category}}</a></div>
+        {{?}}
+      </div>
+      <div class="large-8 columns">
+        <h4 class="title"><a href="/article/{{=article._id}}">{{=article.title}}</a></h4>
+        <div class="note">
+          <a class="keyword" target="_blank" href="/forum/{{=article.keyword}}">{{=article.keyword || ''}}</a>
+          by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster || ''}}</a>
+          <span class="formatdate date">{{=article.publishTime || article.postdate || ''}}</span>
+        </div>
+        <div class="summary">{{=article.summary || ''}}</div>
+      </div>
+    </div>
+    {{~}}
+  </div>
+
+  <div class="row">
+    <div class="large-12 columns text-right">
+      <div id="loader" class="hide">
+        <pre style="text-align:center">Loading...</pre>
+      </div>
+      <hr>
+      <a class="button" id="loadmore" href="{{=it.nextPage}}">Load More</a>
+    </div>
+  </div>
+</div>
+
+<!--#include="foot.part"-->
+
+</div>
+</div>
+
+</body>
+</html>
