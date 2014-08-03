@@ -1,13 +1,15 @@
 <footer>
   <div class="row">
     <br>
-    <div class="large-6 columns">
-      <p>&copy; Copyright</p>
+    <div class="large-10 columns">
+      <ul class="inline-list">
+        <li><p>&copy; Copyright</p></li>
+      </ul>      
     </div>
-    <div class="large-6 columns">
-      <ul class="inline-list right">
-        <li><a href="https://github.com/newghost/ourjs/blob/master/LICENSE">License / BSD</a></li>
-      </ul>
+    <div class="large-2 columns">
+      <div class="copyright">
+        Powered by <a href="http://ourjs.org" class="title" target="_blank">OurJS.org</a>
+      </div>
     </div>
   </div>
 </footer>
