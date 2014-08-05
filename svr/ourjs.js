@@ -237,7 +237,7 @@ var signHandler = function(req, res, userInfo) {
       res.cookie('token', utility.getEncryption(userInfo.email), opts);
 
       req.url.indexOf('redirect') < 0
-        ? res.send({username: signedUser.username, avatar: signedUser.avatar})
+        ? res.send({username: userInfo.username, avatar: userInfo.avatar})
         : res.redirect('/');
 
       return true;
