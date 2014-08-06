@@ -110,6 +110,7 @@ var showListHandler = function(req, res, url) {
         , content:  article.content ? 1 : 0
         , postdate: article.postdate
         , category: article.category
+        , replyNum: (article.replies || '').length
       })
     });
     res.send(shortArticles);
@@ -439,6 +440,7 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
         , postdate: article.postdatetime
         , category: article.category
         , keyword:  article.keyword
+        , replyNum: (article.replies || '').length
       })
     });
     res.send(shortArticles);
