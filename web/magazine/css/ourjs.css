@@ -610,3 +610,11 @@ user info and avator
 .copyright a {
   color: #333; 
 }
+
+
+/*for mobile device*/
+@media (max-width: 979px) {
+  .highlight .title {
+    margin-top: 24px;
+  }
+}
