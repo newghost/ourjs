@@ -17,7 +17,7 @@
         <a href="/" class="">Docs</a>
         <ul class="dropdown">
           {{ for(var category in it.categories) { }}
-          <li><a href="/{{=it.homemeta}}/{{=category}}/">{{=category}}</a></li>
+          {{?category}}<li><a href="/{{=it.homemeta}}/{{=category}}/">{{=category}}</a></li>{{?}}
           {{ } }}
         </ul>
       </li>
@@ -26,7 +26,7 @@
         <a href="/forum" class="">Forum</a>
         <ul class="dropdown">
           {{ for(var keyword in it.keywords) { }}
-          <li><a href="/forum/{{=keyword}}/">{{=keyword}}</a></li>
+          {{?keyword}}<li><a href="/forum/{{=keyword}}/">{{=keyword}}</a></li>{{?}}
           {{ } }}
         </ul>
       </li>
