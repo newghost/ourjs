@@ -694,7 +694,7 @@ article
   margin: 0;
   padding: 0;
   text-indent: 4px;
-  vertical-align: text-top;
+  vertical-align: middle;
 }
 
 .toolbar .refresh{
@@ -713,6 +713,11 @@ article
 
 .toolbar button{
   padding: 10px 32px;
+  margin: 0;
+}
+
+.toolbar input{
+  margin: 0;
 }
 
 
