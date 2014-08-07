@@ -10,4 +10,4 @@ HomePage : http://code.ourjs.com
 
 License  : BSD, see our lecense file
 
-中文支持： http://ourjs.com/home/开源OurJS/
+中文支持： http://ourjs.com/bbs/OurJS
