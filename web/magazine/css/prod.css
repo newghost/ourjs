@@ -238,6 +238,7 @@
     left: 0;
     content: attr(data-placeholder);
     font-style: italic; }
+/*Powered by OurJS.com*/
 pre {
   color: #fff;
   display: block;
@@ -841,7 +842,6 @@ user info and avator
 
 .copyright {
   color: #333; 
-  font-size: 14px; 
   font-weight: 400;
   line-height: 24px;
   text-align: right;

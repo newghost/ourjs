@@ -1,3 +1,11 @@
+/*!@preserve
+* OurJS     : Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS
+* Copyright : Kris Zhang <kris.newghost@gmail.com>
+* Homepage  : http://code.ourjs.com
+* Project   : https://github.com/newghost/ourjs
+* License   : BSD
+*/
+
 var crypto          = require('crypto')
   , config          = global.CONFIG
   , GENERAL_CONFIG  = config.GENERAL_CONFIG

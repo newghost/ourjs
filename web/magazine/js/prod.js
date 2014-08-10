@@ -19,7 +19,10 @@
     ? (module.exports = init)
     : init();
 
-})();
+})();/*!@preserve
+Powered by ourjs.com
+*/
+
 var OurJS = window.OurJS || {};
 
 /*

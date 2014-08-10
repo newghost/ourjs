@@ -1,15 +1,13 @@
 <footer>
   <div class="row">
     <br>
-    <div class="large-10 columns">
+    <div class="large-12 columns">
       <ul class="inline-list">
         <li><p>&copy; Copyright</p></li>
-      </ul>      
-    </div>
-    <div class="large-2 columns">
-      <div class="copyright">
-        Powered by <a href="http://code.ourjs.com" class="title" target="_blank">OurJS</a>
-      </div>
+        <li class="copyright right">
+          <a href="http://code.ourjs.com" class="title" target="_blank">Powered by OurJS</a>
+        </li>
+      </ul>
     </div>
   </div>
 </footer>

@@ -9,6 +9,7 @@ var js = function(inputFile, outputFile) {
   ast = pro.ast_mangle(ast); // get a new AST with mangled names
   ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
   var final_code = pro.gen_code(ast); // compressed code here
+  final_code = final_code + '/* Powered by OurJS.com */';
   fs.writeFileSync(outputFile, final_code, "utf-8");
 
   console.log('minified js:', inputFile, outputFile);
@@ -16,7 +17,7 @@ var js = function(inputFile, outputFile) {
 
 var css = function(inputFile, outputFile) {  
   var codes = cssshrink.shrink(fs.readFileSync(inputFile).toString());
-  fs.writeFileSync(outputFile, codes, "utf-8");
+  fs.writeFileSync(outputFile, codes + '/* Powered by OurJS.com */', "utf-8");
 
   console.log('minified css:', inputFile, outputFile);
 };

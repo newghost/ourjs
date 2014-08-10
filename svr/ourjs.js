@@ -1,3 +1,11 @@
+/*!@preserve
+* OurJS     : Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS
+* Copyright : Kris Zhang <kris.newghost@gmail.com>
+* Homepage  : http://code.ourjs.com
+* Project   : https://github.com/newghost/ourjs
+* License   : BSD
+*/
+
 //import namespace
 var fs          = require('fs')
   , http        = require('http')
