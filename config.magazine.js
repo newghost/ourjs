@@ -41,7 +41,7 @@ var GENERAL_CONFIG = {
   , hottestList     : false
   , similarList     : false
   , homeUrl         : ['/home', '/email', '/rss', '/json']
-  , keyUrl          : ['/forum/:keyword/:pageNumber']
+  , keyUrl          : ['/forum/:keyword/:pageNumber', '/forum_rss/:keyword/:pageNumber']
   , detailUrl       : '/article/:id'
   , userUrl         : ['/userinfo/', '/userjson/']
   , renderTmplUrl   : ['/signin', '/signup']

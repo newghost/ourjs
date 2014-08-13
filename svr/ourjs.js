@@ -101,10 +101,6 @@ var showListHandler = function(req, res, url) {
 
   var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
 
-  if (template == 'rss') {
-    res.type('xml');
-  }
-
   if (template == 'json') {
     //render json page: remove contents in the article list
     var shortArticles = [];
@@ -131,6 +127,8 @@ var showListHandler = function(req, res, url) {
       , username  : userInfo.username
       , homemeta  : template
     };
+
+    template.indexOf('rss') > -1 && res.type('xml');
 
     res.render(template + ".tmpl", {
         username    : userInfo.username
@@ -391,6 +389,8 @@ var keyListHandler = function(req, res, url) {
     , pager:    pageNumber
     , username: userInfo.username
   };
+
+  keymeta.indexOf('rss') > -1 && res.type('xml');
 
   res.render("{0}.tmpl".format(keymeta), {
       articles    : articles

@@ -18,6 +18,7 @@
         {{ for(var keyword in it.keywords) { }}
         <li><a href="/{{=it.keymeta}}/{{=keyword || '/'}}">{{=keyword || 'All'}}</a></li>
         {{ } }}
+        <li class="right"><a href="/forum_rss" target="_blank">RSS</a></li>
       </ul>
     </div>
     <ul class="threads">

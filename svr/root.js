@@ -130,7 +130,7 @@ webSvr.handle("/root/edit.post", function(req, res) {
   }
   res.send('html', MESSAGES.NOPERMISSION);
 
-}, {post: "qs"});
+}, 'qs');
 
 
 webSvr.handle(GENERAL_CONFIG.rootDeleUrl, function(req, res) {
@@ -216,7 +216,7 @@ webSvr.handle('/reply/add/:id', function(req, res) {
     res.end(MESSAGES.NOPERMISSION);    
   }
 
-}, {post: 'json'});
+}, 'json');
 
 
 webSvr.handle('/reply/del/:id/:idx', function(req, res) {
