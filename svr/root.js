@@ -141,7 +141,7 @@ webSvr.handle(GENERAL_CONFIG.rootDeleUrl, function(req, res) {
     ;
 
   if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-    article.verify
+    article.verify == '1'
       ? res.end(MESSAGES.CANNOT_DELETE_VERIFIED)
       : adapter.delete(id, 'article', function(result) {
           res.end("removed " + result);

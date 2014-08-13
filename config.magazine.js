@@ -59,7 +59,7 @@ var MESSAGES = {
   , TIMEOUT                         : 'Session timeout please sign in and try again'
   , NEED_WAIT                       : 'You need to wait {0} seconds'
   , DUPLICATED                      : 'Duplicated username or email'
-  , CANNOT_DELETE_VERIFIED          : 'You cannot delete verified item'
+  , CANNOT_DELETE_VERIFIED          : 'You cannot delete published article'
   , USERNAME_PASSWORD_NOT_MATCH     : "Username and password do not match"
   , SERVER_DATA_SYNC_ERROR          : 'Sync data error'
   , SCHEMA_NOT_FOUND                : 'Schema not found!'
