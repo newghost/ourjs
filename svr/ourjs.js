@@ -35,7 +35,7 @@ var GENERAL_CONFIG  = config.GENERAL_CONFIG
 
 //Start the WebSvr
 var articlesCount = new Count('articles', GENERAL_CONFIG.countFolder)
-  , webSvr        = new WebSvr(WEBSVR_CONFIG).start()
+  , webSvr        = WebSvr(WEBSVR_CONFIG)
   ;
 
 //webSvr.engine(require("./doT").compile);
