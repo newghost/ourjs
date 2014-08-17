@@ -1,7 +1,7 @@
 {
   "name": "ourjs", 
   "description": "Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS", 
-  "version": "0.0.14",
+  "version": "0.0.15",
   "dependencies": {
       "websvr"         : "0.1.x"
     , "cssshrink"      : "0.x"
