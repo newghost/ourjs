@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/admin/data/web/static/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Data Manager</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        {{ for(var MODEL in it.MODELS) { }}
+        {{?it.schema == MODEL}}
+        <li class="active"><a href="#">{{=MODEL}}</a></li>
+        {{??}}
+        <li><a href="/admin/data/{{=MODEL}}/select">{{=MODEL}}</a></li>
+        {{?}}
+        {{ } }}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="starter-template">
+    <h3>
+      {{=it.schema}}
+      <a class="btn btn-success" style="float:right" href="/admin/data/{{=it.schema}}/edit/add" target="_blank">Add</a>
+    </h3>
+    <br>
+    <table class="table">
+    <tr>
+      {{ for(var i in it.properties) { }}
+      <th>{{=it.properties[i]}}</th>
+      {{ } }}
+      <th>edit</th>
+    </tr>
+    {{~ it.docs :doc:index }}
+      <tr>
+        {{ for(var i in it.properties) { }}
+        <td>{{=doc[it.properties[i]] || ''}}</td>
+        {{ } }}
+        <td><a href="/admin/data/{{=it.schema}}/edit/{{=doc._id}}" target="_blank">Edit</a></td>
+      </tr>
+    {{~}}
+    </table>
+  </div>
+</div>
+
+<script src="/admin/data/web/static/jquery.js"></script>
+<script src="/admin/data/web/static/bootstrap.min.js"></script>
+</body>
+</html>

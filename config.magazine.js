@@ -89,7 +89,7 @@ var KEYWORDS = {
 
 
 var PLUGINS = [
-    './plugins/dataManager/dataManager.js'
+    './admin/data/manager.js'
 ];
 
 

@@ -488,22 +488,12 @@ var initData = function() {
 };
 
 
-var initPlugins = function() {
+var initMods = function() {
   /*
   * For administration
   */
   require('./root');
-
-  /*
-  * Loading plugins
-  */
-  config.PLUGINS.forEach(function(plugin) {
-    try {
-      require(path.join('../', plugin));
-    } catch (err) {
-      console.log('Error while loading plugin:', plugin, err);
-    }
-  });
+  require('../admin/plugins');
 };
 
 
@@ -523,7 +513,7 @@ var initPlugins = function() {
   */
   Schema.notify.on('done', function() {
     initData();
-    initPlugins();
+    initMods();
   });
 
 })();
