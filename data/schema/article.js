@@ -2,7 +2,6 @@
     "_id"         : "id"
   , "title"       : "shown,string"
   , "url"         : "url"
-  , "imgurl"      : "url"
   , "verify"      : "shown,int"
   , "category"    : "shown,string"
   , "keyword"     : "shown"
