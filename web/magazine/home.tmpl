@@ -113,11 +113,7 @@
     {{~ it.articles :article:index }}
     <div class="article highlight row">
       <div class="large-4 columns">
-        {{?article.imgurl}}
-        <img src="{{=article.imgurl}}">
-        {{??}}
-        <div><a class="category" href="/home/{{=article.category}}">{{=article.category}}</a></div>
-        {{?}}
+        <a class="category" href="/home/{{=article.category}}">{{=article.category}}</a>
       </div>
       <div class="large-8 columns">
         <h4 class="title"><a href="/article/{{=article._id}}">{{=article.title}}</a></h4>
