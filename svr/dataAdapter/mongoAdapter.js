@@ -19,158 +19,158 @@ var fs              = require('fs')
   , MESSAGES        = config.MESSAGES
   , GENERAL_CONFIG  = config.GENERAL_CONFIG
   , CONNECTIONSTR   = GENERAL_CONFIG.CONNECTIONSTR
-  ;
+
 
 var adapter = {}
   , _cb     = new Function()
-  ;
+
 
 adapter.select = function(_id, table, cb) {
   if (arguments.length < 3) {
-    cb = table || _cb;
-    table = _id;
-    _id = undefined;
+    cb = table || _cb
+    table = _id
+    _id = undefined
   } else {
-    cb = cb || _cb;
+    cb = cb || _cb
   }
 
-  var dir = DATA_MODELS[table];
+  var dir = DATA_MODELS[table]
 
   if (!dir) {
-    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments);
-    return cb([]);
+    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments)
+    return cb([])
   }
 
   MongoClient.connect(CONNECTIONSTR, function(err, db) {
     if (err) {
-      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-      return cb([]);
+      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+      return cb([])
     }
 
     db.collection(table, function(err, collection) {
       if (err) {
-        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-        return cb([]);
+        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+        return cb([])
       }
 
       collection.find(_id ? { _id: ObjectID(_id) } : {}).toArray(function(err, docs) {
         if (err) {
-          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
+          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
         }
 
-        db.close();
-        cb(docs.map(function(doc) { doc._id = doc._id.toString(); return doc }) || []);
-      });
-    });
-  });
-};
+        db.close()
+        cb(docs.map(function(doc) { doc._id = doc._id.toString() return doc }) || [])
+      })
+    })
+  })
+}
 
 adapter.insert = function(table, article, cb) {
-  var dir = DATA_MODELS[table];
-  cb = cb || _cb;
+  var dir = DATA_MODELS[table]
+  cb = cb || _cb
 
   if (!dir) {
-    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments);
-    return cb(false);
+    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments)
+    return cb(false)
   }
 
   MongoClient.connect(CONNECTIONSTR, function(err, db) {
     if (err) {
-      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-      return cb(false);
+      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+      return cb(false)
     }
 
     db.collection(table, function(err, collection){
       if (err) {
-        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-        return cb(false);
+        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+        return cb(false)
       }
 
-      article._id       = ObjectID(); //.toString();
+      article._id       = ObjectID() //.toString()
 
       collection.insert(article, function(err, records) {
-        article._id = article._id.toString();
+        article._id = article._id.toString()
 
         if (err) {
-          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-          return cb(false);
+          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+          return cb(false)
         }
 
-        db.close();
-        cb(true);
-      });
-    });
-  });
-};
+        db.close()
+        cb(true)
+      })
+    })
+  })
+}
 
 adapter.update = function(_id, table, updateJSON, cb) {
-  var dir = DATA_MODELS[table];
-  cb = cb || _cb;
+  var dir = DATA_MODELS[table]
+  cb = cb || _cb
 
   if (!dir) {
-    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments);
-    return cb(false);
+    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments)
+    return cb(false)
   }
 
   MongoClient.connect(CONNECTIONSTR, function(err, db) {
     if (err) {
-      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-      return cb(false);
+      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+      return cb(false)
     }
 
     db.collection(table, function(err, collection){
       if (err) {
-        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-        return cb(false);
+        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+        return cb(false)
       }
 
-      var oldId = updateJSON._id;
-      delete updateJSON._id;
+      var oldId = updateJSON._id
+      delete updateJSON._id
       collection.update({ _id: ObjectID(_id) }, { $set: updateJSON }, function(err, records) {
         if (err) {
-          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-          return cb(false);
+          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+          return cb(false)
         }
 
-        oldId && (updateJSON._id = oldId);
-        db.close();
-        cb(true);
-      });
-    });
-  });
-};
+        oldId && (updateJSON._id = oldId)
+        db.close()
+        cb(true)
+      })
+    })
+  })
+}
 
 adapter.delete = function(_id, table, cb) {
-  var dir = DATA_MODELS[table];
-  cb = cb || _cb;
+  var dir = DATA_MODELS[table]
+  cb = cb || _cb
 
   if (!dir) {
-    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments);
-    return cb(false);
+    console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, arguments)
+    return cb(false)
   }
 
   MongoClient.connect(CONNECTIONSTR, function(err, db) {
     if (err) {
-      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-      return cb(false);
+      console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+      return cb(false)
     }
 
     db.collection(table, function(err, collection) {
       if (err) {
-        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
-        return cb(false);
+        console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
+        return cb(false)
       }
 
       collection.remove({_id: ObjectID(_id)}, function(err, num) {
         if (err) {
-          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err);
+          console.log(MESSAGES.SERVER_DATA_SYNC_ERROR, err)
         }
 
-        db.close();
-        cb(num > 0);
-      });
-    });
-  });
-};
+        db.close()
+        cb(num > 0)
+      })
+    })
+  })
+}
 
-module.exports = adapter;
+module.exports = adapter

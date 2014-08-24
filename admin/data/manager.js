@@ -16,20 +16,20 @@ var fs              = require('fs')
   , SCHEMA          = global.SCHEMA
   , DATA_MODELS     = global.DATA_MODELS
   , MESSAGES        = config.MESSAGES
-  ;
+
 
 
 var sort = function(a, b) {
-  return parseInt((b._id.toString() || '').slice(0, 8), 16) - parseInt((a._id.toString() || '').slice(0, 8), 16);
-};
+  return parseInt((b._id.toString() || '').slice(0, 8), 16) - parseInt((a._id.toString() || '').slice(0, 8), 16)
+}
 
 webSvr.filter(function(req, res) {
   if (req.url === '/admin/data' || req.url === '/admin/data/') {
-    res.redirect('/admin/data/article/select');
+    res.redirect('/admin/data/article/select')
   } else {
-    req.filter.next();
+    req.filter.next()
   }
-});
+})
 
 webSvr.url('/admin/data/:schema/select/:pager', function(req, res) {
   var username  = req.session.get('username')
@@ -37,66 +37,66 @@ webSvr.url('/admin/data/:schema/select/:pager', function(req, res) {
     , pager     = req.params.pager || 0
     , pageSize  = 1000
     , MODEL     = DATA_MODELS[schema]
-    ;
+
 
   if (MODEL) {
     //Load schema
     try {
-      var schemaInfo  = SCHEMA[schema];
+      var schemaInfo  = SCHEMA[schema]
     } catch(err) {
-      res.end(MESSAGES.SCHEMA_NOT_FOUND);
-      return console.log(err);
+      res.end(MESSAGES.SCHEMA_NOT_FOUND)
+      return console.log(err)
     }
 
     //Pickup shown properties
-    var properties = [];
+    var properties = []
     for (var property in schemaInfo) {
       if (schemaInfo[property].indexOf('shown') > -1) {
-        properties.push(property);
+        properties.push(property)
       }
-    };
+    }
 
     adapter.select(schema, function(list) {
-      var outputs = list.sort(sort).slice(pager * pageSize, (pager + 1) * pageSize);
+      var outputs = list.sort(sort).slice(pager * pageSize, (pager + 1) * pageSize)
       res.render('/admin/data/web/list.tmpl', { 
           docs        : outputs
         , username    : username
         , MODELS      : DATA_MODELS
         , schema      : schema
         , properties  : properties
-      });
-    });
+      })
+    })
   } else {
-    res.end(MESSAGES.NOPERMISSION);
+    res.end(MESSAGES.NOPERMISSION)
   }
-});
+})
 
 
 webSvr.url('/admin/data/:schema/edit/:id', function(req, res) {
   var username  = req.session.get('username')
     , schema    = req.params.schema
     , id        = req.params.id
-    ;
+
 
   try {
     var schemaInfo  = SCHEMA[schema]
   } catch (err) {
-    res.end(MESSAGES.SCHEMA_NOT_FOUND);
-    return console.log(err);
+    res.end(MESSAGES.SCHEMA_NOT_FOUND)
+    return console.log(err)
   }
 
   if (id === 'add') {
-    res.render('/admin/data/web/edit.tmpl', { doc: {}, schema: schema, SCHEMA: schemaInfo, username: username });
+    res.render('/admin/data/web/edit.tmpl', { doc: {}, schema: schema, SCHEMA: schemaInfo, username: username })
   } else {
     adapter.select(id, schema, function(docs) {
       if (!docs || docs.length < 1) {
-        res.end('data not found, ' + schema + ', ' + id);
-        return;
+        res.end('data not found, ' + schema + ', ' + id)
+        return
       }
-      res.render('/admin/data/web/edit.tmpl', { doc: docs[0], schema: schema, SCHEMA: schemaInfo, username: username });
-    });
+      res.render('/admin/data/web/edit.tmpl', { doc: docs[0], schema: schema, SCHEMA: schemaInfo, username: username })
+    })
   }
-});
+})
 
 
 /*
@@ -106,19 +106,19 @@ webSvr.url('/admin/data/:schema/edit.post', function(req, res) {
   var username  = req.session.get('username')
     , schema    = req.params.schema
     , doc       = req.body
-    ;
+
 
   if (DATA_MODELS[schema] && doc) {
     doc._id
       ? adapter.update(doc._id, schema, doc, function(result) {
-          !result && res.writeHead(401);
+          !result && res.writeHead(401)
       })
       : adapter.insert(schema, doc, function(result) {
-          !result && res.writeHead(401);
-      });
+          !result && res.writeHead(401)
+      })
   } else {
-    res.writeHead(401);
+    res.writeHead(401)
   }
-  res.end();
+  res.end()
 
-}, 'json');
+}, 'json')

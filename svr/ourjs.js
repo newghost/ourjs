@@ -16,13 +16,13 @@ var fs          = require('fs')
   , Schema      = require('./schema')
   , Count       = require('./count')
   , utility     = require('./utility')
-  ;
+
 
 
 /*
-* js library used for both front-end and back-end;
+* js library used for both front-end and back-end
 */
-require('../lib/string.js')();
+require('../lib/string.js')()
 
 
 var GENERAL_CONFIG  = config.GENERAL_CONFIG
@@ -30,28 +30,28 @@ var GENERAL_CONFIG  = config.GENERAL_CONFIG
   , MESSAGES        = config.MESSAGES
   , debug           = GENERAL_CONFIG.debug
   , pageSize        = GENERAL_CONFIG.pageSize
-  ;
+
 
 
 //Start the WebSvr
 var articlesCount = new Count('articles', GENERAL_CONFIG.countFolder)
   , webSvr        = WebSvr(WEBSVR_CONFIG)
-  ;
 
-//webSvr.engine(require("./doT").compile);
+
+//webSvr.engine(require("./doT").compile)
 //for debuging
 if (debug) {
-  webSvr.url("css/ourjs.min.css", ["css/ourjs.css"]);
-  webSvr.url("css/prod.min.css",  ["css/prod.css"]);
-  webSvr.url("js/ourjs.min.js",   ["js/ourjs.js"]);
-  webSvr.url("js/prod.min.js",    ["js/prod.js"]);
+  webSvr.url("css/ourjs.min.css", ["css/ourjs.css"])
+  webSvr.url("css/prod.min.css",  ["css/prod.css"])
+  webSvr.url("js/ourjs.min.js",   ["js/ourjs.js"])
+  webSvr.url("js/prod.min.js",    ["js/prod.js"])
 }
 
 
 var category    = require("./category")
   , categories  = config.CATEGORIES
   , keywords    = config.KEYWORDS
-  ;
+
 
 
 //Bindings
@@ -59,35 +59,35 @@ var model = {
     categories : categories
   , keywords   : keywords
   , homemeta   : 'home'
-};
+}
 //Default model of webSvr, for header/footer
-webSvr.model(model);
+webSvr.model(model)
 
 
 webSvr.session(function(req, res) {
   var url     = req.url
     , host    = req.headers.host
-    ;
+
 
   //auto signed in user
   if (!req.session.get('username')) {
-    var signedUser = Users.autosign(req.cookies);
-    signedUser && req.session.set('username', signedUser.username);
+    var signedUser = Users.autosign(req.cookies)
+    signedUser && req.session.set('username', signedUser.username)
   }
 
-  !req.session.get('last_reply') && req.session.set('last_reply', + new Date() / 1000 | 0);
+  !req.session.get('last_reply') && req.session.set('last_reply', + new Date() / 1000 | 0)
 
   //if root dir redirect to home, etc /, /?abc=1234
   if (url == '/' || url[1] == '?') {
     if (host == 'bbs.ourjs.com') {
-      keyListHandler(req, res, "/key/");
+      keyListHandler(req, res, "/key/")
     } else {
-      showListHandler(req, res, "/home/");
+      showListHandler(req, res, "/home/")
     }
   } else {
-    req.filter.next();
+    req.filter.next()
   }
-});
+})
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
@@ -96,14 +96,14 @@ var showListHandler = function(req, res, url) {
     , template    = params.template || 'home'
     , category    = params.category || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
-    ;
 
 
-  var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
+
+  var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
 
   if (template == 'json') {
     //render json page: remove contents in the article list
-    var shortArticles = [];
+    var shortArticles = []
     articles.forEach(function(article) {
       shortArticles.push({
           _id: article._id
@@ -116,8 +116,8 @@ var showListHandler = function(req, res, url) {
         , category: article.category
         , replyNum: (article.replies || '').length
       })
-    });
-    res.send(shortArticles);
+    })
+    res.send(shortArticles)
   } else {
     //render html pages
     var config = {
@@ -126,9 +126,9 @@ var showListHandler = function(req, res, url) {
       , pager     : pageNumber
       , username  : userInfo.username
       , homemeta  : template
-    };
+    }
 
-    template.indexOf('rss') > -1 && res.type('xml');
+    template.indexOf('rss') > -1 && res.type('xml')
 
     res.render(template + ".tmpl", {
         username    : userInfo.username
@@ -140,126 +140,126 @@ var showListHandler = function(req, res, url) {
       , hottest     : articlesCount.hottest
       , replyList   : (Articles.keywordsArticles[''] || []).slice(0, 10)
       , nextPage    : '/' + template + '/' + category + '/' + (pageNumber + 1)
-    });
+    })
   }
-};
+}
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-webSvr.url(GENERAL_CONFIG.homeUrl, showListHandler);
+webSvr.url(GENERAL_CONFIG.homeUrl, showListHandler)
 
 //handle detail.tmpl: content of article
 var showDetailHandler = function(req, res) {
   var tmpl  = req.url.split('/')[1]     //get the template name
     , id    = req.params.id             //get the object id
-    ;
+
 
   if (id && tmpl) {
     //Does it existing in the Articles?
-    var article = Articles.find(id);
+    var article = Articles.find(id)
 
     var display = function(article) {
       //count the article
-      articlesCount.add(id);
+      articlesCount.add(id)
 
-      var loginUser = Users.users[req.session.get('username')] || {};
+      var loginUser = Users.users[req.session.get('username')] || {}
 
-      article.username    = loginUser.username;
-      article.useravatar  = loginUser.avatar;
-      article.isAdmin     = loginUser.isAdmin;
-      article.related     = (Articles.keywordsArticles[article.keyword] || []).slice(0, 10);
-      article.user        = Users.users[article.poster] || {};
+      article.username    = loginUser.username
+      article.useravatar  = loginUser.avatar
+      article.isAdmin     = loginUser.isAdmin
+      article.related     = (Articles.keywordsArticles[article.keyword] || []).slice(0, 10)
+      article.user        = Users.users[article.poster] || {}
 
-      res.render(tmpl + ".tmpl", article);
-    };
+      res.render(tmpl + ".tmpl", article)
+    }
 
     if (article) {
-      display(article);
+      display(article)
     } else {
-      res.end();
+      res.end()
     }
   } else {
-    res.end();
+    res.end()
   }
-};
+}
 
 //127.0.0.1/detail/2340234erer23343[OjbectID]
-webSvr.url(GENERAL_CONFIG.detailUrl, showDetailHandler);
+webSvr.url(GENERAL_CONFIG.detailUrl, showDetailHandler)
 
 webSvr.url("updatecache", function(req, res) {
-  var username = req.session.get('username');
+  var username = req.session.get('username')
 
   if ((Users.users[username] || {}).isAdmin) {
-    Users.refresh();
-    Articles.refresh();
-    res.end();
+    Users.refresh()
+    Articles.refresh()
+    res.end()
   } else {
-    res.send(401, MESSAGES.NOPERMISSION);
+    res.send(401, MESSAGES.NOPERMISSION)
   }
-});
+})
 
 //handle url: /jsondetail/articleid
 webSvr.url("/jsondetail/:id", function(req, res) {
-  var id = req.params.id;
+  var id = req.params.id
 
   if (id) {
-    var article = Articles.find(id);
+    var article = Articles.find(id)
     res.send({
         title       : article.title
       , url         : article.url
       , content     : article.content || article.summary
-    });
+    })
   } else {
-    res.end();
+    res.end()
   }
-});
+})
 
 webSvr.url('/useredit/:username', function(req, res) {
   var username  = req.params.username
     , loginUser = req.session.get('username')
-    ;
+
 
   if (username == loginUser || (Users.users[loginUser] || {}).isAdmin) {
-    var userInfo = Users.users[username];
+    var userInfo = Users.users[username]
     if (userInfo) {
       return res.render('useredit.tmpl', {
           user:     userInfo
         , username: loginUser
-      });
+      })
     }
   }
-  res.send(MESSAGES.TIMEOUT);
-});
+  res.send(MESSAGES.TIMEOUT)
+})
 
 var signHandler = function(req, res, userInfo) {
   if (userInfo && userInfo.username)  {
-    req.session.set('username', userInfo.username);
+    req.session.set('username', userInfo.username)
 
     if (req.cookies.autosign || req.body.autosign === 'on') {
       var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
         , opts = { path: '/', expires: date, domain: WEBSVR_CONFIG.sessionDomain }
-        ;
 
-      res.cookie('autosign', userInfo.username, opts);
-      res.cookie('_id', userInfo._id, opts);
-      res.cookie('token', utility.getEncryption(userInfo.email), opts);
+
+      res.cookie('autosign', userInfo.username, opts)
+      res.cookie('_id', userInfo._id, opts)
+      res.cookie('token', utility.getEncryption(userInfo.email), opts)
 
       req.url.indexOf('redirect') < 0
         ? res.send({username: userInfo.username, avatar: userInfo.avatar})
-        : res.redirect('/');
+        : res.redirect('/')
 
-      return true;
+      return true
     }
   }
 
-  req.url.indexOf('redirect') < 0 && res.send({});
+  req.url.indexOf('redirect') < 0 && res.send({})
   res.send(
     req.url.indexOf('signin') > 0
       ? MESSAGES.USERNAME_PASSWORD_NOT_MATCH
       : MESSAGES.DUPLICATED
-  );
+  )
 
-  return false;
-};
+  return false
+}
 
 webSvr.url('/user.signup.post', function(req, res) {
   var postInfo = req.body
@@ -267,66 +267,66 @@ webSvr.url('/user.signup.post', function(req, res) {
         username: postInfo.username
       , password: postInfo.password
       , email:    postInfo.email
-    };
+    }
 
   Users.signup(userInfo, function(signupUser) {
-    signHandler(req, res, signupUser);
-  });
+    signHandler(req, res, signupUser)
+  })
 
-}, 'qs');
+}, 'qs')
 
 webSvr.url('/user.signin.post', function(req, res) {
   var postInfo = req.body
     , userInfo = {
         username: postInfo.username
       , password: postInfo.password
-    };
+    }
 
-  var signedUser = Users.signin(userInfo) || {};
-  signHandler(req, res, signedUser);
+  var signedUser = Users.signin(userInfo) || {}
+  signHandler(req, res, signedUser)
 
-}, 'qs');
+}, 'qs')
 
 /*
 * user.edit.post: response json
 */
 webSvr.url('/user.edit.post', function(req, res) {
   var postInfo  = req.body
-    , loginUser = Users.users[req.session.get('username')];
+    , loginUser = Users.users[req.session.get('username')]
 
   if (loginUser) {
     utility.extend(postInfo, {
         _id           : loginUser._id
       , username      : loginUser.isAdmin ? postInfo.username : loginUser.username
-    });
+    })
 
     Users.update(postInfo, function(done) {
       if (req.url.indexOf('redirect') < 0) {
-        res.send({done:done});
+        res.send({done:done})
       } else {
         done
           ? res.redirect('/')
-          : res.send(MESSAGES.USERNAME_PASSWORD_NOT_MATCH);
+          : res.send(MESSAGES.USERNAME_PASSWORD_NOT_MATCH)
       }
-    });
+    })
   } else {
-    res.end(MESSAGES.TIMEOUT);
+    res.end(MESSAGES.TIMEOUT)
   }
 
-}, 'qs');
+}, 'qs')
 
 webSvr.url('/user.signout.post', function(req, res) {
   var username = req.session.get('username')
     , opts     = { path: '/' }
-    ;
-  req.session.set('username', '');
-  res.cookie('autosign', null, opts);
-  res.cookie('_id', null, opts);
-  res.cookie('token', null, opts);
+
+  req.session.set('username', '')
+  res.cookie('autosign', null, opts)
+  res.cookie('_id', null, opts)
+  res.cookie('token', null, opts)
   req.url.indexOf('redirect') < 0
     ? res.send({done: true})
-    : res.redirect('/');
-});
+    : res.redirect('/')
+})
 
 
 var getPagination = function(config, pagerFormat) {
@@ -334,33 +334,33 @@ var getPagination = function(config, pagerFormat) {
     , curPager = config.pager || 0
     , maxPager = config.count / config.pageSize | 0
     , startPos = curPager - (interval / 2 | 0)
-    ;
 
-  maxPager - startPos < interval && (startPos = maxPager - interval);
-  startPos < 1 && (startPos = 1);
+
+  maxPager - startPos < interval && (startPos = maxPager - interval)
+  startPos < 1 && (startPos = 1)
 
   var pagination  = ''
     , paginations = []
-    ;
+
 
   var addPage = function(pager) {
     paginations.push(
       pagerFormat.format(pager, curPager == pager ? 'class="active"' : '')
-    );
-  };
-
-  addPage(0);
-  startPos > 1 && paginations.push('<li><a>…</a></li>');
-  for (var i = 0; startPos < maxPager && i < 5; i++, startPos++) {
-    addPage(startPos);
+    )
   }
-  startPos < maxPager && paginations.push('<li><a>…</a></li>');
-  maxPager > 0 && addPage(maxPager);
 
-  pagination = '<ul class="len{0}" style="table-layout:fixed;">{1}</ul>'.format(paginations.length, paginations.join(''));
+  addPage(0)
+  startPos > 1 && paginations.push('<li><a>…</a></li>')
+  for (var i = 0; startPos < maxPager && i < 5; i++, startPos++) {
+    addPage(startPos)
+  }
+  startPos < maxPager && paginations.push('<li><a>…</a></li>')
+  maxPager > 0 && addPage(maxPager)
 
-  return pagination;
-};
+  pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
+
+  return pagination
+}
 
 /*
 BBS Club Handler
@@ -379,7 +379,7 @@ var keyListHandler = function(req, res, url) {
     , count       = allArticles.length
     , pageSize    = GENERAL_CONFIG.keyPageSize
     , articles    = allArticles.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-    ;
+
 
   var config = {
       keyword:  keyword
@@ -388,9 +388,9 @@ var keyListHandler = function(req, res, url) {
     , count:    count
     , pager:    pageNumber
     , username: userInfo.username
-  };
+  }
 
-  keymeta.indexOf('rss') > -1 && res.type('xml');
+  keymeta.indexOf('rss') > -1 && res.type('xml')
 
   res.render("{0}.tmpl".format(keymeta), {
       articles    : articles
@@ -403,13 +403,13 @@ var keyListHandler = function(req, res, url) {
     , hottest     : articlesCount.hottest
     , keywords    : keywords
     , pagination  : getPagination(config, '<li {1}><a href="/' + keymeta + '/' + keyword + '/{0}">{0}</a></li>')
-  });
-};
+  })
+}
 
 /*
 Handle: '/key/Node.JS/0'
 */
-webSvr.url(GENERAL_CONFIG.keyUrl, keyListHandler);
+webSvr.url(GENERAL_CONFIG.keyUrl, keyListHandler)
 
 /*
 userinfo: get userinfo and he articles
@@ -417,9 +417,9 @@ userinfo: get userinfo and he articles
 webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
   var url = req.url
     , idx = url.indexOf('?')
-    ;
 
-  idx > -1 && (url = url.substr(0, idx));
+
+  idx > -1 && (url = url.substr(0, idx))
 
   /*
   Get parameters: filter category
@@ -431,12 +431,12 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
     , pageNumber  = parseInt(arr[3]) || 0
     , nextNumber  = pageNumber + 1
     , articles    = (Articles.userArticles[userid] || []).slice(pageNumber * pageSize, nextNumber * pageSize)
-    ;
 
-  articles.length < pageSize && (nextNumber = 0);
+
+  articles.length < pageSize && (nextNumber = 0)
 
   if (tmpl == 'userjson') {
-    var shortArticles = [];
+    var shortArticles = []
     articles.forEach(function(article) {
       shortArticles.push({
           _id: article._id
@@ -450,8 +450,8 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
         , keyword:  article.keyword
         , replyNum: (article.replies || '').length
       })
-    });
-    res.send(shortArticles);
+    })
+    res.send(shortArticles)
   } else {
     res.render(tmpl + ".tmpl", {
         list:     articles
@@ -459,13 +459,13 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
       , next:     nextNumber
       , conf:     JSON.stringify({ pageSize: pageSize })
       , username: req.session.get('username')
-    });
+    })
   }
-});
+})
 
 webSvr.url(GENERAL_CONFIG.renderTmplUrl, function(req, res) {
-  res.render(webSvr.parseUrl('/:tmpl', req.url).tmpl + '.tmpl', {});
-});
+  res.render(webSvr.parseUrl('/:tmpl', req.url).tmpl + '.tmpl', {})
+})
 
 /*
 Init User and Article
@@ -473,47 +473,47 @@ Init User and Article
 var initData = function() {
   var Users     = global.Users        = require('./users')
     , Articles  = global.Articles     = require('./articles')
-    ;
 
-  //init Articles;
+
+  //init Articles
   //for users
-  Users.refresh();
+  Users.refresh()
   //for articles
-  Articles.refresh();
+  Articles.refresh()
 
   //When articles refreshed
   Articles.notify.on('done', function() {
-    articlesCount.refresh(Articles);
-  });
-};
+    articlesCount.refresh(Articles)
+  })
+}
 
 
 var initMods = function() {
   /*
   * For administration
   */
-  require('./root');
-  require('../admin/plugins');
-};
+  require('./root')
+  require('../admin/plugins')
+}
 
 
 /*
 * Init
 */
-(function() {
+;(function() {
   /*
   * Make these instances shared global
   */
-  global.webSvr         = webSvr;
-  global.articlesCount  = articlesCount;
-  global.DataAdapter    = require('./dataAdapter/' + GENERAL_CONFIG.dataAdapter);
+  global.webSvr         = webSvr
+  global.articlesCount  = articlesCount
+  global.DataAdapter    = require('./dataAdapter/' + GENERAL_CONFIG.dataAdapter)
 
   /*
   * Init data models
   */
   Schema.notify.on('done', function() {
-    initData();
-    initMods();
-  });
+    initData()
+    initMods()
+  })
 
-})();
+})()
