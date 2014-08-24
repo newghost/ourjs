@@ -29,7 +29,7 @@ HomePage : http://code.ourjs.com
 
 
 
-
+OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 License  : BSD
 ----
 
