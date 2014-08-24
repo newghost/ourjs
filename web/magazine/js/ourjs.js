@@ -218,6 +218,8 @@ Responsibile loading
 
   OurJS.loadMore();
 
+  console && console.log && console.log('Powered By OurJS')
+
 })();
 
 
