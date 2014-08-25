@@ -393,34 +393,55 @@ Responsibile loading
 */
 (function() {
 
+  //Enable MediumEditor
   var editor = new MediumEditor('.editor', {
       anchorInputPlaceholder: 'Type a link'
     , buttonLabels: 'fontawesome'
     , buttons: ['header1', 'header2', 'bold', 'italic', 'strikethrough', 'pre', 'quote', 'anchor', 'image', 'unorderedlist', 'orderedlist']
     , firstHeader: 'h1'
     , secondHeader: 'h2'
+    , forcePlainText: false
   });
 
-  $('.editor').on('keyup, mouseup', function() {
+  //Update data for posting
+  var editorHandler = function(e) {
     var $this   = $(this)
       , id      = $this.attr('id')
       , $input  = $this.closest('form').find('[name={0}]'.format(id))
-      ;
 
-    $input.val($this.html());
+    $input.val($this.html())
+  };
 
-  }).trigger('mouseup');
-  
-  
+  $('.editor')
+    .on('keydown', editorHandler)
+    .on('mouseup', editorHandler)
+
+  $('#editArticleForm').submit(function() {
+    $('.editor').trigger('keydown')
+  })
+
+  //Loading history: let back button works
+  $('.editor').each(function() {
+    var $this = $(this)
+      , id = $this.attr('id')
+
+    if (id) {
+      var $input  = $this.closest('form').find('[name={0}]'.format(id))
+        , val     = $input.val()
+
+      val && !$this.val() && $this.html(val)
+    }
+  })
+
+  //Loading select index from 
   $('select[data-val]').each(function() {
     var $select = $(this)
       , val     = $select.data('val')
-      ;
 
     $select.find('option').each(function() {
       var $option = $(this);
-      $option.val() == val && $option.attr('selected', true);
-    });
-  });
+      $option.val() == val && $option.attr('selected', true)
+    })
+  })
 
 })();
