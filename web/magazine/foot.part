@@ -3,7 +3,9 @@
     <br>
     <div class="large-12 columns">
       <ul class="inline-list">
-        <li><p>&copy; Copyright</p></li>
+        <li>
+          <p>&copy; <a href="/rss">RSS</a></p>
+        </li>
         <li class="copyright right">
           <a href="http://code.ourjs.com" class="title" target="_blank">Powered by OurJS</a>
         </li>
