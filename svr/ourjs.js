@@ -106,15 +106,16 @@ var showListHandler = function(req, res, url) {
     var shortArticles = []
     articles.forEach(function(article) {
       shortArticles.push({
-          _id: article._id
-        , url: article.url
-        , author:   article.poster
-        , title:    article.title
-        , summary:  article.summary
-        , content:  article.content ? 1 : 0
-        , postdate: article.postdate
-        , category: article.category
-        , replyNum: (article.replies || '').length
+          _id       : article._id
+        , urlSlug   : article.urlSlug
+        , url       : article.url
+        , author    : article.poster
+        , title     : article.title
+        , summary   : article.summary
+        , content   : article.content ? 1 : 0
+        , postdate  : article.postdate
+        , category  : article.category
+        , replyNum  : (article.replies || '').length
       })
     })
     res.send(shortArticles)
@@ -205,6 +206,7 @@ webSvr.url("/jsondetail/:id", function(req, res) {
     var article = Articles.find(id)
     res.send({
         title       : article.title
+      , urlSlug     : article.urlSlug
       , url         : article.url
       , content     : article.content || article.summary
     })

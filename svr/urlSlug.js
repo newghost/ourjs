@@ -27,14 +27,10 @@ urlSlugMethods.FORMAT_TITLE = function(article) {
 
 var urlSlug = function(article) {
   if (typeof article !== 'object') {
-    console.log('slug article', article)
-
     return false
   }
 
   var slugMethod = urlSlugMethods[GENERAL_CONFIG.urlSlug]
-
-  console.log('slugMethod', slugMethod)
 
   return slugMethod && slugMethod(article)
 }

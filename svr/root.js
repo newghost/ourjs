@@ -108,7 +108,7 @@ webSvr.handle("/root/edit.post", function(req, res) {
       //Array?
       typeof detail === 'Object' && (detailUrl = detailUrl[0])
 
-      res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article.urlSlug || article._id))
+      res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article._id))
     }
 
     if ( isEdit ) {
