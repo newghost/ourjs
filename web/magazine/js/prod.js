@@ -202,7 +202,7 @@ Responsibile loading
 
           $html.find('.title>a')
             .html(article.title)
-            .attr('href', article.content ? ("/article/" + article._id) : article.url)
+            .attr('href', article.content ? ("/article/" + (article.urlSlug || article._id)) : article.url)
             ;
 
           $html.find('.author').html(article.author).attr('href', '/userinfo/' + article.author);

@@ -27,6 +27,7 @@ var WEBSVR_CONFIG = {
 */
 var GENERAL_CONFIG = {
     debug           : debug
+  , urlSlug         : 'FORMAT_TITLE'
   , keyPageSize     : 40
   , pageSize        : 10
   , dataAdapter     : 'fileAdapter'

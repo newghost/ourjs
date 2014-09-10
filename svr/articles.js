@@ -24,6 +24,7 @@ var list              = []    //all list order with publish date
   , all               = {}    //all key/value pair
   , categoryArticles  = {}    //all displayed in default page
   , keywordsArticles  = {}    //filter articles by keywords
+  , urlSlugsArticles  = {}    //sort articles by url slugs
   , userArticles      = {}
   , refreshTimer      = 0
   , Users             = global.Users
@@ -91,6 +92,10 @@ var refreshPool = function() {
   list.length       = 0
   replyList.length  = 0
 
+  for (idx in urlSlugsArticles) {
+    delete urlSlugsArticles[idx]
+  }
+
   for (idx in categoryArticles) {
     delete categoryArticles[idx]
   }
@@ -112,6 +117,7 @@ var refreshPool = function() {
   for (var _id in all) {
     var article = all[_id]
     if (article && article.postdate && article.title) {
+      article.urlSlug && (urlSlugsArticles[article.urlSlug] = article)
       list.push(article)
       replyList.push(article)
     }
@@ -206,8 +212,8 @@ var remove = function(article) {
   return false
 }
 
-var find = function(objectID) {
-  return all[objectID] || null
+var find = function(urlId) {
+  return all[urlId] || urlSlugsArticles[urlId] || null
 }
 
 var findSimilar = function(article) {
@@ -257,5 +263,6 @@ module.exports = {
   , replyList         : replyList
   , categoryArticles  : categoryArticles
   , keywordsArticles  : keywordsArticles
+  , urlSlugsArticles  : urlSlugsArticles
   , userArticles      : userArticles
 }

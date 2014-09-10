@@ -39,7 +39,7 @@
       {{~ it.list :article:index }}
       <div class="article">
         <h2 class="title">
-          <a target="_blank" href="/article/{{=article._id}}">{{=article.title}}</a>
+          <a target="_blank" href="/article/{{=article.urlSlug || article._id}}">{{=article.title}}</a>
         </h2>
         <div class="note">
           <a class="keyword" target="_blank" href="/forum/{{=article.keyword}}">{{=article.keyword}}</a>

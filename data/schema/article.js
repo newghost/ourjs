@@ -1,6 +1,7 @@
 {
     "_id"         : "id"
   , "title"       : "shown,string"
+  , "urlSlug"     : "string"
   , "url"         : "url"
   , "verify"      : "shown,int"
   , "category"    : "shown,string"

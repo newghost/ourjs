@@ -12,6 +12,7 @@ var qs        = require("querystring")
   , ObjectID  = require('mongodb').BSONPure.ObjectID
   , Schema    = require('./schema')
   , category  = require("./category")
+  , urlSlug   = require("./urlSlug")
 
 
 var config          = global.CONFIG
@@ -23,6 +24,7 @@ var config          = global.CONFIG
   , Articles        = global.Articles
   , Users           = global.Users
   , articlesCount   = global.articlesCount
+  , postIntervals   = {}
 
 
 webSvr.handle(GENERAL_CONFIG.rootEditUrl, function(req, res) {
@@ -57,8 +59,6 @@ webSvr.handle(GENERAL_CONFIG.rootEditUrl, function(req, res) {
     }
   }
 })
-
-var postIntervals = {}
 
 var getPostInterval = function(userInfo) {
   if (!userInfo.username) {
@@ -109,6 +109,8 @@ webSvr.handle("/root/edit.post", function(req, res) {
 
       res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article._id))
     }
+
+    urlSlug(article)
 
     if ( isEdit ) {
       adapter.update(article._id, 'article', article, function(result) {

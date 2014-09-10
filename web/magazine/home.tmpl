@@ -116,7 +116,7 @@
         <a class="category" href="/home/{{=article.category}}">{{=article.category}}</a>
       </div>
       <div class="large-8 columns">
-        <h4 class="title"><a href="/article/{{=article._id}}">{{=article.title}}</a></h4>
+        <h4 class="title"><a href="/article/{{=article.urlSlug || article._id}}">{{=article.title}}</a></h4>
         <div class="note">
           <a class="keyword" target="_blank" href="/forum/{{=article.keyword}}">{{=article.keyword || ''}}</a>
           by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster || ''}}</a>

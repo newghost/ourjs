@@ -30,7 +30,7 @@
           {{?article.verify=='1'}}
           <i class="icon-star-empty"></i>
           {{?}}
-          <a href="/article/{{=article._id}}">{{=article.title || ''}}</a>
+          <a href="/article/{{=article.urlSlug || article._id}}">{{=article.title || ''}}</a>
         </div>
         <div class="info">
            • <a href="/forum/{{=article.keyword}}">{{=article.keyword}}</a>
