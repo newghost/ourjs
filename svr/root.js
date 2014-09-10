@@ -11,8 +11,8 @@ var qs        = require("querystring")
   , utility   = require("./utility")
   , ObjectID  = require('mongodb').BSONPure.ObjectID
   , Schema    = require('./schema')
+  , UrlSlug   = require("./urlSlug")
   , category  = require("./category")
-  , urlSlug   = require("./urlSlug")
 
 
 var config          = global.CONFIG
@@ -97,6 +97,7 @@ webSvr.handle("/root/edit.post", function(req, res) {
     !userInfo.isAdmin && article.verify !== -1 && (article.verify = 0)
 
     Schema.filter('article', article)
+    UrlSlug(article)
 
     var redirect = function() {
       /*
@@ -107,10 +108,8 @@ webSvr.handle("/root/edit.post", function(req, res) {
       //Array?
       typeof detail === 'Object' && (detailUrl = detailUrl[0])
 
-      res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article._id))
+      res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article.urlSlug || article._id))
     }
-
-    urlSlug(article)
 
     if ( isEdit ) {
       adapter.update(article._id, 'article', article, function(result) {
