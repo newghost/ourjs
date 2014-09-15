@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ROOT [ourjs.com]</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<!--#include="style.part"-->
+</head>
+<body>
+<!--#include="header.part"-->
+<div class="container">
+  <div class="row-fluid">
+    <div id="editArticle" class="span12">
+      <h1 class="text-center">编辑文章</h1>
+      <br><br>
+      <form class="form-horizontal" method="post" id="editArticleForm" action="/root/edit.post">
+        <input type="text"  name="_id" readonly="readonly" value="{{=it._id || ''}}" placeholder="编号">
+        <br><br>
+        {{? it.isAdmin }}
+        <input type="text"  name="poster" readonly="readonly" value="{{=it.poster || ''}}"  placeholder="发布人">
+        <br><br>
+        {{?}}
+        <label>标题</label>
+        <input type="text"  name="title"      value="{{=it.title || ''}}"  placeholder="标题">
+        <br><br>
+        {{? it.isAdmin }}
+        <select name="category" data="{{=it.category || ''}}">{{=it.categoryOpts}}</select>
+        <span>请选择分类</span>
+        <br><br>
+        {{?}}
+        <select name="keyword" data="{{=it.keyword || ''}}">{{=it.keywordsOpts}}</select>
+        <span>选择关键字</span>
+        <br><br>
+
+        <input type="hidden" name="verify" value="{{=it.verify || 0}}" id="verify">
+
+        <label for="summary">原文地址： 原创可不填</label>
+        <input type="url" name="url" value="{{=it.url || ''}}" placeholder="http://">
+        <br><br>
+        <label>文章摘要</label>
+        <textarea rows="10" id="summary" name="summary" placeholder="内容摘要" class="editor"></textarea>
+
+        <hr><br>
+
+        <label for="content">文章正文: 转载内容或讨论贴可不填写正文内容</label>
+        <textarea id="content" rows="24" name="content" placeholder="文章正文" class="editor"></textarea>
+
+        <br><br>
+
+        <div class="text-center">
+          <button type="button" class="btn btn-large btn-success" id="saveDraft">存草稿</button>
+          <button type="submit" class="btn btn-large btn-success">保 存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+var summary={{=JSON.stringify(it.summary)}};
+var content={{=JSON.stringify(it.content)}};
+</script>
+
+<!--#include="script.part"-->
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>修改资料 | OurJS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{=it.description}}">
+<!--#include="style.part"-->
+<script>var conf={}</script>
+</head>
+
+<body class="detail">
+<!--#include="header.part"-->
+<div class="container">
+
+  <div class="row-fluid">
+    <div class="span4 userAvator">
+      <a class="avatar">
+        <img src="http://www.gravatar.com/avatar/{{=it.user.avatar}}" />
+      </a>
+      <table>
+        <tr title="用户名">
+          <td><i class="icon-user"></i></td>
+          <td><b>{{=it.user.username}}</b></td>
+        </tr>
+        {{?it.user.company}}
+        <tr title="公司">
+          <td><i class="icon-briefcase"></i></td>
+          <td><b>{{=it.user.company}}</b></td>
+        </tr>
+        {{?}}
+      </table>
+    </div>
+
+    <div id="useredit" class="span6">
+      <form class="form-horizontal">
+        <h4 class="title">修改资料</h4>
+        <div class="control-group">
+          <label class="control-label" for="signupPassword" required>原密码</label>
+          <div class="controls">
+            <input type="password" id="signupPassword" name="password" placeholder="原密码">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="signupEmail" required>邮箱</label>
+          <div class="controls">
+            <input type="email" id="signupEmail" name="email" placeholder="邮箱" value="{{=it.user.email || ''}}">
+          </div>
+        </div>
+        <h4 class="title">选填资料</h4>
+        <!-- <hr> -->
+        <div class="control-group">
+          <label class="control-label" for="company">公司</label>
+          <div class="controls">
+            <input type="text" id="company" name="company" placeholder="公司" value="{{=it.user.company || ''}}">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="briefinfo">简介</label>
+          <div class="controls">
+            <textarea type="text" id="briefinfo" name="briefinfo" placeholder="简介[300字内]" maxlength="300">{{=it.user.briefinfo || ''}}</textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="newPassword">新密码</label>
+          <div class="controls">
+            <input type="password" id="newPassword" name="newPassword" placeholder="新密码">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="confPassword">重复新密码</label>
+          <div class="controls">
+            <input type="password" id="confPassword" name="confPassword" placeholder="重复新密码">
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <!-- <label class="checkbox">
+              <input id="signupSubscribe" name="subscribe" type="checkbox">订阅邮件周刊
+            </label> -->
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-large">确定修改</button>
+          </div>
+        </div>
+        <input type="hidden" name="username" value="{{=it.user.username}}">
+      </form>
+    </div>
+
+  </div>
+</div>
+<hr>
+
+<!--#include="script.part"-->
+<!--Powered By OurJS -->
+</body>
+</html>

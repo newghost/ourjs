@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>{{=it.user.username}} - OurJS.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{=it.description}}">
+<!--#include="style.part"-->
+<script>var conf={{=it.conf}}</script>
+</head>
+
+<body class="userinfo">
+<!--#include="header.part"-->
+<div class="container">
+
+  <div class="row-fluid">
+    <div class="span4 userAvator">
+      <a class="avatar">
+        <img src="http://www.gravatar.com/avatar/{{=it.user.avatar}}" />
+      </a>
+      <table>
+        <tr title="用户名">
+          <td><i class="icon-user"></i></td>
+          <td><b>{{=it.user.username}}</b></td>
+        </tr>
+        {{?it.user.company}}
+        <tr title="公司">
+          <td><i class="icon-briefcase"></i></td>
+          <td><b>{{=it.user.company}}</b></td>
+        </tr>
+        <tr title="简介">
+          <td colspan="2">{{=it.user.briefinfo}}</td>
+        </tr>
+        {{?}}
+      </table>
+    </div>
+    <div id="articles" class="span7">
+      <div id="article_container">
+        {{~ it.list :article:index }}
+        <div class="article">
+          <h2 class="title">
+            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">
+              {{=article.title}}
+            </a>
+          </h2>
+          <div class="note">
+            <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
+            by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+            <span class="formatdate date">{{=article.publishTime || article.postdate}}</span>
+          </div>
+          <div class="summary">{{=article.summary || ''}}</div>
+        </div>
+        {{~}}
+      </div>
+      <div id="loader" style="display:none">
+        <pre style="text-align:center">加载中...</pre>
+      </div>
+      <br><br>
+      <div class="jiathis_style_24x24">
+        <span>分享到</span>
+        <a class="jiathis_button_qzone"></a>
+        <a class="jiathis_button_tsina"></a>
+        <a class="jiathis_button_tqq"></a>
+        <a class="jiathis_button_weixin"></a>
+        <a class="jiathis_button_renren"></a>
+        <a class="jiathis_button_fb"></a>
+        <a class="jiathis_button_linkedin"></a>
+        <a href="http://www.jiathis.com/share?uid=1862627" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="container">
+  <div class="footer">
+    <div style="margin:0 0 60px 0">
+      <p style="float:left;line-height: 30px;">
+        沪ICP备13020027号-2
+      </p>
+      <p style="text-align:right;">
+        <a class="btn btn-primary" id="loadmore_userarticle" href="/userinfo/{{=it.user.username}}/{{=it.next}}">加载更多</a> 
+      </p>
+    </div>
+  </div>
+</div>
+
+<!--#include="script.part"-->
+<!--Powered By OurJS -->
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1862627" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+<channel>
+  <title>全栈JavaScript - OurJS社区</title>
+  <link>http://ourjs.com/bbs</link>
+  <description></description>
+  {{~ it.articles :article:index }}
+  <item>
+    <title><![CDATA[{{=article.title || ''}}]]></title>
+    <link>http://ourjs.com/detail/{{=article.urlSlug || article._id}}</link>
+    <description></description>
+  </item>
+  {{~}}
+</channel>
+</rss>

@@ -1,0 +1,216 @@
+<!--[if lt IE 7 ]>
+<div style="z-index: 10000; top: 0px; left: 0px; right: 0px; bottom: 0px; position: fixed; background: #000; color: #fff; text-align: center;padding:60px">
+  抱歉我们不支持IE6及以下版本<br>请更换现代浏览器，或使用手机浏览
+</div>
+<![endif]-->
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a href="/" class="brand">Our<b>JS</b></a>
+
+      <button type="button" class="btn btn-navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <ul class="nav menu toggle">
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="/">
+            <span id="categoryText">阅读</span> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-header">文章分类</li>
+            <li class="divider"></li>
+            {{ for(var category in it.categories) { }}
+            <li><a href="/{{=it.homemeta}}/{{=category || ''}}/">{{=category || '所有文章'}}</a></li>
+            {{ } }}
+            <li class="divider"></li>
+            <li><a href="/rss" target="_blank">RSS订阅</a></li>
+            <li><a href="#top" id="aboutlink">关于我们</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="/bbs/">全端</a>
+        </li>
+        <li class="dropdown">
+          {{?it.username}}
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <i class="icon-edit"></i>
+            <span>{{=it.username || '发布'}}</span>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/root/edit/add">发布文章</a></li>
+            <li class="divider"></li>
+            <li><a href="/userinfo/{{=it.username}}">我的文集</a></li>
+            <li><a href="/useredit/{{=it.username}}">修改资料</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:OurJS.Users.signout()">退出登录</a></li>
+          </ul>
+          {{??}}
+          <a href="#signup" data-toggle="modal">
+            <i class="icon-edit"></i>
+            <span>发布</span>
+            <b class="caret"></b>
+          </a>
+          {{?}}
+        </li>
+        {{?it.username}}
+        <li class="dropdown pull-right">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="/">
+            <span>订阅我们</span>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-header">RSS 订阅</li>
+            <li><a href="/rss" target="_blank">RSS 订阅</a></li>
+            <li class="divider"></li>
+            <li class="nav-header">微信订阅</li>
+            <li class="text-center">
+              <br><img src="/img/weixin.jpg" alt="ourjs官方微信号" width="140" height="140" style="border: solid 1px #666;" /><br><br>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <p class="nav-header">邮件订阅</p>
+              <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank">
+                <input type="hidden" value="qf_booked_feedback" name="t" />
+                <input type="hidden" value="c13a5bc9044bced9388831616a30239fc33ccfa553f09bdd" name="id" />
+                <input type="email" name="to" id="to" placeholder="Email" />
+                <div class="text-right">
+                  <button class="btn" type="submit">订阅邮件</button>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </li>
+        {{??}}
+        <li class="pull-right">
+          <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" class="navbar-form">
+            <input type="hidden" value="qf_booked_feedback" name="t" />
+            <input type="hidden" value="c13a5bc9044bced9388831616a30239fc33ccfa553f09bdd" name="id" />
+            <input type="email" name="to" id="to" placeholder="Email"/>
+            <button class="btn" type="submit">订阅邮件</button>
+            <a href="/rss" target="_blank" class="rss"><img src="/img/rss.png"></a>
+          </form>
+        </li>
+        {{?}}
+      </ul>
+    </div>
+
+    <div id="nprogress"><div class="bar" role="bar"></div></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="jumbotron">
+    <div id="about" class="hide">
+      <iframe name="subscribeFrame" style="display:none"></iframe>
+
+      <h1 class="brand">Our<b>JS</b></h1>
+      <p class="lead">
+        <br>
+        OurJS-我们的JS, 我们的技术-IT文摘; 专注JS相关领域;
+        <br>
+        我们热爱编程, 我们热爱技术;我们是高大上, 有品味的码农; 
+      </p>
+      <h3>欢迎您订阅我们的技术周刊</h3>
+      <br>
+      <p class="lead">
+        我们会向您分享我们精心收集整理的，最新的行业资讯，技术动态，外文翻译，热点文章;
+        <br>
+        我们使用第三方邮件列表向您推送，我们<b>不保存您的任何个人资料，注重您的隐私，您可以随时退订</b>,
+        <br>
+      </p>
+      <h3>欢迎分享您的观点，经验，技巧，心得</h3>
+      <p class="lead">
+        让我们一起找寻程序员的快乐，探索技术, 发现IT人生的乐趣; 
+      </p>
+      <hr/>
+      <p>
+        本网站使用缓存技术每次加载仅需很小流量, 可在手机中流畅浏览;
+        <br>
+        如果您发现任何BUG，请即时告知我们： ourjs(at)ourjs.com
+      </p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="signup" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h4 id="myModalLabel">登录或注册</h4>
+    </div>
+    <div class="modal-body">
+      <ul class="nav nav-tabs" id="signtab">
+        <li class="active"><a href="#signuptab">注册</a></li>
+        <li><a href="#signintab">登录</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="signuptab">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label" for="signupUsername">用户名</label>
+              <div class="controls">
+                <input type="text" id="signupUsername" name="username" placeholder="用户名">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="signupEmail">邮箱</label>
+              <div class="controls">
+                <input type="text" id="signupEmail" name="email" placeholder="邮箱">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="signupPassword">密码</label>
+              <div class="controls">
+                <input type="password" id="signupPassword" name="password" placeholder="密码">
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <label class="checkbox">
+                  <input class="signinRemember" type="checkbox" checked="checked"> 自动登录
+                </label>
+                <label class="checkbox">
+                  <input id="signupSubscribe" type="checkbox" checked="checked"> 订阅邮件周刊
+                </label>
+              </div>
+            </div>
+            <input type="submit" class="hide" />
+          </form>
+        </div>
+        <div class="tab-pane" id="signintab">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label" for="signinUsername" required>登录名</label>
+              <div class="controls">
+                <input type="text" id="signinUsername" name="username" placeholder="用户名">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="signinPassword">密码</label>
+              <div class="controls">
+                <input type="password" id="signinPassword" name="password" placeholder="密码">
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <label class="checkbox">
+                  <input class="signinRemember" type="checkbox" checked="checked"> 自动登录
+                </label>
+              </div>
+            </div>
+            <input type="submit" class="hide" />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+      <button id="signOK" class="btn btn-primary">确定</button>
+    </div>
+  </div>
+</div>
