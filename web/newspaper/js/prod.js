@@ -7218,11 +7218,14 @@ Edit Page
   }
 
   NProgress.start();
+  $('#nprogress').show();
 
   $(document).ready(function() {
-    setTimeout(function() {
-      NProgress.done();
-    }, 100)
-  })
+    NProgress.inc(0.5);
+  });
+
+  $(window).load(function() {
+    NProgress.done();
+  });
 
 }());
