@@ -7042,7 +7042,7 @@ Edit Page
       });
     };
 
-    //Save draft functions
+    //Save draft function
     $('#saveDraft').click(function() {
       $('#verify').val('-1');
       $('#editArticleForm').submit();
@@ -7222,6 +7222,9 @@ Edit Page
 
   $(document).ready(function() {
     NProgress.inc(0.5);
+    setTimeout(function() {
+      NProgress.done()
+    }, 4000)
   });
 
   $(window).load(function() {
