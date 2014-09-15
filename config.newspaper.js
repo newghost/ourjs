@@ -51,7 +51,7 @@ var GENERAL_CONFIG = {
   , rootDeleUrl     : '/root/delete/:id'
   , rootPubUrl      : '/root/publish/:id'
   , CONNECTIONSTR   : 'mongodb://newghost:dachun0000000@ourjs.com/ourjs'
-  , CRYPTOKEY       : '*IK<7ujmDFGHJ'
+  , CRYPTOKEY       : '!@#$qwer4rfv%TGB'
 };
 
 
