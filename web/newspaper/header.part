@@ -98,8 +98,6 @@
         {{?}}
       </ul>
     </div>
-
-    <div id="nprogress"><div class="bar" role="bar"></div></div>
   </div>
 </div>
 

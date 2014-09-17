@@ -7211,24 +7211,36 @@ Edit Page
 
 (function() {
 
-  var browser = $.browser || {};
+  var browser   = $.browser || {}
+    , progress  = NProgress
 
   if (browser.msie && $.browser.versionNumber < 8) {
     return
   }
 
-  NProgress.start();
-  $('#nprogress').show();
+  progress.configure({
+      parent    : '.navbar .navbar-inner'
+    , template  : '<div class="bar" role="bar"></div>'
+  })
 
-  $(document).ready(function() {
-    NProgress.inc(0.5);
-    setTimeout(function() {
-      NProgress.done()
-    }, 4000)
-  });
+  progress.start()
+
+  $(document)
+    .ready(function() {
+      progress.inc(0.5)
+      setTimeout(function() {
+        progress.done()
+      }, 4000)
+    })
+    .ajaxStart(function() {
+      progress.start()
+    })
+    .ajaxComplete(function() {
+      progress.done()
+    })
 
   $(window).load(function() {
-    NProgress.done();
-  });
+    progress.done()
+  })
 
 }());

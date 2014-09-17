@@ -999,7 +999,6 @@ label.error {
 
 
 #nprogress {
-  display: none;
   pointer-events: none;
   position: relative;
 }
