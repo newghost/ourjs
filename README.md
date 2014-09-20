@@ -20,6 +20,6 @@ BSD, See our license file
 OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 ----
 
-中文示例： http://code.ourjs.com
+中文示例： http://demo.ourjs.com
 
 中文支持： http://ourjs.com/bbs/OurJS
