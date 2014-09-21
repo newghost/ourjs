@@ -11,8 +11,8 @@ var qs        = require("querystring")
   , utility   = require("./utility")
   , ObjectID  = require('mongodb').BSONPure.ObjectID
   , Schema    = require('./schema')
-  , UrlSlug   = require("./urlSlug")
-  , category  = require("./category")
+  , UrlSlug   = require('./urlSlug')
+  , category  = require('./category')
 
 
 var config          = global.CONFIG
@@ -196,6 +196,7 @@ webSvr.handle('/reply/add/:id', function(req, res) {
     reply.postdate  = + new Date()
 
     Schema.filter('reply', reply)
+    reply.reply = utility.safeHTML(reply.reply)
 
     article.replies
       ? (article.replies.push(reply))

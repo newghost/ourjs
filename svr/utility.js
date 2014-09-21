@@ -76,6 +76,14 @@ utility.text = function(html) {
   return html
 }
 
+utility.safeHTML = function(html) {
+  //var html = '<style src="ok">alert(1)</style><STYLE>body{display:none}</STYLE>Outter?'
+  html = html || ''
+  html = html.replace(/<\/?script[^>]*>/gi, '')
+  html = html.replace(/<\/?style[^>]*>/gi, '')
+  return html
+}
+
 utility.description = function(html) {
   return utility.text(html).substr(0, 140)
 }

@@ -7053,7 +7053,7 @@ Edit Page
     */
     $('.editor').wysihtml5({
         html: true
-      , stylesheets: ["//ourjs.com/css/libs.min.css", "//ourjs.com/css/prod.min.css?v=210"]
+      , stylesheets: ["/css/libs.min.css", "/css/prod.min.css?v=217"]
     });
   }
 }());
