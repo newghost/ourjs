@@ -79,11 +79,7 @@ webSvr.session(function(req, res) {
 
   //if root dir redirect to home, etc /, /?abc=1234
   if (url == '/' || url[1] == '?') {
-    if (host == 'bbs.ourjs.com') {
-      keyListHandler(req, res, "/key/")
-    } else {
-      showListHandler(req, res, "/home/")
-    }
+    showListHandler(req, res, "/home/")
   } else {
     req.filter.next()
   }
@@ -92,12 +88,15 @@ webSvr.session(function(req, res) {
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
   var params      = webSvr.parseUrl('/:template/:category/:pagerNumber', url || req.url)
-    , userInfo    = Users.users[req.session.get('username')] || {}
-    , template    = params.template || 'home'
     , category    = params.category || ''
+    , title       = categories[category]
+    , template    = params.template || 'home'
     , pageNumber  = parseInt(params.pagerNumber) || 0
 
-
+  // Category and title doesn't exist redirect to home page
+  if (!title) {
+    return res.redirect('/')
+  }
 
   var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
 
@@ -120,6 +119,8 @@ var showListHandler = function(req, res, url) {
     })
     res.send(shortArticles)
   } else {
+    var userInfo = Users.users[req.session.get('username')] || {}
+
     //render html pages
     var config = {
         category  : category
@@ -135,7 +136,7 @@ var showListHandler = function(req, res, url) {
         username    : userInfo.username
       , useravatar  : userInfo.avatar
       , homemeta    : template
-      , title       : categories[category]
+      , title       : title
       , conf        : JSON.stringify(config)
       , articles    : articles
       , hottest     : articlesCount.hottest
