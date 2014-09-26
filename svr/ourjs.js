@@ -161,7 +161,7 @@ var showDetailHandler = function(req, res) {
 
     var display = function(article) {
       //count the article
-      articlesCount.add(id)
+      articlesCount.add(article._id)
 
       var loginUser = Users.users[req.session.get('username')] || {}
 
