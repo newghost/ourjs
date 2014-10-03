@@ -114,6 +114,7 @@ var showListHandler = function(req, res, url) {
         , content   : article.content ? 1 : 0
         , postdate  : article.postdate
         , category  : article.category
+        , keyword   : article.keyword
         , replyNum  : (article.replies || '').length
       })
     })

@@ -6588,6 +6588,7 @@ Responsibile loading
 
           $html.find('.author').html(article.author).attr('href', '/userinfo/' + article.author);
           $html.find('.category').html(article.category).attr('href', '/{0}/{1}'.format(home, article.category));
+          $html.find('.keyword').html(article.keyword).attr('href', '/bbs/{1}'.format(home, article.keyword));
           $html.find('.formatdate.date').html(OurJS.formatDateTime(article.postdate, true));
           $html.find('.summary').html(article.summary || '');
           $html.find('.reply').attr('href', url + '#count').find('b').html(article.replyNum || 0);
