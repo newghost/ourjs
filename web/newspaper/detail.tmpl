@@ -35,12 +35,20 @@
       <div id="summary">
         {{?it.category}}
         <b>分类</b>
-        <a href="/home/{{=it.category}}">{{=it.category}}</a> &nbsp;&nbsp;
+        <a href="/home/{{=it.category}}">{{=it.category}}</a>&nbsp;&nbsp;
         {{?}}
-        <b>发布</b>&nbsp;
-        <a href="/userinfo/{{=it.poster || ''}}" target="_blank">{{=it.poster || ''}}</a>
-        <span class="formatdate date">{{=it.postdate || ''}}</span>&nbsp;
+
+        {{?it.keyword}}
+        <b>关键字</b>
+        <a class="category" target="_blank" href="/bbs/{{=it.keyword}}">{{=it.keyword}}</a>&nbsp;&nbsp;
+        {{?}}
+
+        <b>发布</b>
+        <a href="/userinfo/{{=it.poster || ''}}" target="_blank">{{=it.poster || ''}}</a>&nbsp;
+        <span class="formatdate date">{{=it.postdate || ''}}</span>
+
         <br>
+
         <b>注意</b> 转载须保留原文链接，译文链接，作者译者等信息。&nbsp;&nbsp;
         {{?it.username == it.poster || it.isAdmin}}
         <br>
