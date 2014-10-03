@@ -30,7 +30,7 @@
           <a class="category" target="_blank" href="/{{=it.homemeta}}/{{=article.category}}">{{=article.category}}</a>
           by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
           {{? article.keyword}}
-          key <a class="category" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
+          key <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
           {{?}}
           <span class="formatdate date">{{=article.publishTime || article.postdate}}</span>
           <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}#count" class="reply"> 评论 (<b>{{=(article.replies || []).length}}</b>) </a>
