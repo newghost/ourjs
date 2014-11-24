@@ -38,7 +38,7 @@
             {{?article.verify=='1'}}
             <i class="icon-star-empty"></i>
             {{?}}
-            <a href="/detail/{{=article.urlSlug || article._id}}" target="_blank">{{=article.title || ''}}</a>
+            <a href="/detail/{{=article._id}}" target="_blank">{{=article.title || ''}}</a>
           </div>
           <div class="info">
              • <a href="/bbs/{{=article.keyword}}" target="_blank">{{=article.keyword}}</a>
@@ -112,7 +112,7 @@
         <ol>
         {{~ it.hottest :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title || ''}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
           </li>
         {{~}}
         </ol>

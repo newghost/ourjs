@@ -21,7 +21,7 @@
       <div class="article">
         <h1 class="title">
         {{? article.content }}
-        <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title}}</a>
+        <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
         {{?? true }}
         <a target="_blank" href="{{=article.url}}" title="外链"><i class="icon-tags"></i> {{=article.title}}</a>
         {{?}}
@@ -33,7 +33,7 @@
           key <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
           {{?}}
           <span class="formatdate date">{{=article.publishTime || article.postdate}}</span>
-          <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}#count" class="reply"> 评论 (<b>{{=(article.replies || []).length}}</b>) </a>
+          <a target="_blank" href="/detail/{{=article._id}}#count" class="reply"> 评论 (<b>{{=(article.replies || []).length}}</b>) </a>
         </div>
         <div class="summary">
           {{=article.summary}}
@@ -54,7 +54,7 @@
         <ol>
           {{~ it.hottest :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
           </li>
           {{~}}
         </ol>
@@ -68,7 +68,7 @@
         <ol>
           {{~ it.replyList :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
           </li>
           {{~}}
         </ol>

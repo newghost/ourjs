@@ -156,7 +156,7 @@
         <ol>
         {{~ it.hottest :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title || ''}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
           </li>
         {{~}}
         </ol>
@@ -171,7 +171,7 @@
         <ol>
         {{~ it.similar :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title || ''}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
           </li>
         {{~}}
         </ol>
@@ -186,7 +186,7 @@
         <ol>
         {{~ it.related :article:index }}
           <li>
-            <a target="_blank" href="/detail/{{=article.urlSlug || article._id}}">{{=article.title || ''}}</a>
+            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
           </li>
         {{~}}
         </ol>

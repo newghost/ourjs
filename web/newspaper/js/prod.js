@@ -6578,7 +6578,7 @@ Responsibile loading
         for (var i = 0; i < len; i++) {
           var $html   = $tmpl.clone()
             , article = articles[i]
-            , url     = "/detail/" + (article.urlSlug || article._id)
+            , url     = "/detail/" + article._id
             ;
 
           $html.find('.title>a')
@@ -6727,7 +6727,7 @@ Responsive loadMore
 
           $html.find('.title>a')
             .html(article.title)
-            .attr('href', '/detail/' + (article.urlSlug || article._id))
+            .attr('href', '/detail/' + article._id)
             ;
 
           $html.find('.author').html(article.author).attr('href', '/userinfo/' + article.author);
