@@ -240,7 +240,7 @@ var signHandler = function(req, res, userInfo) {
 
     if (req.cookies.autosign || req.body.autosign === 'on') {
       var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
-        , opts = { path: '/', expires: date, domain: WEBSVR_CONFIG.sessionDomain }
+        , opts = { path: '/', expires: date, domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
 
       res.cookie('autosign', userInfo.username, opts)
