@@ -115,6 +115,7 @@ var PLUGINS = [
 
 /*
 * Session stores in redis
+* Filled in host to enable it, etc host: '127.0.0.1'
 */
 var REDIS_CONFIG = {
     port    : 6379

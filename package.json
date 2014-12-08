@@ -4,6 +4,7 @@
   "version": "0.0.26",
   "dependencies": {
       "websvr"         : "0.1.x"
+    , "websvr-redis"   : "0.x.x"
     , "cssshrink"      : "0.x"
     , "uglify-js"      : "1.x"
     , "mongodb"        : "1.x.x"
