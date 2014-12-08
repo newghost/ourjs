@@ -170,7 +170,7 @@
             <div class="control-group">
               <div class="controls">
                 <label class="checkbox">
-                  <input class="signinRemember" type="checkbox" checked="checked"> 自动登录
+                  <input name="autosign" class="signinRemember" type="checkbox" checked="checked"> 自动登录
                 </label>
                 <label class="checkbox">
                   <input id="signupSubscribe" type="checkbox" checked="checked"> 订阅邮件周刊
@@ -197,7 +197,7 @@
             <div class="control-group">
               <div class="controls">
                 <label class="checkbox">
-                  <input class="signinRemember" type="checkbox" checked="checked"> 自动登录
+                  <input name="autosign" class="signinRemember" type="checkbox" checked="checked"> 自动登录
                 </label>
               </div>
             </div>

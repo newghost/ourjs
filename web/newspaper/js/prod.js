@@ -6795,10 +6795,6 @@ Regist/Edit user functionalities
 
       $("#signOK").attr("disabled", true);
 
-      $form.find('.signinRemember').is(':checked')
-        ? $.cookie('autosign', userInfo.username, { expires: 365, path: '/' })
-        : $.removeCookie('autosign');
-
       if ($form.closest('#signuptab').size() > 0) {
         $.post('/user.signup.post', userInfo, function(userInfo) {
           $("#signOK").attr("disabled", false);
@@ -7047,6 +7043,18 @@ Edit Page
     $('#saveDraft').click(function() {
       $('#verify').val('-1');
       $('#editArticleForm').submit();
+    });
+
+
+    $('#editArticleForm').submit(function(e) {
+      var summary = $('#summary').val()
+        , content = $('#content').val()
+        ;
+
+      if (summary.length < 100 && content.length < 100) {
+        e.preventDefault();
+        alert('请填写至少100字的摘要或正文');
+      }
     });
 
     /*

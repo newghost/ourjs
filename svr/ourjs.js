@@ -28,6 +28,7 @@ require('../lib/string.js')()
 var GENERAL_CONFIG  = config.GENERAL_CONFIG
   , WEBSVR_CONFIG   = config.WEBSVR_CONFIG
   , MESSAGES        = config.MESSAGES
+  , REDIS_CONFIG    = config.REDIS_CONFIG
   , debug           = GENERAL_CONFIG.debug
   , pageSize        = GENERAL_CONFIG.pageSize
 
@@ -246,13 +247,13 @@ var signHandler = function(req, res, userInfo) {
       res.cookie('autosign', userInfo.username, opts)
       res.cookie('_id', userInfo._id, opts)
       res.cookie('token', utility.getEncryption(userInfo.email), opts)
-
-      req.url.indexOf('redirect') < 0
-        ? res.send({username: userInfo.username, avatar: userInfo.avatar})
-        : res.redirect('/')
-
-      return true
     }
+
+    req.url.indexOf('redirect') < 0
+      ? res.send({username: userInfo.username, avatar: userInfo.avatar})
+      : res.redirect('/')
+
+    return true
   }
 
   req.url.indexOf('redirect') < 0 && res.send({})
@@ -280,13 +281,8 @@ webSvr.url('/user.signup.post', function(req, res) {
 }, 'qs')
 
 webSvr.url('/user.signin.post', function(req, res) {
-  var postInfo = req.body
-    , userInfo = {
-        username: postInfo.username
-      , password: postInfo.password
-    }
-
-  var signedUser = Users.signin(userInfo) || {}
+  var userInfo = req.body
+  var signedUser = Users.signin(userInfo)
   signHandler(req, res, signedUser)
 
 }, 'qs')
@@ -519,5 +515,18 @@ var initMods = function() {
     initData()
     initMods()
   })
+
+
+  /*
+  * Store session in redis?
+  */
+  if (REDIS_CONFIG && REDIS_CONFIG.host) {
+    var RedisStore = require('websvr-redis');
+    RedisStore.start(config.REDIS_CONFIG);
+    webSvr.sessionStore = RedisStore;
+    //Clear expired session, only 1 refresh timer is needed
+    setInterval(RedisStore.clear, 3 * 3600 * 1000);
+  }
+
 
 })()
