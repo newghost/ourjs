@@ -66,15 +66,21 @@ webSvr.model(model)
 
 
 webSvr.session(function(req, res) {
-  var url     = req.url
-    , host    = req.headers.host
+  var url       = req.url
+    , host      = req.headers.host
+    , username  = req.session.get('username')
 
 
   //auto signed in user
-  if (!req.session.get('username')) {
+  if (!username) {
     var signedUser = Users.autosign(req.cookies)
     signedUser && req.session.set('username', signedUser.username)
+  } else {
+    //User didn't regiested here, create a virtual user?
+    !Users.users[username] && (Users.users[username] = { username: username } );
   }
+
+
 
   !req.session.get('last_reply') && req.session.set('last_reply', + new Date() / 1000 | 0)
 
@@ -225,11 +231,13 @@ webSvr.url('/useredit/:username', function(req, res) {
 
   if (username == loginUser || (Users.users[loginUser] || {}).isAdmin) {
     var userInfo = Users.users[username]
-    if (userInfo) {
+    if (userInfo && userInfo._id) {
       return res.render('useredit.tmpl', {
           user:     userInfo
         , username: loginUser
       })
+    } else {
+      res.end('You cannot update your profile here!')
     }
   }
   res.send(MESSAGES.TIMEOUT)
@@ -294,7 +302,7 @@ webSvr.url('/user.edit.post', function(req, res) {
   var postInfo  = req.body
     , loginUser = Users.users[req.session.get('username')]
 
-  if (loginUser) {
+  if (loginUser && loginUser._id) {
     utility.extend(postInfo, {
         _id           : loginUser._id
       , username      : loginUser.isAdmin ? postInfo.username : loginUser.username

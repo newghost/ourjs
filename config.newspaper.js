@@ -124,7 +124,6 @@ var REDIS_CONFIG = {
   , select  : 0
 };
 
-
 /*
 Exports
 */

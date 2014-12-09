@@ -95,6 +95,17 @@ var PLUGINS = [
 
 
 /*
+* Session stores in redis
+*/
+var REDIS_CONFIG = {
+    port    : 6379
+  , host    : ''
+  , auth    : ''
+  , select  : 0
+};
+
+
+/*
 Exports
 */
 typeof module !== 'undefined' && (module.exports = {
@@ -104,4 +115,5 @@ typeof module !== 'undefined' && (module.exports = {
   , CATEGORIES      : CATEGORIES
   , KEYWORDS        : KEYWORDS
   , PLUGINS         : PLUGINS
+  , REDIS_CONFIG    : REDIS_CONFIG
 });
