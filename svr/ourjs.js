@@ -330,7 +330,7 @@ webSvr.url('/user.edit.post', function(req, res) {
 
 webSvr.url('/user.signout.post', function(req, res) {
   var username = req.session.get('username')
-    , opts     = { path: '/' }
+    , opts     = { path: '/', domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
   req.session.set('username', '')
   res.cookie('autosign', null, opts)
