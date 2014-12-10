@@ -240,7 +240,7 @@ webSvr.url('/useredit/:username', function(req, res) {
       } else {
         //User didn't registed in this system but have shared session
         GENERAL_CONFIG.noIDUserEditUrl
-          ? res.redirect(GENERAL_CONFIG.noIDUserEditUrl)
+          ? res.redirect(GENERAL_CONFIG.noIDUserEditUrl.format(username))
           : res.end('You cannot edit profile here!')
       }
     }
