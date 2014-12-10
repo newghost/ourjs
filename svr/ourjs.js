@@ -231,16 +231,21 @@ webSvr.url('/useredit/:username', function(req, res) {
 
   if (username == loginUser || (Users.users[loginUser] || {}).isAdmin) {
     var userInfo = Users.users[username]
-    if (userInfo && userInfo._id) {
-      return res.render('useredit.tmpl', {
-          user:     userInfo
-        , username: loginUser
-      })
-    } else {
-      res.end('You cannot update your profile here!')
+    if (userInfo) {
+      if (userInfo._id) {
+        return res.render('useredit.tmpl', {
+            user:     userInfo
+          , username: loginUser
+        })
+      } else {
+        //User didn't registed in this system but have shared session
+        GENERAL_CONFIG.noIDUserEditUrl
+          ? res.redirect(GENERAL_CONFIG.noIDUserEditUrl)
+          : res.end('You cannot edit profile here!')
+      }
     }
   }
-  res.send(MESSAGES.TIMEOUT)
+  res.send(MESSAGES.NOPERMISSION)
 })
 
 var signHandler = function(req, res, userInfo) {

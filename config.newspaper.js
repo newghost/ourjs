@@ -45,6 +45,7 @@ var GENERAL_CONFIG = {
   , keyUrl          : ['/key/:keyword/:pageNumber', '/bbs/:keyword/:pageNumber', '/bbs_rss/:keyword/:pageNumber']
   , detailUrl       : '/detail/:id'
   , userUrl         : ['/userinfo/', '/userjson/']
+  , noIDUserEditUrl : 'dev.ourjs.com/useredit/{0}'
   , renderTmplUrl   : ['/login']
   , rootEditTmpl    : 'root/edit.tmpl'
   , rootEditUrl     : '/root/edit/:id'
