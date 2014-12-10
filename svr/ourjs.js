@@ -534,11 +534,22 @@ var initMods = function() {
   * Store session in redis?
   */
   if (REDIS_CONFIG && REDIS_CONFIG.host) {
+    // Binding sessionTimeout value from websvr
+    var sessionTimeout = webSvr.settings.sessionTimeout;
+    REDIS_CONFIG.sessionTimeout = sessionTimeout;
+
+    console.log('sessionTimeout', sessionTimeout);
+
     var RedisStore = require('websvr-redis');
-    RedisStore.start(config.REDIS_CONFIG);
+    RedisStore.start(REDIS_CONFIG);
     webSvr.sessionStore = RedisStore;
-    //Clear expired session, only 1 refresh timer is needed
-    setInterval(RedisStore.clear, 3 * 3600 * 1000);
+
+    // Clear expired session, only 1 refresh timer is needed
+    if (REDIS_CONFIG.clean) {
+      console.log('session cleaner inited');
+      setInterval(RedisStore.clear, sessionTimeout);
+      RedisStore.clear();
+    }
   }
 
 

@@ -45,7 +45,8 @@ var GENERAL_CONFIG = {
   , keyUrl          : ['/forum/:keyword/:pageNumber', '/forum_rss/:keyword/:pageNumber']
   , detailUrl       : '/article/:id'
   , userUrl         : ['/userinfo/', '/userjson/']
-  , noIDUserEditUrl : 'dev.ourjs.com/useredit/{0}'
+  //etc: http://code.ourjs.com/useredit/{0}
+  , noIDUserEditUrl : ''
   , renderTmplUrl   : ['/signin', '/signup']
   , rootEditTmpl    : 'edit.tmpl'
   , rootEditUrl     : '/root/edit/:id'
@@ -103,6 +104,7 @@ var REDIS_CONFIG = {
   , host    : ''
   , auth    : ''
   , select  : 0
+  , clean   : false
 };
 
 
