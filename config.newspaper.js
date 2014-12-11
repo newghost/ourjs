@@ -52,7 +52,7 @@ var GENERAL_CONFIG = {
   , rootEditUrl     : '/root/edit/:id'
   , rootDeleUrl     : '/root/delete/:id'
   , rootPubUrl      : '/root/publish/:id'
-  , CONNECTIONSTR   : 'mongodb://newghost:dachun0000000@ourjs.com/ourjs'
+  , CONNECTIONSTR   : ''
   , CRYPTOKEY       : '!@#$qwer4rfv%TGB'
 };
 
