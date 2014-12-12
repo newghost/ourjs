@@ -19,6 +19,7 @@ var WEBSVR_CONFIG = {
   , sessionTimeout  : 36000000
   //want to share same cookie between bbs.ourjs.com and ourjs.com? Using: ourjs.com
   , sessionDomain   : ''
+  ， serverID        : ''
 };
 
 
