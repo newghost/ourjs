@@ -157,6 +157,13 @@ var showListHandler = function(req, res, url) {
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
 webSvr.url(GENERAL_CONFIG.homeUrl, showListHandler)
 
+var listAllHandler = function(req, res, url) {
+  var params = webSvr.parseUrl('/:template', url || req.url)
+  res.render(params.template + '.tmpl', { articles: Articles.categoryArticles[''] })
+}
+
+webSvr.url(GENERAL_CONFIG.listUrl, listAllHandler)
+
 //handle detail.tmpl: content of article
 var showDetailHandler = function(req, res) {
   var tmpl  = req.url.split('/')[1]     //get the template name
@@ -201,7 +208,20 @@ webSvr.url("updatecache", function(req, res) {
   if ((Users.users[username] || {}).isAdmin) {
     Users.refresh()
     Articles.refresh()
+    webSvr.clear()
     res.end()
+  } else {
+    res.send(401, MESSAGES.NOPERMISSION)
+  }
+})
+
+//clear template cache
+webSvr.url('/clear', function(req, res) {
+  var username = req.session.get('username')
+
+  if ((Users.users[username] || {}).isAdmin) {
+    webSvr.clear()
+    res.end('done')
   } else {
     res.send(401, MESSAGES.NOPERMISSION)
   }
@@ -479,6 +499,7 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
 webSvr.url(GENERAL_CONFIG.renderTmplUrl, function(req, res) {
   res.render(webSvr.parseUrl('/:tmpl', req.url).tmpl + '.tmpl', {})
 })
+
 
 /*
 Init User and Article

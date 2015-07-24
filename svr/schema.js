@@ -95,7 +95,8 @@ bit:
 2 textarea
 */
 var filter = function(schemaName, target) {
-  var schema = SCHEMA[schemaName]
+  var schema  = SCHEMA[schemaName]
+    , flag    = true
 
   if (!schema) {
     console.error("doesn't found schema", schemaName)
@@ -103,18 +104,119 @@ var filter = function(schemaName, target) {
   }
 
   for (var key in target) {
-    typeof schema[key] == 'undefined' && delete target[key]
+    var rule  = schema[key];
+
+    if (typeof rule == 'undefined') {
+      delete target[key]
+    } else {
+      var value = target[key];
+
+      //int? convert value to int
+      var intIdx = rule.indexOf('int');
+      if (intIdx > -1) {
+        value = parseInt(value) || 0
+        target[key] = value
+      }
+
+      var minIdx = rule.indexOf('min(');
+      if (minIdx > -1) {
+        var minVal = rule.substr(minIdx + 4);
+        minVal = minVal.substr(0, minVal.indexOf(')'));
+        if (value && value.length < parseInt(minVal)) {
+          flag = false;
+        }
+      }
+
+      var maxIdx = rule.indexOf('max(');
+      if (maxIdx > -1) {
+        var maxVal = rule.substr(maxIdx + 4);
+        maxVal = maxVal.substr(0, maxVal.indexOf(')'));
+        if (value && value.length > parseInt(maxVal)) {
+          flag = false;
+        }
+      }
+
+      var require = rule.indexOf('require');
+      if (require > -1) {
+        if (!value) {
+          flag = false;
+        }
+      }
+    }
+  }
+
+  return flag;
+}
+
+
+/*
+formatter
+*/
+var parse = function(schemaName, target) {
+  var schema  = SCHEMA[schemaName]
+
+  if (!schema) {
+    console.error("doesn't found schema", schemaName)
+    return
+  }
+
+  for (var key in target) {
+    var rule  = schema[key]
+      , value = target[key]
+      , type  = typeof value
+
+    if (rule.indexOf('int')) {
+      target[key] = parseInt(value) || 0
+    }
+
+    else if ((rule.indexOf('array') > -1 || rule.indexOf('json') > -1) && type == 'string') {
+      try {
+        target[key] = JSON.parse(value || '{}')
+      } catch (e) {
+        console.error(schemaName, target, e)
+        return
+      }
+    }
   }
 
   return target
 }
 
 
+
+var stringify = function(schemaName, target) {
+  var schema  = SCHEMA[schemaName]
+
+  if (!schema) {
+    console.error("doesn't found schema", schemaName)
+    return
+  }
+
+  for (var key in target) {
+    var rule  = schema[key]
+      , value = target[key]
+      , type  = typeof value
+
+    if ((rule.indexOf('array') > -1 || rule.indexOf('json') > -1) && type == 'object' && value) {
+      try {
+        target[key] = JSON.stringify(value)
+      } catch (e) {
+        console.error(schemaName, target, e)
+        return
+      }
+    }
+  }
+
+  return target
+}
+
 loadSchema()
 
 
 module.exports = { 
-    notify: notify
-  , SCHEMA: SCHEMA
-  , filter: filter
+    notify    : notify
+  , SCHEMA    : SCHEMA
+  , filter    : filter
+  , parse     : parse
+  , stringify : stringify
 }

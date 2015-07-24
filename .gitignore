@@ -1,1 +1,5 @@
+/data/counts
 /node_modules
+/node_modules/cssshrink
+/node_modules/mongodb
+/node_modules/uglify-js/

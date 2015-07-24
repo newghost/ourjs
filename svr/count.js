@@ -134,7 +134,8 @@ Count.prototype = {
       })
 
 
-      var duration = 3600 * 24 * 30 * 1000
+      //two month
+      var duration = 3600 * 24 * 60 * 1000
 
       // Empty the array
       self.countSort.length = 0
