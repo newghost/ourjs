@@ -35,43 +35,7 @@ Development
 You need to running "npm install" before build the CSS/JS files
 
 
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
+    
 
 
 
@@ -93,7 +57,7 @@ OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系�
 ----
 1. 点击 "Download Zip" or [这里](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) 下载最新版本
 2. 解压并运行: ourjs.cmd or ourjs.newspaper.cmd (windows)
-3. 在浏览器中输入 http://localhost:8054 or http://localhost:8052 测试, 首次需要刷新两次建立缓存
+3. 在浏览器中输入 http://localhost:8054 or http://localhost:8052 测试, 首次运行需要刷新一次建立缓存
 
 
 中文文档
