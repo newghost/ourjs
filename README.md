@@ -30,6 +30,11 @@ Document
 
 
 
+Development
+----
+You need to running "npm install" before build the CSS/JS files
+
+
 
 
 
