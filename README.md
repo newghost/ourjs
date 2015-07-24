@@ -6,7 +6,7 @@ Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.
 
 Author    : Kris Zhang
 
-Demo Page : http://code.ourjs.com
+Demo Page : [English](http://code.ourjs.com), [Chinese](http://demo.ourjs.com)
 
 
 License
@@ -16,6 +16,13 @@ BSD, See our license file
 
 
 
+Install
+----
+1. Click the "Download Zip" or [Here](https://github.com/newghost/ourjs/raw/master/dist/ourjs.latest.zip) to download the latest version.
+2. Unzip and running: ourjs.cmd or ourjs.newspaper.com (windows)
+3. Trying at http://localhost:8054 or http://localhost:8052, need to refresh twice when the first running
+
+
 Document
 ----
 1. [Install NodeJS NPM and OurJS under Debian](http://code.ourjs.com/article/install-nodejs-npm-and-ourjs-under-debian-amazon-ec2-free-tier-)
@@ -23,12 +30,23 @@ Document
 
 
 
+
+
+
 OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 ----
 
-中文示例： http://demo.ourjs.com
+示例 : [英文](http://code.ourjs.com), [中文](http://demo.ourjs.com)
 
 中文支持： http://ourjs.com/bbs/OurJS
+
+
+
+安装
+----
+1. 点击 "Download Zip" or [这里](https://github.com/newghost/ourjs/raw/master/dist/ourjs.latest.zip) 下载最新版本
+2. 解压并运行: ourjs.cmd or ourjs.newspaper.com (windows)
+3. 在浏览器中输入 http://localhost:8054 or http://localhost:8052 测试, 首次需要刷新两次建立缓存
 
 
 中文文档

@@ -9,7 +9,6 @@
 //import namespace
 var qs        = require("querystring")
   , utility   = require("./utility")
-  , ObjectID  = require('mongodb').BSONPure.ObjectID
   , Schema    = require('./schema')
   , UrlSlug   = require('./urlSlug')
   , category  = require('./category')

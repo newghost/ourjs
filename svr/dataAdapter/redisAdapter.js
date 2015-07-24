@@ -9,10 +9,7 @@
 //Database operator
 var fs              = require('fs')
   , redis           = require('redis')
-  , mongodb         = require('mongodb')
-  , MongoClient     = mongodb.MongoClient
-  , BSON            = mongodb.BSONPure
-  , ObjectID        = BSON.ObjectID
+  , ObjectID        = require("bson-objectid")
   , config          = global.CONFIG
   , DATA_MODELS     = global.DATA_MODELS
   , MESSAGES        = config.MESSAGES

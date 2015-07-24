@@ -1,9 +1,11 @@
 {
   "name": "ourjs", 
   "description": "Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS", 
+  "repository" : "http://github.com/newghost/ourjs",
   "version": "0.0.29",
   "dependencies": {
       "websvr"         : "0.1.x"
+    , "bson-objectid"  : "1.1.1"
     , "cssshrink"      : "0.x"
     , "uglify-js"      : "1.x"
     , "mongodb"        : "1.x.x"

@@ -9,10 +9,7 @@
 //Database operator
 var fs              = require('fs')
   , path            = require('path')
-  , mongodb         = require('mongodb')
-  , MongoClient     = mongodb.MongoClient
-  , BSON            = mongodb.BSONPure
-  , ObjectID        = BSON.ObjectID
+  , ObjectID        = require("bson-objectid")
   , utility         = require('../utility')
   , config          = global.CONFIG
   , DATA_MODELS     = global.DATA_MODELS
