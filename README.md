@@ -4,7 +4,7 @@ OurJS
 Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS
 ----
 
-Author    : Kris Zhang
+Author : Kris Zhang
 
 Demo : [English](http://code.ourjs.com), [Chinese](http://demo.ourjs.com)
 
@@ -35,6 +35,48 @@ Development
 You need to running "npm install" before build the CSS/JS files
 
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+OurJS [中文]
+====
 
 
 

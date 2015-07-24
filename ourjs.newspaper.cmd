@@ -1,4 +1,9 @@
+@setlocal enableextensions
+@cd /d "%~dp0"
+
 echo "start ourjs"
+
+cd %~dp0
 
 :dowhile
 
