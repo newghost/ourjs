@@ -18,7 +18,7 @@ BSD, See our license file
 
 Install
 ----
-1. Click the "Download Zip" or [Here](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) to download the latest version.
+1. Install the latest version of NodeJS, click the "Download Zip" or [Here](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) to download the latest version.
 2. Unzip and running: ourjs.cmd or ourjs.newspaper.cmd (windows)
 3. Trying at http://localhost:8054 or http://localhost:8052, need to refresh twice when the first running
 
@@ -56,8 +56,13 @@ OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系�
 安装
 ----
 1. 点击 "Download Zip" or [这里](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) 下载最新版本
-2. 解压并运行: ourjs.cmd or ourjs.newspaper.cmd (windows)
+2. 解压并运行: ourjs.cmd 或者 ourjs.newspaper.cmd (windows)， 这里假设你已经安装好了最新版的 [node.js](http://nodejs.org)
 3. 在浏览器中输入 http://localhost:8054 or http://localhost:8052 测试, 首次运行需要刷新一次建立缓存
+
+
+编绎
+----
+如果想要对CSS/JS进行压缩编绎合并的话，需要在ourjs目录运行npm install安装依赖，然后可运行web目录下的各个主题的build文件，源代码中的node_module目录仅包含了可供运行的最少模块。
 
 
 中文文档
