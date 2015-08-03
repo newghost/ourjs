@@ -2,22 +2,29 @@
 #display commands
 set -x
 
-THEME='./magazine'
+SOURCE='./magazine/*'
+TARGET='./magazine.min'
 
-cd $THEME/js
-cat jquery.js modernizr.js foundation.min.js medium-editor.js classList.js jquery.cookie.js > libs.js
-cat ../../../lib/string.js ourjs.js > prod.js
-cd ../../
+mkdir   $TARGET
+mkdir   $TARGET/tmp
 
-cd $THEME/css
-cat normalize.css foundation.min.css font-awesome.css > libs.css
-cat medium-editor-default.css medium-editor.css ourjs.css > prod.css
-cd ../../
+cp -rf  $SOURCE $TARGET
 
-node ../tools/minifier $THEME/css/prod.css          $THEME/css/prod.min.css
-node ../tools/minifier $THEME/css/libs.css          $THEME/css/libs.min.css
-node ../tools/minifier $THEME/js/libs.js            $THEME/js/libs.min.js
-node ../tools/minifier $THEME/js/prod.js            $THEME/js/prod.min.js
+node ../tools/combiner   $TARGET/head.part  -r
+node ../tools/combiner   $TARGET/foot.part  -r
 
+node ../tools/minifier $TARGET/css/libs.min.css       $TARGET/tmp/libs.min.css
+node ../tools/minifier $TARGET/css/prod.min.css       $TARGET/tmp/prod.min.css
+
+node ../tools/minifier $TARGET/js/libs.min.js         $TARGET/tmp/libs.min.js
+node ../tools/minifier $TARGET/js/prod.min.js         $TARGET/tmp/prod.min.js
+
+rm -rf $TARGET/css/*.css
+rm -rf $TARGET/js/*.js
+
+mv $TARGET/tmp/libs.min.css         $TARGET/css/libs.min.css
+mv $TARGET/tmp/prod.min.css         $TARGET/css/prod.min.css
+mv $TARGET/tmp/libs.min.js          $TARGET/js/libs.min.js
+mv $TARGET/tmp/prod.min.js          $TARGET/js/prod.min.js
 
 sleep 30

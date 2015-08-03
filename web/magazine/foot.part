@@ -25,7 +25,16 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-43238430-2', 'ourjs.com');
 ga('send', 'pageview');
 </script>
-<!-- Google Analytics en -->
+<!-- Google Analytics end -->
 
-<script src="/js/libs.min.js"></script>
-<script src="/js/prod.min.js"></script>
+<!--#output="/js/libs.min.js"-->
+<script src="/js/jquery.js"></script>
+<script src="/js/modernizr.js"></script>
+<script src="/js/foundation.min.js"></script>
+<script src="/js/medium-editor.js"></script>
+<script src="/js/classList.js"></script>
+<script src="/js/jquery.cookie.js"></script>
+
+<!--#output="/js/prod.min.js"-->
+<script src="/js/string.js"></script>
+<script src="/js/ourjs.js"></script>

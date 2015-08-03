@@ -45,7 +45,7 @@ var GENERAL_CONFIG = {
   , homeUrl         : ['/home', '/email', '/rss', '/json']
   , keyUrl          : ['/forum/:keyword/:pageNumber', '/forum_rss/:keyword/:pageNumber']
   , detailUrl       : '/article/:id'
-  , userUrl         : ['/userinfo/', '/userjson/']
+  , userUrl         : ['/userinfo/:userid/:pageNumber', '/userjson/:userid/:pageNumber']
   //etc: http://code.ourjs.com/useredit/{0}
   , noIDUserEditUrl : ''
   , renderTmplUrl   : ['/signin', '/signup']

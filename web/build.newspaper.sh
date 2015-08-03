@@ -2,25 +2,29 @@
 #display commands
 set -x
 
-THEME='./newspaper'
+SOURCE='./newspaper/*'
+TARGET='./newspaper.min'
 
-cd $THEME/js
-cat jquery.min.js bootstrap.min.js wysihtml5.js > libs.js
-cat jquery.validate.js jquery.cookie.js bootstrap-wysihtml5.js Markdown.Converter.js Markdown.Sanitizer.js Markdown.Editor.js Markdown.local.cn.js ../../../lib/string.js jquery.browser.js nprogress.js ourjs.js > prod.js
-cd ../../
+mkdir   $TARGET
+mkdir   $TARGET/tmp
 
-cd $THEME/css
-cat bootstrap.css > libs.css
-cat bootstrap-wysihtml5.css ourjs.css > prod.css
-cd ../../
+cp -rf  $SOURCE $TARGET
 
-node ../tools/minifier $THEME/css/bootstrap.css     $THEME/css/bootstrap.min.css
-node ../tools/minifier $THEME/css/prod.css          $THEME/css/prod.min.css
-node ../tools/minifier $THEME/css/libs.css          $THEME/css/libs.min.css
-node ../tools/minifier $THEME/css/ie7.css           $THEME/css/ie7.min.css
-node ../tools/minifier $THEME/js/libs.js            $THEME/js/libs.min.js
-node ../tools/minifier $THEME/js/bootstrap.js       $THEME/js/bootstrap.min.js
-node ../tools/minifier $THEME/js/prod.js            $THEME/js/prod.min.js
+node ../tools/combiner   $TARGET/script.part   -r
+node ../tools/combiner   $TARGET/style.part    -r
 
+node ../tools/minifier $TARGET/css/libs.min.css       $TARGET/tmp/libs.min.css
+node ../tools/minifier $TARGET/css/prod.min.css       $TARGET/tmp/prod.min.css
+
+node ../tools/minifier $TARGET/js/libs.min.js         $TARGET/tmp/libs.min.js
+node ../tools/minifier $TARGET/js/prod.min.js         $TARGET/tmp/prod.min.js
+
+rm -rf $TARGET/css/*.css
+rm -rf $TARGET/js/*.js
+
+mv $TARGET/tmp/libs.min.css         $TARGET/css/libs.min.css
+mv $TARGET/tmp/prod.min.css         $TARGET/css/prod.min.css
+mv $TARGET/tmp/libs.min.js          $TARGET/js/libs.min.js
+mv $TARGET/tmp/prod.min.js          $TARGET/js/prod.min.js
 
 sleep 30

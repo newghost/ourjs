@@ -24,7 +24,7 @@ var sort = function(a, b) {
 }
 
 webSvr.filter(function(req, res) {
-  if (req.url === '/admin/data' || req.url === '/admin/data/' || req.url === '/admin') {
+  if (req.url === '/admin' || req.url === '/admin/data' || req.url === '/admin/data/' || req.url === '/admin') {
     res.redirect('/admin/data/article/select')
   } else {
     req.filter.next()

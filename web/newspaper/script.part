@@ -1,5 +1,3 @@
-<script src="/js/libs.min.js"></script>
-<script src="/js/prod.min.js?v=217"></script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -9,3 +7,23 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-43238430-2', 'ourjs.com');
 ga('send', 'pageview');
 </script>
+
+
+
+<!--#output="/js/libs.min.js"-->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/wysihtml5.js"></script>
+
+<!--#output="/js/prod.min.js"-->
+<script src="/js/jquery.validate.js"></script>
+<script src="/js/jquery.cookie.js"></script>
+<script src="/js/bootstrap-wysihtml5.js"></script>
+<script src="/js/Markdown.Converter.js"></script>
+<script src="/js/Markdown.Sanitizer.js"></script>
+<script src="/js/Markdown.Editor.js"></script>
+<script src="/js/Markdown.local.cn.js"></script>
+<script src="/js/string.js"></script>
+<script src="/js/jquery.browser.js"></script>
+<script src="/js/nprogress.js"></script>
+<script src="/js/ourjs.js"></script>

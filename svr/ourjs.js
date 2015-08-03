@@ -40,13 +40,6 @@ var articlesCount = new Count('articles', GENERAL_CONFIG.countFolder)
 
 
 //webSvr.engine(require("./doT").compile)
-//for debuging
-if (debug) {
-  webSvr.url("css/ourjs.min.css", ["css/ourjs.css"])
-  webSvr.url("css/prod.min.css",  ["css/prod.css"])
-  webSvr.url("js/ourjs.min.js",   ["js/ourjs.js"])
-  webSvr.url("js/prod.min.js",    ["js/prod.js"])
-}
 
 
 var category    = require("./category")
@@ -448,20 +441,16 @@ webSvr.url(GENERAL_CONFIG.keyUrl, keyListHandler)
 userinfo: get userinfo and he articles
 */
 webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
-  var url = req.url
-    , idx = url.indexOf('?')
-
-
-  idx > -1 && (url = url.substr(0, idx))
+  var url     = req.url
+    , params  = req.params
 
   /*
   Get parameters: filter category
   url: '/userinfo/ourjs/0'
   */
-  var arr         = req.url.split('/')
-    , tmpl        = arr[1] || 'userinfo'
-    , userid      = decodeURIComponent(arr[2]) || 'ourjs'
-    , pageNumber  = parseInt(arr[3]) || 0
+  var tmpl        = req.url.split('/')[1] || 'userinfo'
+    , userid      = params.userid     || 'ourjs'
+    , pageNumber  = params.pageNumber || 0
     , nextNumber  = pageNumber + 1
     , articles    = (Articles.userArticles[userid] || []).slice(pageNumber * pageSize, nextNumber * pageSize)
 
@@ -488,7 +477,7 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
   } else {
     res.render(tmpl + ".tmpl", {
         list:     articles
-      , user:     Users.users[userid]
+      , user:     Users.users[userid] || {}
       , next:     nextNumber
       , conf:     JSON.stringify({ pageSize: pageSize })
       , username: req.session.get('username')
