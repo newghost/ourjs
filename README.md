@@ -62,7 +62,7 @@ OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系�
 
 编绎
 ----
-如果想要对CSS/JS进行压缩编绎合并的话，需要运行web目录下的build文件，如build.newspaper.sh，在windows环境下运行这个shell需要安装 [msysgit](http://msysgit.github.io/) ，因npm近期越来越慢，目前所有node_module中的依赖已经commit到了github上。
+如果想要对CSS/JS进行压缩编绎合并的话，需要运行web目录下的build文件，如build.newspaper.sh，在windows环境下运行这个shell需要安装 [msysgit](http://msysgit.github.io/) ，因npm近期越来越慢，目前所有node_module中的依赖已经commit到了github上。如果要使用mongodb数据库，请先运行 npm install下载依赖。
 
 
 中文文档
