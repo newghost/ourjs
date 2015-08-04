@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+// vim: syntax=javascript
+
+require('./benchmark').run({ async: true });

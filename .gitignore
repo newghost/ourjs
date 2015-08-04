@@ -1,5 +1,3 @@
 /data/counts
-/node_modules/cssshrink
 /node_modules/mongodb
-/node_modules/uglify-js/
 /node_modules/.bin

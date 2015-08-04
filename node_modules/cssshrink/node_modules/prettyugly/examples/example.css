@@ -1,0 +1,25 @@
+a,b,i{color : white; width: 100px}
+@-ms-keyframes boom {
+  from {
+    background-position : 0   0;
+  }
+  to {
+    background-position :    50% 50%;
+  }
+}
+b{color: white; width: 100px}
+/*sdfgsdgf*/
+@media print {
+.theClass {
+  some-css : here;
+  some-more : there;
+}
+}
+i{color: white; width: 100px}
+
+@font-face {
+  font-family: 'gzipper';
+  src: url( yanone.eot ) ;
+  src: local('gzipper' ), 
+          url(yanone.ttf) format('truetype');
+}
