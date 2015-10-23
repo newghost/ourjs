@@ -1,0 +1,8 @@
+{
+	"id"		  : "id"
+  , "postdate"    : "int"
+  , "reply"       : ""
+  , "poster"      : ""
+  , "nickname"    : ""
+  , "deleted"     : ""
+}

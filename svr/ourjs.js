@@ -12,11 +12,19 @@ var fs          = require('fs')
   , path        = require('path')
   , qs          = require('querystring')
   , WebSvr      = require('websvr')
+  , RedisStore  = require('websvr-redis')
+  , redis       = require('redis')
+  , redblade    = require('redblade')
   , config      = global.CONFIG = require(path.join('../', process.argv[2]))
-  , Schema      = require('./schema')
-  , Count       = require('./count')
-  , utility     = require('./utility')
 
+
+/*
+var User    = require('./user')
+  , Article = require('./article')
+*/
+
+
+var utility = require('./utility')
 
 
 /*
@@ -25,55 +33,35 @@ var fs          = require('fs')
 require('../lib/string.js')()
 
 
-var GENERAL_CONFIG  = config.GENERAL_CONFIG
-  , WEBSVR_CONFIG   = config.WEBSVR_CONFIG
+var WEBSVR_CONFIG   = config.WEBSVR_CONFIG
   , MESSAGES        = config.MESSAGES
   , REDIS_CONFIG    = config.REDIS_CONFIG
-  , debug           = GENERAL_CONFIG.debug
-  , pageSize        = GENERAL_CONFIG.pageSize
 
 
 
 //Start the WebSvr
-var articlesCount = new Count('articles', GENERAL_CONFIG.countFolder)
-  , webSvr        = WebSvr(WEBSVR_CONFIG)
+var webSvr  = WebSvr(WEBSVR_CONFIG)
 
 
-//webSvr.engine(require("./doT").compile)
+/*
+webSvr.engine(require("./doT").compile)
 
-
-var category    = require("./category")
-  , categories  = config.CATEGORIES
-  , keywords    = config.KEYWORDS
-
-
-
-//Bindings
-var model = {
-    categories : categories
-  , keywords   : keywords
-  , homemeta   : 'home'
-}
 //Default model of webSvr, for header/footer
+var model = {}
 webSvr.model(model)
+*/
 
 
 webSvr.session(function(req, res) {
   var url       = req.url
-    , host      = req.headers.host
     , username  = req.session.get('username')
 
 
-  //auto signed in user
+  //auto signin
   if (!username) {
     var signedUser = Users.autosign(req.cookies)
     signedUser && req.session.set('username', signedUser.username)
-  } else {
-    //User didn't regiested here, create a virtual user?
-    !Users.users[username] && (Users.users[username] = { username: username } );
   }
-
-
 
   !req.session.get('last_reply') && req.session.set('last_reply', + new Date() / 1000 | 0)
 
@@ -88,15 +76,9 @@ webSvr.session(function(req, res) {
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
   var params      = webSvr.parseUrl('/:template/:category/:pagerNumber', url || req.url)
-    , category    = params.category || ''
-    , title       = categories[category]
     , template    = params.template || 'home'
     , pageNumber  = parseInt(params.pagerNumber) || 0
 
-  // Category and title doesn't exist redirect to home page
-  if (!title) {
-    return res.redirect('/')
-  }
 
   var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
 
@@ -106,56 +88,31 @@ var showListHandler = function(req, res, url) {
     articles.forEach(function(article) {
       shortArticles.push({
           _id       : article._id
-        , urlSlug   : article.urlSlug
         , url       : article.url
         , author    : article.poster
         , title     : article.title
         , summary   : article.summary
         , content   : article.content ? 1 : 0
-        , postdate  : article.postdate
-        , category  : article.category
-        , keyword   : article.keyword
-        , replyNum  : (article.replies || '').length
+        , postDate  : article.postDate
+        , replyNum  : 0
       })
     })
     res.send(shortArticles)
   } else {
-    var userInfo = Users.users[req.session.get('username')] || {}
-
-    //render html pages
-    var config = {
-        category  : category
-      , pageSize  : pageSize
-      , pager     : pageNumber
-      , username  : userInfo.username
-      , homemeta  : template
-    }
+    var user = Users.getUser(req.session.get('username')) || {}
 
     template.indexOf('rss') > -1 && res.type('xml')
 
     res.render(template + ".tmpl", {
-        username    : userInfo.username
-      , useravatar  : userInfo.avatar
-      , homemeta    : template
-      , title       : title
-      , conf        : JSON.stringify(config)
-      , articles    : articles
-      , hottest     : articlesCount.hottest
-      , replyList   : (Articles.keywordsArticles[''] || []).slice(0, 10)
-      , nextPage    : '/' + template + '/' + category + '/' + (pageNumber + 1)
+        user      : user
+      , articles  : articles
+      , nextPage  : '/' + template + '/' + category + '/' + (pageNumber + 1)
     })
   }
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-webSvr.url(GENERAL_CONFIG.homeUrl, showListHandler)
-
-var listAllHandler = function(req, res, url) {
-  var params = webSvr.parseUrl('/:template', url || req.url)
-  res.render(params.template + '.tmpl', { articles: Articles.categoryArticles[''] })
-}
-
-webSvr.url(GENERAL_CONFIG.listUrl, listAllHandler)
+webSvr.url('/home', showListHandler)
 
 //handle detail.tmpl: content of article
 var showDetailHandler = function(req, res) {
@@ -173,13 +130,11 @@ var showDetailHandler = function(req, res) {
 
       var loginUser = Users.users[req.session.get('username')] || {}
 
-      article.username    = loginUser.username
-      article.useravatar  = loginUser.avatar
-      article.isAdmin     = loginUser.isAdmin
-      article.related     = (Articles.keywordsArticles[article.keyword] || []).slice(0, 10)
-      article.user        = Users.users[article.poster] || {}
-
-      res.render(tmpl + ".tmpl", article)
+      res.render(tmpl + ".tmpl", {
+          article : article
+        , user    : userInfo
+        , poster  : posterInfo
+      })
     }
 
     if (article) {
@@ -193,20 +148,8 @@ var showDetailHandler = function(req, res) {
 }
 
 //127.0.0.1/detail/2340234erer23343[OjbectID]
-webSvr.url(GENERAL_CONFIG.detailUrl, showDetailHandler)
+webSvr.url('/article/:id', showDetailHandler)
 
-webSvr.url("updatecache", function(req, res) {
-  var username = req.session.get('username')
-
-  if ((Users.users[username] || {}).isAdmin) {
-    Users.refresh()
-    Articles.refresh()
-    webSvr.clear()
-    res.end()
-  } else {
-    res.send(401, MESSAGES.NOPERMISSION)
-  }
-})
 
 //clear template cache
 webSvr.url('/clear', function(req, res) {
@@ -220,22 +163,6 @@ webSvr.url('/clear', function(req, res) {
   }
 })
 
-//handle url: /jsondetail/articleid
-webSvr.url("/jsondetail/:id", function(req, res) {
-  var id = req.params.id
-
-  if (id) {
-    var article = Articles.find(id)
-    res.send({
-        title       : article.title
-      , urlSlug     : article.urlSlug
-      , url         : article.url
-      , content     : article.content || article.summary
-    })
-  } else {
-    res.end()
-  }
-})
 
 webSvr.url('/useredit/:username', function(req, res) {
   var username  = req.params.username
@@ -252,9 +179,7 @@ webSvr.url('/useredit/:username', function(req, res) {
         })
       } else {
         //User didn't registed in this system but have shared session
-        GENERAL_CONFIG.noIDUserEditUrl
-          ? res.redirect(GENERAL_CONFIG.noIDUserEditUrl.format(username))
-          : res.end('You cannot edit profile here!')
+        res.end('You cannot edit profile here!')
       }
     }
   }
@@ -310,7 +235,6 @@ webSvr.url('/user.signin.post', function(req, res) {
   var userInfo = req.body
   var signedUser = Users.signin(userInfo)
   signHandler(req, res, signedUser)
-
 }, 'qs')
 
 /*
@@ -403,7 +327,7 @@ var keyListHandler = function(req, res, url) {
     , userInfo    = Users.users[req.session.get('username')] || {}
     , allArticles = Articles.keywordsArticles[keyword] || []
     , count       = allArticles.length
-    , pageSize    = GENERAL_CONFIG.keyPageSize
+    , pageSize    = 20
     , articles    = allArticles.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
 
 
@@ -433,14 +357,9 @@ var keyListHandler = function(req, res, url) {
 }
 
 /*
-Handle: '/key/Node.JS/0'
-*/
-webSvr.url(GENERAL_CONFIG.keyUrl, keyListHandler)
-
-/*
 userinfo: get userinfo and he articles
 */
-webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
+webSvr.url('/u/:username', function(req, res) {
   var url     = req.url
     , params  = req.params
 
@@ -485,82 +404,19 @@ webSvr.url(GENERAL_CONFIG.userUrl, function(req, res) {
   }
 })
 
-webSvr.url(GENERAL_CONFIG.renderTmplUrl, function(req, res) {
-  res.render(webSvr.parseUrl('/:tmpl', req.url).tmpl + '.tmpl', {})
-})
-
-
-/*
-Init User and Article
-*/
-var initData = function() {
-  var Users     = global.Users        = require('./users')
-    , Articles  = global.Articles     = require('./articles')
-
-
-  //init Articles
-  //for users
-  Users.refresh()
-  //for articles
-  Articles.refresh()
-
-  //When articles refreshed
-  Articles.notify.on('done', function() {
-    articlesCount.refresh(Articles)
-  })
-}
-
-
-var initMods = function() {
-  /*
-  * For administration
-  */
-  require('./root')
-  require('../admin/plugins')
-}
-
 
 /*
 * Init
 */
 ;(function() {
-  /*
-  * Make these instances shared global
-  */
-  global.webSvr         = webSvr
-  global.articlesCount  = articlesCount
-  global.DataAdapter    = require('./dataAdapter/' + GENERAL_CONFIG.dataAdapter)
+  global.webSvr = webSvr
 
-  /*
-  * Init data models
-  */
-  Schema.notify.on('done', function() {
-    initData()
-    initMods()
+  var client = redis.createClient(REDIS_CONFIG)
+
+  client.select(REDIS_CONFIG.select)
+
+  redblade.init({ schema: './schema', client: client }, function(err) {
+    var redisstore = RedisStore(client)
+    webSvr.sessionStore = redisstore
   })
-
-
-  /*
-  * Store session in redis?
-  */
-  if (REDIS_CONFIG && REDIS_CONFIG.host) {
-    // Binding sessionTimeout value from websvr
-    var sessionTimeout = webSvr.settings.sessionTimeout;
-    REDIS_CONFIG.sessionTimeout = sessionTimeout;
-
-    console.log('sessionTimeout', sessionTimeout);
-
-    var RedisStore = require('websvr-redis');
-    RedisStore.start(REDIS_CONFIG);
-    webSvr.sessionStore = RedisStore;
-
-    // Clear expired session, only 1 refresh timer is needed
-    if (REDIS_CONFIG.clean) {
-      console.log('session cleaner inited');
-      setInterval(RedisStore.clear, sessionTimeout);
-      RedisStore.clear();
-    }
-  }
-
-
 })()
