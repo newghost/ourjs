@@ -11,10 +11,8 @@
 */
 var fs              = require('fs')
   , utility         = require('./utility')
-  , Schema          = require('./schema')
   , config          = global.CONFIG
-  , GENERAL_CONFIG  = config.GENERAL_CONFIG
-  , adapter         = global.DataAdapter
+  , redblade        = require('redblade')
 
 
 /*
@@ -71,14 +69,46 @@ var signin = function(signinUser) {
   return
 }
 
-var autosign = function(cookieInfo) {
-  if (cookieInfo.autosign && cookieInfo._id && cookieInfo.token) {
-    var signedUser = users[cookieInfo.autosign] || {}
-    if (signedUser._id == cookieInfo._id && utility.getEncryption(signedUser.email) == cookieInfo.token) {
-      return signedUser
-    }
+var AUTOSIGNIN_TOKEN = 'ourjskris1qaz@WSX'
+
+var setAutoSignin = function(req, res, userInfo) {
+  var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
+    , opts = { path: '/', expires: date, httponly: true }
+
+  WEBSVR_CONFIG.sessionDomain && (opts.domain = WEBSVR_CONFIG.sessionDomain)
+
+  res.cookie('t0', userInfo.username, opts)
+  res.cookie('t1', util.getEncryption(userInfo.email, AUTOSIGNIN_TOKEN), opts)
+  res.cookie('t2', util.getEncryption(userInfo.joinedTime, AUTOSIGNIN_TOKEN), opts)
+}
+
+var getAutoSignin = function(cookieInfo, cb) {
+  if (cookieInfo.t0 && cookieInfo.t1 && cookieInfo.t2) {
+    redblade.client.hget('user:' + cookieInfo.t0, function(err, userInfo) {
+      if (!err && userInfo) {
+        var t1 = utility.getEncryption(signedUser.email, AUTOSIGNIN_TOKEN)
+          , t2 = utility.getEncryption(signedUser.joinedTime, AUTOSIGNIN_TOKEN)
+
+        if (cookieInfo.t1 == t1 && cookieInfo.t2 == t2) {
+          cb && cb(userInfo)
+        }
+      } else {
+        cb && cb()
+      }
+    })
+  } else {
+    cb && cb() 
   }
-  return
+}
+
+var getUser = function(username, cb) {
+  redblade.client.hget('user:' + username, function(err, userInfo) {
+    if (!err && userInfo) {
+      cb && cb(userInfo)
+    } else {
+      cb && cb()
+    }
+  })
 }
 
 var signup = function(userInfo, cb) {
@@ -138,11 +168,9 @@ var update = function(userInfo, cb) {
 }
 
 module.exports = {
-    refresh     : refresh
-  , autosign    : autosign
-  , signin      : signin
+    getAutoSignin : getAutoSignin
+  , setAutoSignin : setAutoSignin
+  , getUser       : getUser
   , signup      : signup
   , update      : update
-  , users       : users
-  , usersEmail  : usersEmail
 }

@@ -1,8 +1,8 @@
 {
-    "username"      : "shown,id"
+    "username"      : "shown;id"
   , "password"      : ""
   , "briefinfo"     : ""
-  , "email"         : "shown,index('email'),unique('email')"
-  , "isAdmin"       : "shown,int"
-  , "joinedTime"    : "int"
+  , "email"         : "shown;index('email');unique('email')"
+  , "isAdmin"       : "shown;int"
+  , "joinedTime"    : "int;"
 }

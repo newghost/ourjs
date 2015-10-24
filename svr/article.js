@@ -13,10 +13,7 @@ var fs              = require('fs')
   , path            = require('path')
   , events          = require('events')
   , utility         = require('./utility')
-  , categories      = require('./category').categories
   , config          = global.CONFIG
-  , GENERAL_CONFIG  = config.GENERAL_CONFIG
-  , adapter         = global.DataAdapter
 
 
 var list              = []    //all list order with publish date
@@ -27,8 +24,10 @@ var list              = []    //all list order with publish date
   , urlSlugsArticles  = {}    //sort articles by url slugs
   , userArticles      = {}
   , refreshTimer      = 0
-  , Users             = global.Users
 
+
+var User      = require('./user')
+  , redblade  = require('redblade')
 
 
 var notify = new events.EventEmitter()
@@ -250,19 +249,37 @@ var refresh = function() {
 }
 
 
+var getArticlesFromIDs = function(IDs, cb) {
+  var count     = 0
+    , articles  = []
+
+  var getArticleFromID = function(id) {
+    redblade.client.hgetall('article:' + id, function(err, article) {
+      if (!err) {
+        articles.push(article)
+      }
+
+      ++count == IDs.length && cb && cb(articles)
+    })
+  }
+
+  IDs && IDs.length
+    ? IDs.forEach(getArticleFromID)
+    : cb && cb(articles)
+}
+
+var getArticles = function(start, end, cb) {
+  redblade.client.zrange('public:1', start, end, function(err, articleIDs) {
+    if (!err) {
+      getArticlesFromIDs(articleIDs, cb)
+    } else {
+      cb && cb([])
+    }
+  })
+}
+
+
 module.exports = {
-    notify            : notify
-  , find              : find
-  , findSimilar       : findSimilar
-  , getTitleFromIDs   : getTitleFromIDs
-  , update            : update
-  , remove            : remove
-  , refresh           : refresh
-  , all               : all
-  , list              : list
-  , replyList         : replyList
-  , categoryArticles  : categoryArticles
-  , keywordsArticles  : keywordsArticles
-  , urlSlugsArticles  : urlSlugsArticles
-  , userArticles      : userArticles
+    getArticlesFromIDs  : getArticlesFromIDs
+  , getArticles         : getArticles
 }

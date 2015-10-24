@@ -18,13 +18,9 @@ var fs          = require('fs')
   , config      = global.CONFIG = require(path.join('../', process.argv[2]))
 
 
-/*
 var User    = require('./user')
   , Article = require('./article')
-*/
-
-
-var utility = require('./utility')
+  , utility = require('./utility')
 
 
 /*
@@ -51,64 +47,72 @@ var model = {}
 webSvr.model(model)
 */
 
-
+/*
+对所有请求均自动解析并附加session方法
+*/
 webSvr.session(function(req, res) {
   var url       = req.url
     , username  = req.session.get('username')
+    , cookies   = req.cookies
 
 
-  //auto signin
-  if (!username) {
-    var signedUser = Users.autosign(req.cookies)
-    signedUser && req.session.set('username', signedUser.username)
+  var handleNext = function() {
+    //if root dir redirect to home, etc /, /?abc=1234
+    if (url == '/' || url[1] == '?') {
+      showListHandler(req, res, "/home/")
+    } else {
+      req.filter.next()
+    }
   }
 
-  !req.session.get('last_reply') && req.session.set('last_reply', + new Date() / 1000 | 0)
-
-  //if root dir redirect to home, etc /, /?abc=1234
-  if (url == '/' || url[1] == '?') {
-    showListHandler(req, res, "/home/")
+  //自动登录
+  if (!username && cookies.t0) {
+    User.getAutoSignin(cookies, function(signedUser) {
+      signedUser && req.session.set('username', signedUser.username)
+      handleNext()
+    })
   } else {
-    req.filter.next()
+    handleNext()
   }
 })
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
-  var params      = webSvr.parseUrl('/:template/:category/:pagerNumber', url || req.url)
+  var params      = webSvr.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
     , template    = params.template || 'home'
+    , keyword     = params.keyword  || 'all'
     , pageNumber  = parseInt(params.pagerNumber) || 0
+    , pageSize    = 40
 
-
-  var articles = (Articles.categoryArticles[category] || []).slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-
-  if (template == 'json') {
-    //render json page: remove contents in the article list
-    var shortArticles = []
-    articles.forEach(function(article) {
-      shortArticles.push({
-          _id       : article._id
-        , url       : article.url
-        , author    : article.poster
-        , title     : article.title
-        , summary   : article.summary
-        , content   : article.content ? 1 : 0
-        , postDate  : article.postDate
-        , replyNum  : 0
+  Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
+    if (template == 'json') {
+      //render json page: remove contents in the article list
+      var shortArticles = []
+      articles.forEach(function(article) {
+        shortArticles.push({
+            id        : article.id
+          , url       : article.url
+          , author    : article.poster
+          , title     : article.title
+          , summary   : article.summary
+          , content   : article.content ? 1 : 0
+          , postDate  : article.postDate
+          , replyNum  : 0
+        })
       })
-    })
-    res.send(shortArticles)
-  } else {
-    var user = Users.getUser(req.session.get('username')) || {}
+      res.send(shortArticles)
+    } else {
+      var user = User.getUser(req.session.get('username')) || {}
 
-    template.indexOf('rss') > -1 && res.type('xml')
+      template.indexOf('rss') > -1 && res.type('xml')
 
-    res.render(template + ".tmpl", {
-        user      : user
-      , articles  : articles
-      , nextPage  : '/' + template + '/' + category + '/' + (pageNumber + 1)
-    })
-  }
+      res.render(template + ".tmpl", {
+          user      : user
+        , articles  : articles
+        , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+      })
+    }
+  })
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
@@ -416,7 +420,7 @@ webSvr.url('/u/:username', function(req, res) {
   client.select(REDIS_CONFIG.select)
 
   redblade.init({ schema: './schema', client: client }, function(err) {
-    var redisstore = RedisStore(client)
+    var redisstore = RedisStore(client, WEBSVR_CONFIG.sessionTimeout)
     webSvr.sessionStore = redisstore
   })
 })()
