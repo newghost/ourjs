@@ -229,10 +229,14 @@ webSvr.url('/user.signup.post', function(req, res) {
       , email:    postInfo.email
     }
 
-  Users.signup(userInfo, function(signupUser) {
-    signHandler(req, res, signupUser)
-  })
+  User.signup(userInfo, function(err) {
+    if (err) {
+      res.send({ error: err.toString() })
+      return
+    }
 
+    signHandler(req, res, userInfo)
+  })
 }, 'qs')
 
 webSvr.url('/user.signin.post', function(req, res) {

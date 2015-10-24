@@ -20,6 +20,9 @@ var WEBSVR_CONFIG = {
   //want to share same cookie between bbs.ourjs.com and ourjs.com? Using: ourjs.com
   , sessionDomain   : ''
   , serverID        : ''
+
+  , PASSWORD_TOKEN  : 'OURJSCOM6YHN!qazqedc<>?:"oi'
+  , AUTOSIGN_TOKEN  : 'ourjskris1qaz@WSX'
 };
 
 
@@ -47,7 +50,7 @@ var REDIS_CONFIG = {
     port    : 6379
   , host    : ''
   , auth    : ''
-  , select  : 0
+  , select  : 7
   , clean   : false
 };
 

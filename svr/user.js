@@ -54,23 +54,6 @@ var exist = function(userInfo) {
 
 }
 
-var signin = function(signinUser) {
-  var userInfo
-
-  if (signinUser.username && signinUser.password) {
-
-    userInfo = users[signinUser.username] || usersEmail[signinUser.username]
-
-    if (userInfo && userInfo.password === utility.getEncryption(signinUser.password)) {
-      return userInfo
-    }
-  }
-
-  return
-}
-
-var AUTOSIGNIN_TOKEN = 'ourjskris1qaz@WSX'
-
 var setAutoSignin = function(req, res, userInfo) {
   var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
     , opts = { path: '/', expires: date, httponly: true }
@@ -78,16 +61,16 @@ var setAutoSignin = function(req, res, userInfo) {
   WEBSVR_CONFIG.sessionDomain && (opts.domain = WEBSVR_CONFIG.sessionDomain)
 
   res.cookie('t0', userInfo.username, opts)
-  res.cookie('t1', util.getEncryption(userInfo.email, AUTOSIGNIN_TOKEN), opts)
-  res.cookie('t2', util.getEncryption(userInfo.joinedTime, AUTOSIGNIN_TOKEN), opts)
+  res.cookie('t1', utility.getEncryption(userInfo.email, WEBSVR_CONFIG.AUTOSIGN_TOKEN), opts)
+  res.cookie('t2', utility.getEncryption(userInfo.joinedTime, WEBSVR_CONFIG.AUTOSIGN_TOKEN), opts)
 }
 
 var getAutoSignin = function(cookieInfo, cb) {
   if (cookieInfo.t0 && cookieInfo.t1 && cookieInfo.t2) {
     redblade.client.hget('user:' + cookieInfo.t0, function(err, userInfo) {
       if (!err && userInfo) {
-        var t1 = utility.getEncryption(signedUser.email, AUTOSIGNIN_TOKEN)
-          , t2 = utility.getEncryption(signedUser.joinedTime, AUTOSIGNIN_TOKEN)
+        var t1 = utility.getEncryption(signedUser.email, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
+          , t2 = utility.getEncryption(signedUser.joinedTime, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
 
         if (cookieInfo.t1 == t1 && cookieInfo.t2 == t2) {
           cb && cb(userInfo)
@@ -112,23 +95,27 @@ var getUser = function(username, cb) {
 }
 
 var signup = function(userInfo, cb) {
-  if (!exist(userInfo)
-    && userInfo.username.length > 3 && userInfo.password.length > 3
-    && userInfo.email.length > 3) {
+  redblade.insert('user', userInfo, function(err, result) {
+    if (err) {
+      cb && cb(err)
+      return
+    }
 
-    userInfo.password   = utility.getEncryption(userInfo.password)
-    userInfo.joinedTime = + new Date()
-    Schema.filter('user', userInfo)
+    cb && cb()
+  })
+}
 
-    adapter.insert('user', userInfo, function(record) {
-      //Update cache
-      userInfo.avatar = utility.md5(userInfo.email)
-      users[userInfo.username]   = userInfo
-      usersEmail[userInfo.email] = userInfo
-      return cb && cb(userInfo)
+var signin = function(signinUser, cb) {
+  if (signinUser.username && signinUser.password) {
+    redblade.client.hgetall('user:' + signinUser.username, function(err, userInfo) {
+      if (userInfo && userInfo.password === utility.getEncryption(signinUser.password)) {
+        cb && cb(userInfo)
+        return
+      }
+      cb && cb()
     })
   } else {
-    return cb && cb(false)
+    cb && cb()
   }
 }
 
@@ -171,6 +158,7 @@ module.exports = {
     getAutoSignin : getAutoSignin
   , setAutoSignin : setAutoSignin
   , getUser       : getUser
-  , signup      : signup
-  , update      : update
+  , signup        : signup
+  , signin        : signin
+  , update        : update
 }

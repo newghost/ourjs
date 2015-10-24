@@ -8,7 +8,7 @@
 
 var crypto          = require('crypto')
   , config          = global.CONFIG
-  , GENERAL_CONFIG  = config.GENERAL_CONFIG
+  , WEBSVR_CONFIG   = config.WEBSVR_CONFIG
 
 
 var utility = {}
@@ -129,8 +129,8 @@ utility.getTimestampFromDate = function(date) {
 /*
 bcrypt need some dependency on Windows, so use crypto
 */
-utility.getEncryption = function(str) {
-  var cipher = crypto.createCipher('aes256', GENERAL_CONFIG.CRYPTOKEY)  
+utility.getEncryption = function(str, token) {
+  var cipher = crypto.createCipher('aes256', token || WEBSVR_CONFIG.PASSWORD_TOKEN)
   var encrypted = cipher.update(str, 'utf8', 'hex') + cipher.final('hex')
   return encrypted
 }
