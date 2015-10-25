@@ -109,7 +109,6 @@ var showListHandler = function(req, res, url) {
       res.render(template + ".tmpl", {
           user      : user
         , articles  : articles
-        , keywords  : []
         , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
       })
     }
@@ -195,14 +194,8 @@ var signHandler = function(req, res, userInfo) {
   if (userInfo && userInfo.username)  {
     req.session.set('username', userInfo.username)
 
-    if (req.cookies.autosign || req.body.autosign === 'on') {
-      var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
-        , opts = { path: '/', expires: date, domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
-
-
-      res.cookie('autosign', userInfo.username, opts)
-      res.cookie('_id', userInfo._id, opts)
-      res.cookie('token', utility.getEncryption(userInfo.email), opts)
+    if (req.body.autosign === 'on') {
+      User.setAutoSignin(req, res, userInfo)
     }
 
     req.url.indexOf('redirect') < 0
@@ -242,8 +235,11 @@ webSvr.url('/user.signup.post', function(req, res) {
 
 webSvr.url('/user.signin.post', function(req, res) {
   var userInfo = req.body
-  var signedUser = Users.signin(userInfo)
-  signHandler(req, res, signedUser)
+  User.signin(userInfo, function(signedUser) {
+    signedUser
+      ? signHandler(req, res, signedUser)
+      : res.send({ error: '登录失败' })
+  })
 }, 'qs')
 
 /*

@@ -11,7 +11,7 @@
 */
 var fs              = require('fs')
   , utility         = require('./utility')
-  , config          = global.CONFIG
+  , WEBSVR_CONFIG   = require('../config').WEBSVR_CONFIG
   , redblade        = require('redblade')
 
 
@@ -95,6 +95,8 @@ var getUser = function(username, cb) {
 }
 
 var signup = function(userInfo, cb) {
+  userInfo.password && (userInfo.password = utility.getEncryption(userInfo.password))
+
   redblade.insert('user', userInfo, function(err, result) {
     if (err) {
       cb && cb(err)

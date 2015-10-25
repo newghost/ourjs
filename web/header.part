@@ -33,17 +33,17 @@
           <a href="/bbs/">全端</a>
         </li>
         <li class="dropdown">
-          {{?it.username}}
+          {{?it.user}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <i class="icon-edit"></i>
-            <span>{{=it.username || '发布'}}</span>
+            <span>{{=it.user.username || '发布'}}</span>
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li><a href="/root/edit/add">发布文章</a></li>
             <li class="divider"></li>
-            <li><a href="/userinfo/{{=it.username}}">我的文集</a></li>
-            <li><a href="/useredit/{{=it.username}}">修改资料</a></li>
+            <li><a href="/userinfo/{{=it.user.username}}">我的文集</a></li>
+            <li><a href="/useredit/{{=it.user.username}}">修改资料</a></li>
             <li class="divider"></li>
             <li><a href="javascript:OurJS.Users.signout()">退出登录</a></li>
           </ul>
@@ -55,7 +55,7 @@
           </a>
           {{?}}
         </li>
-        {{?it.username}}
+        {{?it.user}}
         <li class="dropdown pull-right">
           <a data-toggle="dropdown" class="dropdown-toggle" href="/">
             <span>订阅我们</span>
