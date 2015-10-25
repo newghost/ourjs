@@ -1014,7 +1014,7 @@ var WebSvr = module.exports = function(options) {
         params = Object.create(defaultModel);
         _.extend(params, model);
       } else {
-        params = model;
+        params = model || {};
       }
 
       try {
