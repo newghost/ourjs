@@ -36,21 +36,20 @@ var WEBSVR_CONFIG   = config.WEBSVR_CONFIG
 
 
 //Start the WebSvr
-var webSvr  = WebSvr(WEBSVR_CONFIG)
+var app = WebSvr(WEBSVR_CONFIG)
 
 
-/*
-webSvr.engine(require("./doT").compile)
+//app.engine(require("./doT").compile)
 
-//Default model of webSvr, for header/footer
-var model = {}
-webSvr.model(model)
-*/
+//Default model of app, for header/footer
+var defaultModel = {}
+app.model(defaultModel)
+
 
 /*
 对所有请求均自动解析并附加session方法
 */
-webSvr.session(function(req, res) {
+app.use(function(req, res) {
   var url       = req.url
     , username  = req.session.get('username')
     , cookies   = req.cookies
@@ -65,20 +64,33 @@ webSvr.session(function(req, res) {
     }
   }
 
-  //自动登录
-  if (!username && cookies.t0) {
-    User.getAutoSignin(cookies, function(signedUser) {
-      signedUser && req.session.set('username', signedUser.username)
+  //已经登录
+  if (username) {
+    User.getUser(username, function(loginUser) {
+      if (loginUser) {
+        defaultModel.user = loginUser
+      }
       handleNext()
     })
-  } else {
+  }
+  //自动登录
+  else if (cookies.t0) {
+    User.getAutoSignin(cookies, function(signedUser) {
+      if (signedUser) {
+        req.session.set('username', signedUser.username)
+        defaultModel.user = signedUser
+      }
+      handleNext()
+    })
+  }
+  else {
     handleNext()
   }
-})
+}, { session: true })
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
-  var params      = webSvr.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
+  var params      = app.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
     , template    = params.template || 'home'
     , keyword     = params.keyword  || 'all'
     , pageNumber  = parseInt(params.pagerNumber) || 0
@@ -116,7 +128,7 @@ var showListHandler = function(req, res, url) {
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-webSvr.url('/home', showListHandler)
+app.url(['/home', '/json', '/rss'], showListHandler)
 
 //handle detail.tmpl: content of article
 var showDetailHandler = function(req, res) {
@@ -152,15 +164,15 @@ var showDetailHandler = function(req, res) {
 }
 
 //127.0.0.1/detail/2340234erer23343[OjbectID]
-webSvr.url('/article/:id', showDetailHandler)
+app.url('/article/:id', showDetailHandler)
 
 
 //clear template cache
-webSvr.url('/clear', function(req, res) {
+app.url('/clear', function(req, res) {
   var username = req.session.get('username')
 
   if ((Users.users[username] || {}).isAdmin) {
-    webSvr.clear()
+    app.clear()
     res.end('done')
   } else {
     res.send(401, MESSAGES.NOPERMISSION)
@@ -168,7 +180,7 @@ webSvr.url('/clear', function(req, res) {
 })
 
 
-webSvr.url('/useredit/:username', function(req, res) {
+app.url('/useredit/:username', function(req, res) {
   var username  = req.params.username
     , loginUser = req.session.get('username')
 
@@ -215,7 +227,7 @@ var signHandler = function(req, res, userInfo) {
   return false
 }
 
-webSvr.url('/user.signup.post', function(req, res) {
+app.url('/user.signup.post', function(req, res) {
   var postInfo = req.body
     , userInfo = {
         username: postInfo.username
@@ -233,7 +245,7 @@ webSvr.url('/user.signup.post', function(req, res) {
   })
 }, 'qs')
 
-webSvr.url('/user.signin.post', function(req, res) {
+app.url('/user.signin.post', function(req, res) {
   var userInfo = req.body
   User.signin(userInfo, function(signedUser) {
     signedUser
@@ -245,7 +257,7 @@ webSvr.url('/user.signin.post', function(req, res) {
 /*
 * user.edit.post: response json
 */
-webSvr.url('/user.edit.post', function(req, res) {
+app.url('/user.edit.post', function(req, res) {
   var postInfo  = req.body
     , loginUser = Users.users[req.session.get('username')]
 
@@ -270,7 +282,7 @@ webSvr.url('/user.edit.post', function(req, res) {
 
 }, 'qs')
 
-webSvr.url('/user.signout.post', function(req, res) {
+app.url('/user.signout.post', function(req, res) {
   var username = req.session.get('username')
     , opts     = { path: '/', domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
@@ -324,7 +336,7 @@ page number start from 0
 */
 var keyListHandler = function(req, res, url) {
 
-  var params      = url ? webSvr.parseUrl('/:keymeta/:keyword/:pageNumber', url) : req.params
+  var params      = url ? app.parseUrl('/:keymeta/:keyword/:pageNumber', url) : req.params
     , keymeta     = req.url.split('/')[1] || ''
     , keyword     = params.keyword || ''
     , pageNumber  = parseInt(params.pageNumber) || 0
@@ -364,7 +376,7 @@ var keyListHandler = function(req, res, url) {
 /*
 userinfo: get userinfo and he articles
 */
-webSvr.url('/u/:username', function(req, res) {
+app.url('/u/:username', function(req, res) {
   var url     = req.url
     , params  = req.params
 
@@ -413,7 +425,7 @@ webSvr.url('/u/:username', function(req, res) {
 * Init
 */
 ;(function() {
-  global.webSvr = webSvr
+  global.app = global.webSvr = app
 
   var client = redis.createClient(REDIS_CONFIG)
 
@@ -421,6 +433,10 @@ webSvr.url('/u/:username', function(req, res) {
 
   redblade.init({ schema: './schema', client: client }, function(err) {
     var redisstore = RedisStore(client, WEBSVR_CONFIG.sessionTimeout)
-    webSvr.sessionStore = redisstore
+    app.sessionStore = redisstore
+
+    //addons
+    require('./root')
+    require('../admin/plugins')
   })
 })()

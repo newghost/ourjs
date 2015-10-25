@@ -9,35 +9,21 @@
 //import namespace
 var qs        = require("querystring")
   , utility   = require("./utility")
-  , Schema    = require('./schema')
   , UrlSlug   = require('./urlSlug')
-  , category  = require('./category')
+  , webSvr    = global.webSvr 
+  , redblade  = require('redblade')
+  , User      = require('./user')
+  , Article   = require('./article')
 
 
-var config          = global.CONFIG
-  , MESSAGES        = config.MESSAGES
-  , DATA_CONFIG     = config.DATA_CONFIG
-  , GENERAL_CONFIG  = config.GENERAL_CONFIG
-  , adapter         = global.adapter = require('./dataAdapter/' + GENERAL_CONFIG.dataAdapter)
-  , webSvr          = global.webSvr
-  , Articles        = global.Articles
-  , Users           = global.Users
-  , articlesCount   = global.articlesCount
-  , postIntervals   = {}
 
-
-webSvr.handle(GENERAL_CONFIG.rootEditUrl, function(req, res) {
-  var username  = req.session.get("username")
+webSvr.handle('/root/edit/:id', function(req, res) {
+  var username  = req.session.get('username')
     , id        = req.params.id
-    , userInfo  = Users.users[username] || {}
+    , userInfo  = req.session.get('')
 
 
   if (id == "add") {
-    var interval = getPostInterval(userInfo)
-    if (interval > 0) {
-      return res.end(MESSAGES.NEED_WAIT.format(interval))
-    }
-
     res.render(GENERAL_CONFIG.rootEditTmpl, {
         categoryOpts: category.categoryOpts
       , keywordsOpts: category.keywordsOpts
@@ -45,17 +31,21 @@ webSvr.handle(GENERAL_CONFIG.rootEditUrl, function(req, res) {
       , isAdmin:      userInfo.isAdmin
     })
   } else {
-    var article = Articles.all[id]
-    if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-      var renderArticle = Object.create(article)
-      renderArticle.categoryOpts  = category.categoryOpts
-      renderArticle.keywordsOpts  = category.keywordsOpts
-      renderArticle.isAdmin       = userInfo.isAdmin
-      renderArticle.username      = username
-      res.render(GENERAL_CONFIG.rootEditTmpl, renderArticle)
-    } else {
-      res.end(MESSAGES.NOPERMISSION)
-    }
+    Article.getArticlesFromIDs([id], function(articles) {
+      var article = articles[0]
+
+      if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
+        var renderArticle = Object.create(article)
+        renderArticle.categoryOpts  = category.categoryOpts
+        renderArticle.keywordsOpts  = category.keywordsOpts
+        renderArticle.isAdmin       = userInfo.isAdmin
+        renderArticle.username      = username
+        res.render(GENERAL_CONFIG.rootEditTmpl, renderArticle)
+      } else {
+        res.end(MESSAGES.NOPERMISSION)
+      }
+    })
+
   }
 })
 
@@ -133,7 +123,7 @@ webSvr.handle("/root/edit.post", function(req, res) {
 }, 'qs')
 
 
-webSvr.handle(GENERAL_CONFIG.rootDeleUrl, function(req, res) {
+webSvr.handle('/root/delete/:id', function(req, res) {
   var id        = req.params.id
     , username  = req.session.get('username')
     , userInfo  = Users.users[username] || {}
@@ -153,7 +143,7 @@ webSvr.handle(GENERAL_CONFIG.rootDeleUrl, function(req, res) {
   res.end(MESSAGES.NOPERMISSION)
 })
 
-webSvr.handle(GENERAL_CONFIG.rootPubUrl, function(req, res) {
+webSvr.handle('/root/publish/:id', function(req, res) {
   var id          = req.params.id
     , username    = req.session.get('username')
     , userInfo    = Users.users[username] || {}

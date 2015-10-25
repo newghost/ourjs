@@ -4,5 +4,5 @@
   , "briefinfo"     : "minlen(4);maxlen(64)"
   , "email"         : "shown;minlen(4);maxlen(64);index('email');unique('email')"
   , "isAdmin"       : "shown;int"
-  , "joinedTime"    : "int"
+  , "joinedTime"    : "int;"
 }

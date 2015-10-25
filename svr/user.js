@@ -15,45 +15,6 @@ var fs              = require('fs')
   , redblade        = require('redblade')
 
 
-/*
-Users for caching
-*/
-var users       = {}
-  , usersEmail  = {}
-
-
-var refresh = function() {
-  //Clear the cache objects
-  for (var user in users) {
-    delete users[user]
-  }
-
-  for (var user in usersEmail) {
-    delete usersEmail[user]
-  }
-
-  adapter.select('user', function(docs) {
-    for (var i = 0; i < docs.length; i++) {
-      var user = docs[i]
-      users[user.username] = user
-      users[user.email]    = user
-      user.avatar = utility.md5(user.email)
-    }
-    console.log('Refresh users', docs.length)
-  })
-}
-
-/*
-* User is existing, userInfo is undefined, username is undefined, user is existing
-*/
-var exist = function(userInfo) {
-  return !userInfo
-      || !userInfo.username
-      || users[userInfo.username]
-      || (userInfo.email && usersEmail[userInfo.email])
-
-}
-
 var setAutoSignin = function(req, res, userInfo) {
   var date = new Date(+new Date() + 365 * 24 * 3600 * 1000)
     , opts = { path: '/', expires: date, httponly: true }
@@ -96,6 +57,7 @@ var getUser = function(username, cb) {
 
 var signup = function(userInfo, cb) {
   userInfo.password && (userInfo.password = utility.getEncryption(userInfo.password))
+  userInfo.joinedTime = +new Date()
 
   redblade.insert('user', userInfo, function(err, result) {
     if (err) {
