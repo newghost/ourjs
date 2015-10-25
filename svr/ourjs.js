@@ -109,6 +109,7 @@ var showListHandler = function(req, res, url) {
       res.render(template + ".tmpl", {
           user      : user
         , articles  : articles
+        , keywords  : []
         , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
       })
     }
@@ -388,14 +389,13 @@ webSvr.url('/u/:username', function(req, res) {
     var shortArticles = []
     articles.forEach(function(article) {
       shortArticles.push({
-          _id: article._id
+          id: article._id
         , url: article.url
         , author:   article.poster
         , title:    article.title
         , summary:  article.summary
         , content:  article.content ? 1 : 0
         , postdate: article.postdatetime
-        , category: article.category
         , keyword:  article.keyword
         , replyNum: (article.replies || '').length
       })

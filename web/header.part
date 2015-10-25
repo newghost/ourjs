@@ -23,9 +23,7 @@
           <ul class="dropdown-menu">
             <li class="nav-header">文章分类</li>
             <li class="divider"></li>
-            {{ for(var category in it.categories) { }}
-            <li><a href="/{{=it.homemeta}}/{{=category || ''}}/">{{=category || '所有文章'}}</a></li>
-            {{ } }}
+            <li><a href="/home//">所有文章</a></li>
             <li class="divider"></li>
             <li><a href="/rss" target="_blank">RSS订阅</a></li>
             <li><a href="#top" id="aboutlink">关于我们</a></li>

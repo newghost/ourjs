@@ -16,7 +16,8 @@ var WEBSVR_CONFIG = {
   , listDir         : debug
   , defaultPage     : ''
   , 404             : "404.tmpl"
-  , sessionTimeout  : 36000000
+  //one hour
+  , sessionTimeout  : 3600
   //want to share same cookie between bbs.ourjs.com and ourjs.com? Using: ourjs.com
   , sessionDomain   : ''
   , serverID        : ''

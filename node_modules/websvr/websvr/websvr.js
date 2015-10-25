@@ -942,6 +942,7 @@ var WebSvr = module.exports = function(options) {
 
     //Caching of template files.
     var templatePool    = {}
+      , includeString   = '<!--#include="'
       , includeRegExp   = /<!--#include="[\w\.\\\/]+"-->/g
       , includeBeginLen = 14
       , includeAfterLen = 4
@@ -955,8 +956,25 @@ var WebSvr = module.exports = function(options) {
     //get a file
     var getFile = function(filename, cb) {
       //if template cache enabled, get from cache pool directly
-      if (Settings.templateCache && templatePool[filename]) {
-        cb && cb(templatePool[filename]);
+      var cachedTemplate = templatePool[filename]
+
+      var updateCache = function(err, tmpl) {
+        if (err) {
+          Logger.debug(err);
+          cb && cb("");
+        } else {
+          tmpl = getInclude(tmpl.toString(), cb)
+          templatePool[filename] = tmpl;
+          Logger.debug('update template cache', filename);
+        }
+      };
+
+      if (Settings.templateCache && cachedTemplate) {
+        if (cachedTemplate.indexOf(includeString) > -1) {
+          updateCache(null, cachedTemplate);
+        } else {
+          cb && cb(templatePool[filename]);
+        }
       } else {
         /*
         * webSvr.render('/home.tmpl', model)  : means related to Setting.root
@@ -966,16 +984,7 @@ var WebSvr = module.exports = function(options) {
           , fullpath  = path.join(firstChar == '/' ? Settings.root : Settings.home, filename)
           ;
 
-        fs.readFile(fullpath, function(err, tmpl) {
-          if (err) {
-            Logger.debug(err);
-            cb && cb("");
-          } else {
-            tmpl = getInclude(tmpl.toString(), cb)
-            templatePool[filename] = tmpl;
-            Logger.debug('update template cache', filename);
-          }
-        });
+        fs.readFile(fullpath, updateCache);
       }
     };
 
@@ -989,7 +998,7 @@ var WebSvr = module.exports = function(options) {
         Logger.debug('Include File:', fileStr);
         var includeFile = fileStr.substring(includeBeginLen, fileStr.length - includeAfterLen);
         getFile(includeFile);
-        return templatePool[includeFile] || '';
+        return templatePool[includeFile] || fileStr;
       });
 
       cb && cb (tmpl)
