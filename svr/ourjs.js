@@ -42,8 +42,11 @@ var app = WebSvr(WEBSVR_CONFIG)
 //app.engine(require("./doT").compile)
 
 //Default model of app, for header/footer
+/*
+//所有人都一样的model
 var defaultModel = {}
 app.model(defaultModel)
+*/
 
 
 /*
@@ -51,11 +54,11 @@ app.model(defaultModel)
 */
 app.use(function(req, res) {
   var url       = req.url
-    , username  = req.session.get('username')
+    , user      = req.session.get('user') || {}
     , cookies   = req.cookies
 
 
-  var handleNext = function() {
+  var handleNext = function(userInfo) {
     //if root dir redirect to home, etc /, /?abc=1234
     if (url == '/' || url[1] == '?') {
       showListHandler(req, res, "/home/")
@@ -64,28 +67,16 @@ app.use(function(req, res) {
     }
   }
 
-  //已经登录
-  if (username) {
-    User.getUser(username, function(loginUser) {
-      if (loginUser) {
-        defaultModel.user = loginUser
-      }
+  //未登录且有自动登录的cookie
+  if (!user.username && cookies.t0) {
+    User.getAutoSignin(cookies, function(userInfo) {
+      req.session.set('user', userInfo || {})
       handleNext()
     })
-  }
-  //自动登录
-  else if (cookies.t0) {
-    User.getAutoSignin(cookies, function(signedUser) {
-      if (signedUser) {
-        req.session.set('username', signedUser.username)
-        defaultModel.user = signedUser
-      }
-      handleNext()
-    })
-  }
-  else {
+  } else {
     handleNext()
   }
+
 }, { session: true })
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
@@ -95,6 +86,7 @@ var showListHandler = function(req, res, url) {
     , keyword     = params.keyword  || 'all'
     , pageNumber  = parseInt(params.pagerNumber) || 0
     , pageSize    = 40
+    , user        = req.session.get('user') || {}
 
   Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
     if (template == 'json') {
@@ -114,8 +106,6 @@ var showListHandler = function(req, res, url) {
       })
       res.send(shortArticles)
     } else {
-      var user = User.getUser(req.session.get('username')) || {}
-
       template.indexOf('rss') > -1 && res.type('xml')
 
       res.render(template + ".tmpl", {
@@ -144,11 +134,9 @@ var showDetailHandler = function(req, res) {
       //count the article
       articlesCount.add(article._id)
 
-      var loginUser = Users.users[req.session.get('username')] || {}
-
       res.render(tmpl + ".tmpl", {
           article : article
-        , user    : userInfo
+        , user    : req.session.get('user')
         , poster  : posterInfo
       })
     }

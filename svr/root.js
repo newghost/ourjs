@@ -20,27 +20,17 @@ var qs        = require("querystring")
 webSvr.handle('/root/edit/:id', function(req, res) {
   var username  = req.session.get('username')
     , id        = req.params.id
-    , userInfo  = req.session.get('')
+    , userInfo  = req.session.get('userInfo')
 
 
   if (id == "add") {
-    res.render(GENERAL_CONFIG.rootEditTmpl, {
-        categoryOpts: category.categoryOpts
-      , keywordsOpts: category.keywordsOpts
-      , username:     username
-      , isAdmin:      userInfo.isAdmin
-    })
+    res.render('edit.tmpl')
   } else {
     Article.getArticlesFromIDs([id], function(articles) {
       var article = articles[0]
 
       if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-        var renderArticle = Object.create(article)
-        renderArticle.categoryOpts  = category.categoryOpts
-        renderArticle.keywordsOpts  = category.keywordsOpts
-        renderArticle.isAdmin       = userInfo.isAdmin
-        renderArticle.username      = username
-        res.render(GENERAL_CONFIG.rootEditTmpl, renderArticle)
+        res.render('edit.tmpl', { article: article })
       } else {
         res.end(MESSAGES.NOPERMISSION)
       }
