@@ -7,7 +7,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <a href="/" class="brand">Our<b>JS</b></a>
+      <a href="/" class="brand">Any<b>NB</b></a>
 
       <button type="button" class="btn btn-navbar">
         <span class="icon-bar"></span>
@@ -33,7 +33,7 @@
           <a href="/bbs/">全端</a>
         </li>
         <li class="dropdown">
-          {{?it.user}}
+          {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <i class="icon-edit"></i>
             <span>{{=it.user.username || '发布'}}</span>
@@ -55,7 +55,7 @@
           </a>
           {{?}}
         </li>
-        {{?it.user}}
+        {{?it.user.username}}
         <li class="dropdown pull-right">
           <a data-toggle="dropdown" class="dropdown-toggle" href="/">
             <span>订阅我们</span>

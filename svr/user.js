@@ -28,10 +28,10 @@ var setAutoSignin = function(req, res, userInfo) {
 
 var getAutoSignin = function(cookieInfo, cb) {
   if (cookieInfo.t0 && cookieInfo.t1 && cookieInfo.t2) {
-    redblade.client.hget('user:' + cookieInfo.t0, function(err, userInfo) {
+    redblade.client.hgetall('user:' + cookieInfo.t0, function(err, userInfo) {
       if (!err && userInfo) {
-        var t1 = utility.getEncryption(signedUser.email, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
-          , t2 = utility.getEncryption(signedUser.joinedTime, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
+        var t1 = utility.getEncryption(userInfo.email, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
+          , t2 = utility.getEncryption(userInfo.joinedTime, WEBSVR_CONFIG.AUTOSIGN_TOKEN)
 
         if (cookieInfo.t1 == t1 && cookieInfo.t2 == t2) {
           cb && cb(userInfo)
@@ -46,7 +46,7 @@ var getAutoSignin = function(cookieInfo, cb) {
 }
 
 var getUser = function(username, cb) {
-  redblade.client.hget('user:' + username, function(err, userInfo) {
+  redblade.client.hgetall('user:' + username, function(err, userInfo) {
     if (!err && userInfo) {
       cb && cb(userInfo)
     } else {

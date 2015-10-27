@@ -88,6 +88,8 @@ var showListHandler = function(req, res, url) {
     , pageSize    = 40
     , user        = req.session.get('user') || {}
 
+
+
   Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
     if (template == 'json') {
       //render json page: remove contents in the article list
@@ -118,7 +120,7 @@ var showListHandler = function(req, res, url) {
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-app.url(['/home', '/json', '/rss'], showListHandler)
+app.get(['/home', '/json', '/rss'], showListHandler)
 
 //handle detail.tmpl: content of article
 var showDetailHandler = function(req, res) {
@@ -152,11 +154,11 @@ var showDetailHandler = function(req, res) {
 }
 
 //127.0.0.1/detail/2340234erer23343[OjbectID]
-app.url('/article/:id', showDetailHandler)
+app.get('/article/:id', showDetailHandler)
 
 
 //clear template cache
-app.url('/clear', function(req, res) {
+app.get('/clear', function(req, res) {
   var username = req.session.get('username')
 
   if ((Users.users[username] || {}).isAdmin) {
@@ -168,7 +170,7 @@ app.url('/clear', function(req, res) {
 })
 
 
-app.url('/useredit/:username', function(req, res) {
+app.get('/useredit/:username', function(req, res) {
   var username  = req.params.username
     , loginUser = req.session.get('username')
 
@@ -215,7 +217,7 @@ var signHandler = function(req, res, userInfo) {
   return false
 }
 
-app.url('/user.signup.post', function(req, res) {
+app.post('/user.signup.post', function(req, res) {
   var postInfo = req.body
     , userInfo = {
         username: postInfo.username
@@ -233,7 +235,7 @@ app.url('/user.signup.post', function(req, res) {
   })
 }, 'qs')
 
-app.url('/user.signin.post', function(req, res) {
+app.get('/user.signin.post', function(req, res) {
   var userInfo = req.body
   User.signin(userInfo, function(signedUser) {
     signedUser
@@ -245,7 +247,7 @@ app.url('/user.signin.post', function(req, res) {
 /*
 * user.edit.post: response json
 */
-app.url('/user.edit.post', function(req, res) {
+app.post('/user.edit.post', function(req, res) {
   var postInfo  = req.body
     , loginUser = Users.users[req.session.get('username')]
 
@@ -270,7 +272,7 @@ app.url('/user.edit.post', function(req, res) {
 
 }, 'qs')
 
-app.url('/user.signout.post', function(req, res) {
+app.get('/user.signout.post', function(req, res) {
   var username = req.session.get('username')
     , opts     = { path: '/', domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
@@ -364,7 +366,7 @@ var keyListHandler = function(req, res, url) {
 /*
 userinfo: get userinfo and he articles
 */
-app.url('/u/:username', function(req, res) {
+app.get('/u/:username', function(req, res) {
   var url     = req.url
     , params  = req.params
 

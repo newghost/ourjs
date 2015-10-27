@@ -10,32 +10,31 @@
 var qs        = require("querystring")
   , utility   = require("./utility")
   , UrlSlug   = require('./urlSlug')
-  , webSvr    = global.webSvr 
+  , app       = global.app 
   , redblade  = require('redblade')
   , User      = require('./user')
   , Article   = require('./article')
 
 
 
-webSvr.handle('/root/edit/:id', function(req, res) {
-  var username  = req.session.get('username')
-    , id        = req.params.id
-    , userInfo  = req.session.get('userInfo')
+app.get('/root/edit/:id', function(req, res) {
+  var user  = req.session.get('user') || {}
+    , id    = req.params.id
 
+  console.log('user info', user)
 
   if (id == "add") {
-    res.render('edit.tmpl')
+    res.render('edit.tmpl', { user: user })
   } else {
     Article.getArticlesFromIDs([id], function(articles) {
       var article = articles[0]
 
       if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-        res.render('edit.tmpl', { article: article })
+        res.render('edit.tmpl', { article: article, user: user })
       } else {
         res.end(MESSAGES.NOPERMISSION)
       }
     })
-
   }
 })
 
@@ -53,7 +52,7 @@ var getPostInterval = function(userInfo) {
   return interval
 }
 
-webSvr.handle("/root/edit.post", function(req, res) {
+app.post("/root/edit.post", function(req, res) {
   var article   = req.body
     , username  = req.session.get('username')
     , userInfo  = Users.users[username] || {}
@@ -113,7 +112,7 @@ webSvr.handle("/root/edit.post", function(req, res) {
 }, 'qs')
 
 
-webSvr.handle('/root/delete/:id', function(req, res) {
+app.get('/root/delete/:id', function(req, res) {
   var id        = req.params.id
     , username  = req.session.get('username')
     , userInfo  = Users.users[username] || {}
@@ -133,7 +132,7 @@ webSvr.handle('/root/delete/:id', function(req, res) {
   res.end(MESSAGES.NOPERMISSION)
 })
 
-webSvr.handle('/root/publish/:id', function(req, res) {
+app.get('/root/publish/:id', function(req, res) {
   var id          = req.params.id
     , username    = req.session.get('username')
     , userInfo    = Users.users[username] || {}
@@ -156,7 +155,7 @@ webSvr.handle('/root/publish/:id', function(req, res) {
 })
 
 
-webSvr.handle('/reply/add/:id', function(req, res) {
+app.post('/reply/add/:id', function(req, res) {
   var id          = req.params.id
     , poster      = req.session.get('username')
     , last_reply  = req.session.get('last_reply')
@@ -200,7 +199,7 @@ webSvr.handle('/reply/add/:id', function(req, res) {
 }, 'json')
 
 
-webSvr.handle('/reply/del/:id/:idx', function(req, res) {
+app.get('/reply/del/:id/:idx', function(req, res) {
   var id        = req.params.id
     , idx       = req.params.idx
     , userInfo  = Users.users[req.session.get('username')]

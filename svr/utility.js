@@ -131,7 +131,7 @@ bcrypt need some dependency on Windows, so use crypto
 */
 utility.getEncryption = function(str, token) {
   var cipher = crypto.createCipher('aes256', token || WEBSVR_CONFIG.PASSWORD_TOKEN)
-  var encrypted = cipher.update(str || '', 'utf8', 'hex') + cipher.final('hex')
+  var encrypted = cipher.update((str || '').toString(), 'utf8', 'hex') + cipher.final('hex')
   return encrypted
 }
 

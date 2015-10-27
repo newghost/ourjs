@@ -17,21 +17,22 @@
       <form class="form-horizontal" method="post" id="editArticleForm" action="/root/edit.post">
         <input type="text"  name="_id" readonly="readonly" value="{{=it._id || ''}}" placeholder="编号">
         <br><br>
-        {{? it.isAdmin }}
+        {{? it.user.isAdmin }}
         <input type="text"  name="poster" readonly="readonly" value="{{=it.poster || ''}}"  placeholder="发布人">
         <br><br>
         {{?}}
         <label>标题</label>
         <input type="text"  name="title"      value="{{=it.title || ''}}"  placeholder="标题">
         <br><br>
-        {{? it.isAdmin }}
-        <select name="category" data="{{=it.category || ''}}">{{=it.categoryOpts}}</select>
+        {{? it.user.isAdmin }}
+        <select name="isPublic" data="{{=it.isPublic || ''}}">
+          <option value="0">自己可见</option>
+          <option value="1">推荐首页</option>
+          <option value="1">公开</option>
+        </select>
         <span>请选择分类</span>
         <br><br>
         {{?}}
-        <select name="keyword" data="{{=it.keyword || ''}}">{{=it.keywordsOpts}}</select>
-        <span>选择关键字</span>
-        <br><br>
 
         <input type="hidden" name="verify" value="{{=it.verify || 0}}" id="verify">
 

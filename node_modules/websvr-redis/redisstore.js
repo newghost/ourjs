@@ -18,15 +18,21 @@ var RedisStore = module.exports = function(client, sessionTimeout) {
 
   var set = function(key, object, cb) {
     var sessionKey = schema + key
-    client.hmset(sessionKey, object, function(err) {
+    client.set(sessionKey, JSON.stringify(object || {}), function(err) {
       client.expire(sessionKey, sessionTimeout)
       cb && cb(err)
     })
   }
 
   var get = function(key, cb) {
-    client.hgetall(schema + key, function(err, object) {
-      cb && cb(object || {})
+    client.get(schema + key, function(err, data) {
+      var object = {}
+      try {
+        object = JSON.parse(data)
+      } catch(err) {
+        console.error('session parse error ' + key + '@' + err)
+      }
+      cb && cb(object)
     })
   }
 
