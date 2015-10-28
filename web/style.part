@@ -1,10 +1,10 @@
 <meta name="author" content="OurJS.org">
 <link rel="shortcut icon" href="/favicon.ico">
 
-<!--#output="/js/libs.min.css"-->
+<!--#output="/css/libs.min.css"-->
 <link rel="stylesheet" href="/css/bootstrap.css">
 
-<!--#output="/js/prod.min.css"-->
+<!--#output="/css/prod.min.css"-->
 <link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
 <link rel="stylesheet" href="/css/ourjs.css">
 <!--#output=end-->
