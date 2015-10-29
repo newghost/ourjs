@@ -42,11 +42,9 @@ var app = WebSvr(WEBSVR_CONFIG)
 //app.engine(require("./doT").compile)
 
 //Default model of app, for header/footer
-/*
-//所有人都一样的model
-var defaultModel = {}
+var defaultModel = { user:{} }
 app.model(defaultModel)
-*/
+
 
 
 /*
