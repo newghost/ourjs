@@ -30,9 +30,6 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="/bbs/">全端</a>
-        </li>
-        <li class="dropdown">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <i class="icon-edit"></i>

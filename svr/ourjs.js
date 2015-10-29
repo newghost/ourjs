@@ -15,6 +15,7 @@ var fs          = require('fs')
   , RedisStore  = require('websvr-redis')
   , redis       = require('redis')
   , redblade    = require('redblade')
+  , client
   , config      = global.CONFIG = require(path.join('../', process.argv[2]))
 
 
@@ -38,12 +39,11 @@ var WEBSVR_CONFIG   = config.WEBSVR_CONFIG
 //Start the WebSvr
 var app = WebSvr(WEBSVR_CONFIG)
 
+//Set default model
+app.model({ user:{} })
 
+//change template engine
 //app.engine(require("./doT").compile)
-
-//Default model of app, for header/footer
-var defaultModel = { user:{} }
-app.model(defaultModel)
 
 
 
@@ -54,7 +54,6 @@ app.use(function(req, res) {
   var url       = req.url
     , user      = req.session.get('user') || {}
     , cookies   = req.cookies
-
 
   var handleNext = function(userInfo) {
     //if root dir redirect to home, etc /, /?abc=1234
@@ -124,28 +123,25 @@ app.get(['/home', '/json', '/rss'], showListHandler)
 var showDetailHandler = function(req, res) {
   var tmpl  = req.url.split('/')[1]     //get the template name
     , id    = req.params.id             //get the object id
+    , key   = 'article:' + id
 
 
   if (id && tmpl) {
     //Does it existing in the Articles?
-    var article = Articles.find(id)
-
-    var display = function(article) {
-      //count the article
-      articlesCount.add(article._id)
-
-      res.render(tmpl + ".tmpl", {
-          article : article
-        , user    : req.session.get('user')
-        , poster  : posterInfo
-      })
-    }
-
-    if (article) {
-      display(article)
-    } else {
-      res.end()
-    }
+    client.hgetall(key, function(err, article) {
+      if (article) {
+        client.hincrby(key, 'visitNum', 1)
+        client.hgetall('user:' + article.poster, function(err, posterInfo) {
+          res.render(tmpl + ".tmpl", {
+              article : article
+            , user    : req.session.get('user')
+            , poster  : posterInfo || {}
+          })
+        })
+      } else {
+        res.end()
+      }
+    })
   } else {
     res.end()
   }
@@ -415,8 +411,7 @@ app.get('/u/:username', function(req, res) {
 ;(function() {
   global.app = global.webSvr = app
 
-  var client = redis.createClient(REDIS_CONFIG)
-
+  client = redis.createClient(REDIS_CONFIG)
   client.select(REDIS_CONFIG.select)
 
   redblade.init({ schema: './schema', client: client }, function(err) {

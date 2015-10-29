@@ -8,8 +8,9 @@
   , "summary"     : ""
   , "content"     : ""
   , "description" : ""
-  , "postdate"    : "int"
   , "poster"      : "shown;index('user_article')"
   , "isPublic"    : "index('public', return +new Date())"
+  , "visitNum"    : "int"
+  , "postDate"    : "int"
   , "replyTime"   : "int"
 }

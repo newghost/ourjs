@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="footer">
+    <div style="margin:0 0 60px 0">
+      <p style="float:left;line-height: 30px;">
+        沪ICP备13020027号-2
+      </p>
+      <p style="text-align:right;">
+        <a class="btn btn-primary" id="loadmore" href="{{=it.nextPage}}">加载更多</a> 
+      </p>
+    </div>
+  </div>
+</div>

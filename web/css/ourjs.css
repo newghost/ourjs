@@ -973,13 +973,6 @@ label.error {
   margin-left: 2%;
 }
 
-#editArticle input, #editArticle textarea, #editArticle .uneditable-input {
-  box-sizing: border-box;
-  padding: 4px;
-  min-height: 34px;
-  width: 100%;
-}
-
 .navbar .nav{
   float: none;
 }
@@ -1120,6 +1113,10 @@ label.error {
     font-size: 12px;
     padding: 4px;
   }
+}
+
+#editArticle {
+    background-color: #efefef;
 }
 
 @media (max-width: 640px) {

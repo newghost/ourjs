@@ -14,96 +14,36 @@
 
 <!--#include="header.part"-->
 
-<div class="container home">
+<div class="container">
   <div class="row-fluid">
-    <div id="articles" class="span7 col1">
-      {{~ it.articles :article:index }}
-      <div class="article">
-        <h1 class="title">
-        {{? article.content }}
-        <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
-        {{?? true }}
-        <a target="_blank" href="{{=article.url}}" title="外链"><i class="icon-tags"></i> {{=article.title}}</a>
-        {{?}}
-        </h1>
-        <div class="note">
-          <a class="category" target="_blank" href="/{{=it.homemeta}}/{{=article.category}}">{{=article.category}}</a>
-          by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-          {{? article.keyword}}
-          key <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
-          {{?}}
-          <span class="formatdate date">{{=article.publishTime || article.postdate}}</span>
-          <a target="_blank" href="/detail/{{=article._id}}#count" class="reply"> 评论 (<b>{{=(article.replies || []).length}}</b>) </a>
-        </div>
-        <div class="summary">
-          {{=article.summary}}
-        </div>
-      </div>
-      {{~}}
-    </div>
-
-    <div class="span1"></div>
-
-    <div class="span4">
-      <div id="article-panel">
-        {{?it.hottest && it.hottest.length}}
-        <h5>
-          <i class="icon-star-empty"></i>
-          &nbsp;本月热门 - 点击最多
-        </h5>
-        <ol>
-          {{~ it.hottest :article:index }}
-          <li>
-            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
-          </li>
-          {{~}}
-        </ol>
-        <br>
-        {{?}}
-
-        <h5>
-          <i class="icon-star-empty"></i>
-          &nbsp; <a href="/bbs" target="_blank">全端社区 - 最新回复</a>
-        </h5>
-        <ol>
-          {{~ it.replyList :article:index }}
-          <li>
-            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title}}</a>
-          </li>
-          {{~}}
-        </ol>
-        <br>
-
-        <h5>
-          <i class="icon-eye-open"></i>
-          &nbsp; <a href="/bbs/OurJS" target="_blank">开源的 OurJS</a>
-        </h5>
-        <ul>
-          <li><a>全栈: 后台基于Node.JS，前后台没有技术差异，升级维护方便</a></li>
-          <li><a>简单: 数据存储于JSON，无需任何额外配置，安装布署简单</a></li>
-          <li><a>性能: 缓存一切，数据访问更新无延时</a></li>
+    <div class="span2"></div>
+    <div id="article" class="span8">
+      <div class="keywords" id='keyNav'>
+        <ul class="clearfix">
+          <li><a href="/{{=it.keymeta}}//">2015-01-24</a></li>
+          <li class="pull-right"><a href="/bbs_rss" target="_blank">RSS</a></li>
         </ul>
-        <div style="color:#000;margin: 0 0 20px 24px;">
-          <a href="//code.ourjs.com" target="_blank"> <b>Demo (EN)<b></a>,
-          <a href="//demo.ourjs.com" target="_blank"> <b>Demo (CN)<b></a>,
-          <a href="//github.com/newghost/ourjs" target="_blank"><b>Github</b></a>
-        </div>
-
-        <h5>
-          <i class="icon-volume-up"></i>
-          &nbsp; <a href="/rss" target="_blank">关注我们 RSS</a> 
-        </h5>
-        <p style="color:#000;margin: 0 0 20px 24px;">
-          我们的微信公众号: ourjs-com
-          <br>
-          打开微信扫一扫即可关注我们:
-          <br>
-          IT文摘-程序员(码农)技术周刊
-          <br><br>
-          <img src="/img/weixin.jpg" alt="ourjs官方微信号" width="160" height="160" style="border: solid 1px #666;" />
-        </p>
-
       </div>
+      <ul id="comments_list" class="unstyled comments">
+        {{~ it.articles :article:index }}
+        <li>
+          <div class="num">{{=(article.replies || []).length}}</div>
+          <a class="avatar"><img src="http://www.gravatar.com/avatar/{{=article.avatar}}"></a>
+          <div class="content">
+            {{?article.verify=='1'}}
+            <i class="icon-star-empty"></i>
+            {{?}}
+            <a href="/detail/{{=article._id}}" target="_blank">{{=article.title || ''}}</a>
+          </div>
+          <div class="info">
+             • <a href="/bbs/{{=article.keyword}}" target="_blank">{{=article.keyword}}</a>
+             • <a href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+             • <span class="formatdate">{{=article.replyTime || article.postdate || 0}}</span>
+          </div>
+        </li>
+        {{~}}
+      </ul>
+      <div class="pagination">{{=it.pagination || ''}}</div>
     </div>
   </div>
 </div>
@@ -115,19 +55,8 @@
     </div>
   </div>
 </div>
-<hr>
-<div class="container">
-  <div class="footer">
-    <div style="margin:0 0 60px 0">
-      <p style="float:left;line-height: 30px;">
-        沪ICP备13020027号-2
-      </p>
-      <p style="text-align:right;">
-        <a class="btn btn-primary" id="loadmore" href="{{=it.nextPage}}">加载更多</a> 
-      </p>
-    </div>
-  </div>
-</div>
+
+<!--#include="footer.part"-->
 
 <!--#include="script.part"-->
 <!--Powered By OurJS -->

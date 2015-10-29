@@ -9,28 +9,39 @@
 //import namespace
 var qs        = require("querystring")
   , utility   = require("./utility")
-  , UrlSlug   = require('./urlSlug')
+  //, UrlSlug   = require('./urlSlug')
   , app       = global.app 
   , redblade  = require('redblade')
   , User      = require('./user')
   , Article   = require('./article')
 
 
+/*
+未登录，不可用
+*/
+app.use('/root', function(req, res) {
+  var user = req.session.get('user')
+
+  if (!user || !user.username) {
+    res.send(401, '没有权限')
+  } else {
+    req.filter.next()
+  }
+})
+
 
 app.get('/root/edit/:id', function(req, res) {
   var user  = req.session.get('user') || {}
     , id    = req.params.id
 
-  console.log('user info', user)
-
   if (id == "add") {
-    res.render('edit.tmpl', { user: user })
+    res.render('edit.tmpl', { user: user, article: {} })
   } else {
     Article.getArticlesFromIDs([id], function(articles) {
       var article = articles[0]
 
       if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-        res.render('edit.tmpl', { article: article, user: user })
+        res.render('edit.tmpl', { user: user, article: article })
       } else {
         res.end(MESSAGES.NOPERMISSION)
       }
@@ -38,6 +49,7 @@ app.get('/root/edit/:id', function(req, res) {
   }
 })
 
+/*
 var getPostInterval = function(userInfo) {
   if (!userInfo.username) {
     return 1000000
@@ -51,63 +63,61 @@ var getPostInterval = function(userInfo) {
 
   return interval
 }
+*/
+
 
 app.post("/root/edit.post", function(req, res) {
   var article   = req.body
-    , username  = req.session.get('username')
-    , userInfo  = Users.users[username] || {}
-    , isEdit    = article._id && Articles.all[article._id]
+    , user      = req.session.get('user')
 
-
-  if (!isEdit) {
-    var interval = getPostInterval(userInfo)
-    if (interval > 0) {
-      return res.end(MESSAGES.NEED_WAIT.format(interval))
-    }
-  }
+  // if (!isEdit) {
+  //   var interval = getPostInterval(user)
+  //   if (interval > 0) {
+  //     return res.end(MESSAGES.NEED_WAIT.format(interval))
+  //   }
+  // }
 
   if (article.title
-    && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-    article.description = article.summary ? utility.description(article.summary) : ''
-    article.poster      = article.poster || username || ''
-    article.verify      = parseInt(article.verify) || 0
+    && (!article.poster || article.poster === user.username || user.isAdmin)) {
 
-    !userInfo.isAdmin && article.verify !== -1 && (article.verify = 0)
+    //2代表草稿
+    !user.isAdmin && article.isPublic !== 2 && (article.isPublic = 0)
 
-    Schema.filter('article', article)
-    UrlSlug(article)
 
-    var redirect = function() {
-      /*
-      * redirect to article detail page
-      * etc: /detail/:id or /article/:id
-      */
-      var detailUrl = GENERAL_CONFIG.detailUrl
-      //Array?
-      typeof detail === 'Object' && (detailUrl = detailUrl[0])
-
-      res.redirect(GENERAL_CONFIG.detailUrl.replace(':id', article._id))
+    var onResponse = function(err, result) {
+      if (err) {
+        return res.end(err.toString())
+      }
+      
+      res.redirect('/article/' + article.id)
     }
 
-    if ( isEdit ) {
-      adapter.update(article._id, 'article', article, function(result) {
-        //After update merge other fields from the old article
-        utility.merge(article, Articles.all[article._id])
-        Articles.update(article)
-        redirect()
+
+    if ( article.id ) {
+      redblade.client.hget('article:' + article.id, 'poster', function(err, poster) {
+        if (article.poster == poster || user.isAdmin) {
+          redblade.update('article', article, onResponse)
+        } else {
+          res.send(401, '您没有权限')
+        }
       })
+
+      return
+
     } else {
+      article.id        = app.newID(4)
       article.url       = utility.addTag(article.url)
-      article.postdate  = +new Date()
-      adapter.insert('article', article, function() {
-        Articles.update(article)
-        redirect()
-      })
-      postIntervals[username] = +new Date() / 1000 | 0
+      article.postDate  = +new Date()
+
+      console.log(article.id)
+
+      redblade.insert('article', article, onResponse)
     }
+
     return
   }
-  res.send('html', MESSAGES.NOPERMISSION)
+
+  res.send('html', '参数不完整')
 
 }, 'qs')
 
