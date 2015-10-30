@@ -10,7 +10,7 @@
 <script>var conf={{=it.conf}}</script>
 </head>
 
-<body>
+<body class="bbs">
 
 <!--#include="header.part"-->
 
@@ -33,12 +33,14 @@
             {{?article.verify=='1'}}
             <i class="icon-star-empty"></i>
             {{?}}
-            <a href="/detail/{{=article._id}}" target="_blank">{{=article.title || ''}}</a>
+            <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
           </div>
           <div class="info">
-             • <a href="/bbs/{{=article.keyword}}" target="_blank">{{=article.keyword}}</a>
-             • <a href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-             • <span class="formatdate">{{=article.replyTime || article.postdate || 0}}</span>
+             {{?article.keyword}}
+             • <a href="/home/{{=article.keyword}}" target="_blank">{{=article.keyword}}</a>
+             {{?}}
+             • <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+             • <span class="formatdate">{{=article.replyTime || article.postDate || 0}}</span>
           </div>
         </li>
         {{~}}

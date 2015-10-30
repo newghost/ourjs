@@ -40,7 +40,7 @@ app.get('/root/edit/:id', function(req, res) {
     Article.getArticlesFromIDs([id], function(articles) {
       var article = articles[0]
 
-      if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
+      if (article && (!article.poster || article.poster === user.username || user.isAdmin)) {
         res.render('edit.tmpl', { user: user, article: article })
       } else {
         res.end(MESSAGES.NOPERMISSION)
@@ -95,10 +95,10 @@ app.post("/root/edit.post", function(req, res) {
 
     if ( article.id ) {
       redblade.client.hget('article:' + article.id, 'poster', function(err, poster) {
-        if (article.poster == poster || user.isAdmin) {
+        if (user.username == poster || user.isAdmin) {
           redblade.update('article', article, onResponse)
         } else {
-          res.send(401, '您没有权限')
+          res.send('html', '您没有权限')
         }
       })
 
@@ -107,9 +107,9 @@ app.post("/root/edit.post", function(req, res) {
     } else {
       article.id        = app.newID(4)
       article.url       = utility.addTag(article.url)
+      article.poster    = user.username
       article.postDate  = +new Date()
-
-      console.log(article.id)
+      article.visitNum  = 0
 
       redblade.insert('article', article, onResponse)
     }

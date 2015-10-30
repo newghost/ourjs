@@ -14,7 +14,7 @@
 <div class="container">
   <div class="row-fluid">
     <div class="span12">
-      <h1>{{=it.title}}</h1>
+      <h1>{{=it.article.title}}</h1>
       <hr>
       <div class="jiathis_style_24x24">
         <span>分享到</span>
@@ -31,49 +31,44 @@
   </div>
 
   <div class="row-fluid">
-    <div id="article" class="span8">
+    <div id="article" class="span9">
       <div id="summary">
-        {{?it.category}}
-        <b>分类</b>
-        <a href="/home/{{=it.category}}">{{=it.category}}</a>&nbsp;&nbsp;
-        {{?}}
-
-        {{?it.keyword}}
+        {{?it.article.keyword}}
         <b>关键字</b>
-        <a class="category" target="_blank" href="/bbs/{{=it.keyword}}">{{=it.keyword}}</a>&nbsp;&nbsp;
+        <a class="category" target="_blank" href="/bbs/{{=it.article.keyword}}">{{=it.article.keyword}}</a>&nbsp;&nbsp;
         {{?}}
 
         <b>发布</b>
-        <a href="/userinfo/{{=it.poster || ''}}" target="_blank">{{=it.poster || ''}}</a>&nbsp;
-        <span class="formatdate date">{{=it.postdate || ''}}</span>
+        <a href="/userinfo/{{=it.article.poster || ''}}" target="_blank">{{=it.article.poster || ''}}</a>&nbsp;
+        <span class="formatdate date">{{=it.article.postDate || ''}}</span>
 
         <br>
 
         <b>注意</b> 转载须保留原文链接，译文链接，作者译者等信息。&nbsp;&nbsp;
-        {{?it.username == it.poster || it.isAdmin}}
+        {{?it.user.username == it.article.poster || it.user.isAdmin}}
         <br>
         <b>管理</b>&nbsp;
-        <a href="/root/delete/{{=it._id}}" target="_blank">
+        <a href="/root/delete/{{=it.article.id}}" target="_blank">
           <i class="icon-trash"></i> 删除
         </a>
         &nbsp;
-        <a href="/root/edit/{{=it._id}}" target="_blank">
+        <a href="/root/edit/{{=it.article.id}}" target="_blank">
           <i class="icon-pencil"></i> 修改
         </a>
         {{?}}
-        {{?it.isAdmin}}
+        {{?it.user.isAdmin}}
         &nbsp;
-        <a href="/root/publish/{{=it._id}}" target="_blank">
+        <a href="/root/publish/{{=it.article.id}}" target="_blank">
           <i class="icon-share"></i> 发布
         </a>
         {{?}}
       </div>
 
       <div id="content">
-        {{=it.content || it.summary || ''}}
-        {{?it.url}}
+        {{=it.article.content || ''}}
+        {{?it.article.url}}
         <br><br>
-        <div> <b>原文地址： <a class="originUrl" href="{{=it.url || ''}}" target="_blank">点此</a> </b></div>
+        <div> <b>原文地址： <a class="originUrl" href="{{=it.article.url || ''}}" target="_blank">点此</a> </b></div>
         <br><br>
         {{?}}
       </div>
@@ -129,96 +124,6 @@
             <button type="submit" class="btn btn-primary">发布评论</button>
           </div>
         </form>
-      </div>
-    </div>
-
-    <div class="span4">
-      <div id="article-panel">
-        <div class="ad300">
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <!-- ourjs_detail -->
-          <ins class="adsbygoogle"
-               style="display:inline-block;width:300px;height:250px"
-               data-ad-client="ca-pub-1941367294435664"
-               data-ad-slot="3620146836"></ins>
-          <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
-
-        <a class="title-highlight" href="/404" target="blank">访问404页面，寻找丢失儿童</a>
-
-        {{?it.hottest && it.hottest.length}}
-        <h5>
-          <i class="icon-star-empty"></i>
-          &nbsp;热门文章 - 分享最多
-        </h5>
-        <ol>
-        {{~ it.hottest :article:index }}
-          <li>
-            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
-          </li>
-        {{~}}
-        </ol>
-        <br>
-        {{?}}
-
-        {{?it.similar && it.similar.length}}
-        <h5>
-          <i class="icon-list-alt"></i>
-          &nbsp;相关阅读 - {{=it.category || ''}}
-        </h5>
-        <ol>
-        {{~ it.similar :article:index }}
-          <li>
-            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
-          </li>
-        {{~}}
-        </ol>
-        <br>
-        {{?}}
-
-        {{?it.keyword}}
-        <h5>
-          <i class="icon-list-alt"></i>
-          &nbsp;关键字 - {{=it.keyword || ''}}
-        </h5>
-        <ol>
-        {{~ it.related :article:index }}
-          <li>
-            <a target="_blank" href="/detail/{{=article._id}}">{{=article.title || ''}}</a>
-          </li>
-        {{~}}
-        </ol>
-        <br>
-        {{?}}
-
-        <h5>
-          <i class="icon-eye-open"></i>
-          &nbsp;欢迎订阅 - 技术周刊
-        </h5>
-        <p style="color:#000;margin: 0 0 20px 24px;">
-          我们热爱编程, 我们热爱技术; 我们是高端, 大气, 上档次, 有品味, 时刻需要和国际接轨的码农; <b>欢迎您订阅我们的技术周刊</b>; 您只需要在右上角输入您的邮箱即可; 我们<b>注重您的隐私，您可以随时退订</b>.
-          <br>
-          加入我们吧! 让我们一起找寻码农的快乐，探索技术, 发现IT人生的乐趣;
-        </p>
-
-        <br>
-
-        <h5>
-          <i class="icon-eye-open"></i>
-          &nbsp;关注我们
-        </h5>
-        <p style="color:#000;margin: 0 0 20px 24px;">
-          我们的微信公众号: ourjs-com
-          <br>
-          打开微信扫一扫即可关注我们:
-          <br>
-          IT文摘-程序员(码农)技术周刊
-          <br><br>
-          <img src="/img/weixin.jpg" alt="ourjs官方微信号" width="160" height="160" style="border: solid 1px #666;" />
-        </p>
-
       </div>
     </div>
   </div>

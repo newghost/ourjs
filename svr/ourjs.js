@@ -139,15 +139,15 @@ var showDetailHandler = function(req, res) {
           })
         })
       } else {
-        res.end()
+        res.write404()
       }
     })
   } else {
-    res.end()
+    res.write404()
   }
 }
 
-//127.0.0.1/detail/2340234erer23343[OjbectID]
+//127.0.0.1/article/2340234erer23343[OjbectID]
 app.get('/article/:id', showDetailHandler)
 
 
