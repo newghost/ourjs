@@ -268,8 +268,11 @@ var getArticlesFromIDs = function(IDs, cb) {
     : cb && cb(articles)
 }
 
+/*
+提取已经发布的文章
+*/
 var getArticles = function(start, end, cb) {
-  redblade.client.zrange('public:0', start, end, function(err, articleIDs) {
+  redblade.client.zrange('public:1', start, end, function(err, articleIDs) {
     console.log(articleIDs)
 
     if (!err) {

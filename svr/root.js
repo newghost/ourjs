@@ -147,10 +147,10 @@ app.get('/root/delete/:id', function(req, res) {
   })
 })
 
-app.get(['/root/publish/:id', '/root/unpublish/:id'], function(req, res) {
+app.get('/root/publish/:id/:state', function(req, res) {
   var id        = req.params.id
     , user      = req.session.get('user')
-    , isPublish = req.url.indexOf('/root/publish') === 0 ? 1 : 0
+    , state     = parseInt(req.params.state) || 0
     , key       = 'article:' + id
 
   redblade.client.exists(key, function(err, exists) {
@@ -163,8 +163,8 @@ app.get(['/root/publish/:id', '/root/unpublish/:id'], function(req, res) {
     根据schema中的定义: { "isPublic"    : "index('public', return +new Date())" }
     使用update, 更新article 同时会自动添加id到 public:1 的集合，权重为当前的时间
     */
-    adapter.update('article', { id: id, isPublic: isPublish }, function(err, result) {
-      res.send((!isPublic && "取消") +  "发布" + (result ? '成功' : '失败'))
+    redblade.update('article', { id: id, isPublic: state }, function(err, result) {
+      res.send((state ? '发布' : '取消发布') + (result ? '成功' : '失败'))
     })
   })
 })

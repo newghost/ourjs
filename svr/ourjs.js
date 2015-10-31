@@ -86,7 +86,6 @@ var showListHandler = function(req, res, url) {
     , user        = req.session.get('user') || {}
 
 
-
   Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
     if (template == 'json') {
       //render json page: remove contents in the article list

@@ -58,9 +58,15 @@
         {{?}}
         {{?it.user.isAdmin}}
         &nbsp;
-        <a href="/root/publish/{{=it.article.id}}" target="_blank">
+        {{?it.article.isPublic == 1}}
+        <a href="/root/publish/{{=it.article.id}}/0" target="_blank">
+          <i class="icon-share"></i> 取消发布
+        </a>
+        {{??}}
+        <a href="/root/publish/{{=it.article.id}}/1" target="_blank">
           <i class="icon-share"></i> 发布
         </a>
+        {{?}}
         {{?}}
       </div>
 
