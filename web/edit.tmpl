@@ -12,6 +12,7 @@
 <div class="container">
   <div class="row-fluid">
     <div id="editArticle" class="span12">
+      <br>
       <h3 class="text-center">发布文章</h3>
       <br><br>
 
@@ -41,18 +42,17 @@
           </div>
         </div>
 
-        {{? it.user.isAdmin }}
+        <!--
         <div class="control-group">
-          <label class="control-label" for="inputPassword">选项</label>
+          <label class="control-label" for="inputPassword">状态</label>
           <div class="controls">
             <select class="span10" name="isPublic" data="{{=it.article.isPublic || ''}}">
-              <option value="0">自己可见</option>
-              <option value="1">推荐首页</option>
+              <option value="0">草稿</option>
               <option value="1">公开</option>
             </select>
           </div>
         </div>
-        {{?}}
+        -->
 
         <div class="controls">
           <label class="checkbox">

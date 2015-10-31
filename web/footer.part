@@ -6,9 +6,7 @@
       <p style="float:left;line-height: 30px;">
         沪ICP备13020027号-2
       </p>
-      <p style="text-align:right;">
-        <a class="btn btn-primary" id="loadmore" href="{{=it.nextPage}}">加载更多</a> 
-      </p>
+      <p style="text-align:right;">联系邮箱 ourjs(at)ourjs.com</p>
     </div>
   </div>
 </div>
