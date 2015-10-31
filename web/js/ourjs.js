@@ -549,57 +549,43 @@ Regist/Edit user functionalities
 Edit Page
 */
 (function() {
-  if (location.href.indexOf('/root/edit/') > 0) {
-    //Edit mode
-    if (location.href.indexOf("/root/edit/add") < 0) {
-      content && $('#content').val(content);
-      summary && $('#summary').val(summary);
-
-      var value = $("[name=category]").attr("data");
-      $("[name=category] option").each(function() {
-        $(this).val() == value && $(this).attr("selected", true);
-      });
-
-      var value = $("[name=keyword]").attr("data");
-      $("[name=keyword] option").each(function() {
-        $(this).val() == value && $(this).attr("selected", true);
-      });
-
-    //Add mode
-    } else {
-      $("input, textarea").each(function() {
-        var $this = $(this)
-          , val   = $this.val();
-        val.length < 20  && val.trim() == 'undefined' && $this.val('');
-      });
-    };
-
-    //Save draft function
-    $('#saveDraft').click(function() {
-      $('#verify').val('-1');
-      $('#editArticleForm').submit();
-    });
-
-
-    $('#editArticleForm').submit(function(e) {
-      var summary = $('#summary').val()
-        , content = $('#content').val()
-        ;
-
-      if (summary.length < 100 && content.length < 100) {
-        e.preventDefault();
-        alert('请填写至少100字的摘要或正文');
-      }
-    });
-
-    /*
-    edit plugins
-    */
-    $('.editor').wysihtml5({
-        html: true
-      , stylesheets: ["/css/libs.min.css", "/css/prod.min.css?v=217"]
-    });
+  if (location.href.indexOf('/root/edit/') < 0) {
+    return
   }
+
+  var $chkContent = $('#chkContent').change(function() {
+    $('.contentWrapper').toggle()
+  })  
+
+  if (content) {
+    $('#content').val(content)
+    $chkContent.attr('checked', true).change()
+  }  
+
+  //Edit mode
+  if (location.href.indexOf("/root/edit/add") < 0) {
+    var value = $("[name=keyword]").attr("data");
+    $("[name=keyword] option").each(function() {
+      $(this).val() == value && $(this).attr("selected", true);
+    });
+  //Add mode
+  } else {
+    $("input, textarea").each(function() {
+      var $this = $(this)
+        , val   = $this.val();
+      val.length < 20  && val.trim() == 'undefined' && $this.val('');
+    });
+  };
+
+
+
+  /*
+  edit plugins
+  */
+  $('.editor').wysihtml5({
+      html: true
+    , stylesheets: ["/css/libs.min.css", "/css/prod.min.css?v=217"]
+  });
 }());
 
 /*Pager*/

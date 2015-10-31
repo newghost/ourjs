@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ROOT [ourjs.com]</title>
+<title>编辑文章</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <!--#include="style.part"-->
@@ -56,14 +56,17 @@
 
         <div class="controls">
           <label class="checkbox">
-            <input type="checkbox"> 文章正文: 原创请填写
+            <input id="chkContent" type="checkbox"> 文章正文
           </label>
         </div>
 
-        <div class="contentWrapper row" style="display:none">
-          <div class="span2"></div>
-          <div class="span8">
-            <textarea id="content" rows="24" name="content" placeholder="文章正文" class="editor" style="width:100%"></textarea>
+        <div class="contentWrapper" style="display:none">
+          <hr>
+          <div class="row">
+            <div class="span2"></div>
+            <div class="span8">
+              <textarea id="content" rows="24" name="content" placeholder="文章正文" class="editor" style="width:100%"></textarea>
+            </div>
           </div>
         </div>
 
@@ -78,8 +81,7 @@
   </div>
 </div>
 <script type="text/javascript">
-var summary={{=JSON.stringify(it.summary)}};
-var content={{=JSON.stringify(it.content)}};
+var content={{=JSON.stringify(it.article.content)}};
 </script>
 
 <!--#include="footer.part"-->

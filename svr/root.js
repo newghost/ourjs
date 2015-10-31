@@ -17,7 +17,7 @@ var qs        = require("querystring")
 
 
 /*
-未登录，不可用
+/root 为维护文章功能，未登录，不可用
 */
 app.use('/root', function(req, res) {
   var user = req.session.get('user')
@@ -98,7 +98,7 @@ app.post("/root/edit.post", function(req, res) {
         if (user.username == poster || user.isAdmin) {
           redblade.update('article', article, onResponse)
         } else {
-          res.send('html', '您没有权限')
+          res.send('您没有权限')
         }
       })
 
@@ -117,51 +117,56 @@ app.post("/root/edit.post", function(req, res) {
     return
   }
 
-  res.send('html', '参数不完整')
+  res.send('参数不完整')
 
 }, 'qs')
 
 
 app.get('/root/delete/:id', function(req, res) {
   var id        = req.params.id
-    , username  = req.session.get('username')
-    , userInfo  = Users.users[username] || {}
-    , article   = Articles.all[id]
+    , user      = req.session.get('user')
+    , key       = 'article:' + id
 
+  redblade.client.hmget(key, 'poster', 'isPublic', function(err, article) {
+    if (article) {
+      if (article.isPublic == 1) {
+        res.send('为防止误操作，请先取消发布再删除')
+        return
+      }
 
-  if (article && (!article.poster || article.poster === username || userInfo.isAdmin)) {
-    article.verify == '1'
-      ? res.end(MESSAGES.CANNOT_DELETE_VERIFIED)
-      : adapter.delete(id, 'article', function(result) {
-          res.end("removed " + result)
-          result && Articles.remove(article)
-      })
-    return
-  }
+      if (article.poster == user.username || user.isAdmin) {
+        //使用remove删除文章和相关索引
+        redblade.remove('article', { id: id }, function(err, result) {
+          res.send("删除" + (result ? '成功' : '失败'))
+        })
+        return
+      }
+    }
 
-  res.end(MESSAGES.NOPERMISSION)
+    res.send('参数错误')
+  })
 })
 
-app.get('/root/publish/:id', function(req, res) {
-  var id          = req.params.id
-    , username    = req.session.get('username')
-    , userInfo    = Users.users[username] || {}
-    , article     = Articles.all[id]
-    , updateJSON  = {verify: 1, publishTime: +new Date()}
+app.get(['/root/publish/:id', '/root/unpublish/:id'], function(req, res) {
+  var id        = req.params.id
+    , user      = req.session.get('user')
+    , isPublish = req.url.indexOf('/root/publish') === 0 ? 1 : 0
+    , key       = 'article:' + id
 
+  redblade.client.exists(key, function(err, exists) {
+    if (!exists) {
+      res.send('参数错误')
+      return
+    }
 
-  if (article && userInfo.isAdmin) {
-    GENERAL_CONFIG.similarList && (updateJSON.similar = Articles.findSimilar(article))
-    GENERAL_CONFIG.hottestList && (updateJSON.hottest = articlesCount.hottest)
-
-    adapter.update(id, 'article', updateJSON, function(result) {
-      res.end('Updated ' + result)
-      result && Articles.update(article, updateJSON)
+    /*
+    根据schema中的定义: { "isPublic"    : "index('public', return +new Date())" }
+    使用update, 更新article 同时会自动添加id到 public:1 的集合，权重为当前的时间
+    */
+    adapter.update('article', { id: id, isPublic: isPublish }, function(err, result) {
+      res.send((!isPublic && "取消") +  "发布" + (result ? '成功' : '失败'))
     })
-    return
-  }
-
-  res.end(MESSAGES.NOPERMISSION)
+  })
 })
 
 
