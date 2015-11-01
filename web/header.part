@@ -39,7 +39,7 @@
           <ul class="dropdown-menu">
             <li><a href="/root/edit/add">发布文章</a></li>
             <li class="divider"></li>
-            <li><a href="/userinfo/{{=it.user.username}}">我的文集</a></li>
+            <li><a href="/user/{{=it.user.username}}">我的文集</a></li>
             <li><a href="/useredit/{{=it.user.username}}">修改资料</a></li>
             <li class="divider"></li>
             <li><a href="javascript:OurJS.Users.signout()">退出登录</a></li>

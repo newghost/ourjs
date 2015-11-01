@@ -357,49 +357,39 @@ var keyListHandler = function(req, res, url) {
 }
 
 /*
-userinfo: get userinfo and he articles
+userInfo: get userInfo and he articles
 */
-app.get('/u/:username', function(req, res) {
-  var url     = req.url
-    , params  = req.params
+app.get('/user/:username/:pageNumber', function(req, res) {
+  var url       = req.url
+    , params    = req.params
+    , username  = params.username || ''
 
   /*
   Get parameters: filter category
-  url: '/userinfo/ourjs/0'
+  url: '/user/ourjs/0'
   */
-  var tmpl        = req.url.split('/')[1] || 'userinfo'
-    , userid      = params.userid     || 'ourjs'
+  var tmpl        = url.split('/')[1] || 'user'
     , pageNumber  = params.pageNumber || 0
     , nextNumber  = pageNumber + 1
-    , articles    = (Articles.userArticles[userid] || []).slice(pageNumber * pageSize, nextNumber * pageSize)
+    , pageSize    = 100
 
+  if (username) {
+    redblade.client.hgetall('user:' + username, function(err, userInfo) {
+      if (!userInfo) {
+        res.send('用户不存在')
+        return
+      }
 
-  articles.length < pageSize && (nextNumber = 0)
-
-  if (tmpl == 'userjson') {
-    var shortArticles = []
-    articles.forEach(function(article) {
-      shortArticles.push({
-          id: article._id
-        , url: article.url
-        , author:   article.poster
-        , title:    article.title
-        , summary:  article.summary
-        , content:  article.content ? 1 : 0
-        , postdate: article.postdatetime
-        , keyword:  article.keyword
-        , replyNum: (article.replies || '').length
+      redblade.select('article', { poster: username }, function(err, articles) {
+        res.render(tmpl + ".tmpl", {
+            articles  : articles
+          , user      : userInfo
+          , nextPage  : nextNumber
+        })
       })
     })
-    res.send(shortArticles)
   } else {
-    res.render(tmpl + ".tmpl", {
-        list:     articles
-      , user:     Users.users[userid] || {}
-      , next:     nextNumber
-      , conf:     JSON.stringify({ pageSize: pageSize })
-      , username: req.session.get('username')
-    })
+    res.end()
   }
 })
 

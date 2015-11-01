@@ -36,19 +36,18 @@
     </div>
     <div id="articles" class="span7">
       <div id="article_container">
-        {{~ it.list :article:index }}
+        {{~ it.articles :article:index }}
         <div class="article">
           <h2 class="title">
-            <a target="_blank" href="/detail/{{=article._id}}">
+            <a target="_blank" href="/article/{{=article.id}}">
               {{=article.title}}
             </a>
           </h2>
           <div class="note">
-            <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword}}</a>
-            by <a class="author" href="/userinfo/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-            <span class="formatdate date">{{=article.publishTime || article.postdate}}</span>
+            <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword || ''}}</a>
+            by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+            <span class="formatdate date">{{=article.postDate || ''}}</span>
           </div>
-          <div class="summary">{{=article.summary || ''}}</div>
         </div>
         {{~}}
       </div>
@@ -71,20 +70,10 @@
   </div>
 </div>
 <hr>
-<div class="container">
-  <div class="footer">
-    <div style="margin:0 0 60px 0">
-      <p style="float:left;line-height: 30px;">
-        沪ICP备13020027号-2
-      </p>
-      <p style="text-align:right;">
-        <a class="btn btn-primary" id="loadmore_userarticle" href="/userinfo/{{=it.user.username}}/{{=it.next}}">加载更多</a> 
-      </p>
-    </div>
-  </div>
-</div>
 
+<!--#include="header.part"-->
 <!--#include="script.part"-->
+
 <!--Powered By OurJS -->
 <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1862627" charset="utf-8"></script>
 </body>
