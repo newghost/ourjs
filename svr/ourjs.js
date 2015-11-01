@@ -87,31 +87,14 @@ var showListHandler = function(req, res, url) {
 
 
   Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
-    if (template == 'json') {
-      //render json page: remove contents in the article list
-      var shortArticles = []
-      articles.forEach(function(article) {
-        shortArticles.push({
-            id        : article.id
-          , url       : article.url
-          , author    : article.poster
-          , title     : article.title
-          , summary   : article.summary
-          , content   : article.content ? 1 : 0
-          , postDate  : article.postDate
-          , replyNum  : 0
-        })
-      })
-      res.send(shortArticles)
-    } else {
-      template.indexOf('rss') > -1 && res.type('xml')
+    template.indexOf('rss') > -1 && res.type('xml')
 
-      res.render(template + ".tmpl", {
-          user      : user
-        , articles  : articles
-        , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
-      })
-    }
+    res.render(template + ".tmpl", {
+        user      : user
+      , articles  : articles
+      , keyword   : keyword
+      , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+    })
   })
 }
 
@@ -149,18 +132,6 @@ var showDetailHandler = function(req, res) {
 //127.0.0.1/article/2340234erer23343[OjbectID]
 app.get('/article/:id', showDetailHandler)
 
-
-//clear template cache
-app.get('/clear', function(req, res) {
-  var username = req.session.get('username')
-
-  if ((Users.users[username] || {}).isAdmin) {
-    app.clear()
-    res.end('done')
-  } else {
-    res.send(401, MESSAGES.NOPERMISSION)
-  }
-})
 
 
 app.get('/useredit/:username', function(req, res) {
