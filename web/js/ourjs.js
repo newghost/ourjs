@@ -563,19 +563,11 @@ Edit Page
   }  
 
   //Edit mode
-  if (location.href.indexOf("/root/edit/add") < 0) {
-    var value = $("[name=keyword]").attr("data");
-    $("[name=keyword] option").each(function() {
-      $(this).val() == value && $(this).attr("selected", true);
-    });
-  //Add mode
-  } else {
-    $("input, textarea").each(function() {
-      var $this = $(this)
-        , val   = $this.val();
-      val.length < 20  && val.trim() == 'undefined' && $this.val('');
-    });
-  };
+  $("input, textarea").each(function() {
+    var $this = $(this)
+      , val   = $this.val();
+    val.length < 20  && val.trim() == 'undefined' && $this.val('');
+  });
 
 
 
@@ -586,6 +578,13 @@ Edit Page
       html: true
     , stylesheets: ["/css/libs.min.css", "/css/prod.min.css?v=217"]
   });
+
+  $('.autocomplete').magicSuggest({
+      placeholder : '[可不填]'
+    , value       : keyword  || ''
+    , data        : keywords || []
+  });
+
 }());
 
 /*Pager*/
@@ -611,7 +610,7 @@ Edit Page
 
   $('.pagination>ul>li.active').size() < 1 && makeActive($('.pagination>ul>li>a').eq(0));
 
-  //keywrods selected;
+  //keywords selected;
   $('#keyNav>ul>li').removeClass('active');
   $('#keyNav>ul>li>a').each(function() {
     var $this = $(this);

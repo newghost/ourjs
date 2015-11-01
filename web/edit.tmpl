@@ -25,7 +25,6 @@
             <input class="span10" type="text"  name="poster" readonly="readonly" value="{{=it.article.poster || ''}}">
           </div>
         </div>
-        <br><br>
         {{?}}
 
         <div class="control-group">
@@ -42,17 +41,14 @@
           </div>
         </div>
 
-        <!--
         <div class="control-group">
-          <label class="control-label" for="inputPassword">状态</label>
+          <label class="control-label" for="inputPassword">关键字</label>
           <div class="controls">
-            <select class="span10" name="isPublic" data="{{=it.article.isPublic || ''}}">
-              <option value="0">草稿</option>
-              <option value="1">公开</option>
-            </select>
+            <div class="span10">
+              <input class="autocomplete" type="text" name="keyword" >
+            </div>
           </div>
         </div>
-        -->
 
         <div class="controls">
           <label class="checkbox">
@@ -80,12 +76,15 @@
     </div>
   </div>
 </div>
+
+<!--为控件准备的全局变量-->
 <script type="text/javascript">
 var content={{=JSON.stringify(it.article.content)}};
+var keyword={{=it.article.keyword && JSON.stringify((it.article.keyword).split(','))}};
+var keywords={{=JSON.stringify((it.keywords))}};
 </script>
 
 <!--#include="footer.part"-->
-
 <!--#include="script.part"-->
 
 </body>

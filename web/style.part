@@ -6,6 +6,7 @@
 
 <!--#output="/css/prod.min.css"-->
 <link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
+<link rel="stylesheet" href="/css/magicsuggest.css">
 <link rel="stylesheet" href="/css/ourjs.css">
 <!--#output=end-->
 

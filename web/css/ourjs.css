@@ -1015,6 +1015,12 @@ label.error {
 
 
 
+.ms-ctn {
+  background: #fff;
+  border: solid 1px #ccc;
+}
+
+
 
 /*for mobile device*/
 @media (max-width: 979px) {

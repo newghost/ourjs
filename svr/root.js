@@ -38,13 +38,20 @@ app.get('/root/edit/:id', function(req, res) {
     res.render('edit.tmpl', { user: user, article: {} })
   } else {
     Article.getArticlesFromIDs([id], function(articles) {
-      var article = articles[0]
+      /*
+      keyword为关键词索引，redblade会自动将所有关词诩都保存到 key 集合中
+      提取出来为自动补全控件使用
+      */
+      redblade.client.smembers('key', function(err, keywords) {
+        var article = articles[0]
 
-      if (article && (!article.poster || article.poster === user.username || user.isAdmin)) {
-        res.render('edit.tmpl', { user: user, article: article })
-      } else {
-        res.end(MESSAGES.NOPERMISSION)
-      }
+        if (article && (!article.poster || article.poster === user.username || user.isAdmin)) {
+          res.render('edit.tmpl', { user: user, article: article, keywords: keywords })
+        } else {
+          res.end(MESSAGES.NOPERMISSION)
+        }
+      })
+
     })
   }
 })
@@ -80,9 +87,16 @@ app.post("/root/edit.post", function(req, res) {
   if (article.title
     && (!article.poster || article.poster === user.username || user.isAdmin)) {
 
-    //2代表草稿
-    !user.isAdmin && article.isPublic !== 2 && (article.isPublic = 0)
-
+    //只有管理员可设此值
+    delete article.isPublic
+    /*
+    此前端会发过来的关键字是这样的，需要整理一下
+    keyword[]:java  keyword[]:c#
+    keyword[] = [ java, c# ]
+    keyword 以豆号分割
+    */
+    var keyword = article['keyword[]']
+    keyword && keyword.join && (article.keyword = keyword.join(','))
 
     var onResponse = function(err, result) {
       if (err) {
@@ -152,6 +166,11 @@ app.get('/root/publish/:id/:state', function(req, res) {
     , user      = req.session.get('user')
     , state     = parseInt(req.params.state) || 0
     , key       = 'article:' + id
+
+  if (!user.isAdmin) {
+    res.send('没有权限')
+    return
+  }
 
   redblade.client.exists(key, function(err, exists) {
     if (!exists) {

@@ -23,6 +23,7 @@ ga('send', 'pageview');
 <script src="/js/Markdown.Sanitizer.js"></script>
 <script src="/js/Markdown.Editor.js"></script>
 <script src="/js/Markdown.local.cn.js"></script>
+<script src="/js/magicsuggest.js"></script>
 <script src="/js/string.js"></script>
 <script src="/js/jquery.browser.js"></script>
 <script src="/js/nprogress.js"></script>

@@ -80,7 +80,7 @@ app.use(function(req, res) {
 var showListHandler = function(req, res, url) {
   var params      = app.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
     , template    = params.template || 'home'
-    , keyword     = params.keyword  || 'all'
+    , keyword     = params.keyword  || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
     , pageSize    = 40
     , user        = req.session.get('user') || {}
@@ -240,10 +240,11 @@ app.get('/user.signout.post', function(req, res) {
   var username = req.session.get('username')
     , opts     = { path: '/', domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
-  req.session.set('username', '')
-  res.cookie('autosign', null, opts)
-  res.cookie('_id', null, opts)
-  res.cookie('token', null, opts)
+  //清空user
+  req.session.set('user', {})
+  res.cookie('t0', null, opts)
+  res.cookie('t1', null, opts)
+  res.cookie('t2', null, opts)
   req.url.indexOf('redirect') < 0
     ? res.send({done: true})
     : res.redirect('/')
