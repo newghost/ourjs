@@ -34,26 +34,26 @@ app.get('/root/edit/:id', function(req, res) {
   var user  = req.session.get('user') || {}
     , id    = req.params.id
 
-  if (id == "add") {
-    res.render('edit.tmpl', { user: user, article: {} })
-  } else {
-    Article.getArticlesFromIDs([id], function(articles) {
-      /*
-      keyword为关键词索引，redblade会自动将所有关词诩都保存到 key 集合中
-      提取出来为自动补全控件使用
-      */
-      redblade.client.smembers('key', function(err, keywords) {
+  redblade.client.smembers('key', function(err, keywords) {
+    if (id == "add") {
+      res.render('edit.tmpl', { user: user, article: {}, keywords: keywords })
+    } else {
+      Article.getArticlesFromIDs([id], function(articles) {
+        /*
+        keyword为关键词索引，redblade会自动将所有关词诩都保存到 key 集合中
+        提取出来为自动补全控件使用
+        */
         var article = articles[0]
 
-        if (article && (!article.poster || article.poster === user.username || user.isAdmin)) {
+        if (article && (article.poster === user.username || user.isAdmin)) {
           res.render('edit.tmpl', { user: user, article: article, keywords: keywords })
         } else {
           res.end(MESSAGES.NOPERMISSION)
         }
       })
+    }
+  })
 
-    })
-  }
 })
 
 /*
@@ -90,13 +90,19 @@ app.post("/root/edit.post", function(req, res) {
     //只有管理员可设此值
     delete article.isPublic
     /*
-    此前端会发过来的关键字是这样的，需要整理一下
+    此前端会发过来的关键字是这样的，需要整理一下;
     keyword[]:java  keyword[]:c#
     keyword[] = [ java, c# ]
     keyword 以豆号分割
     */
     var keyword = article['keyword[]']
-    keyword && keyword.join && (article.keyword = keyword.join(','))
+    if (keyword) {
+      //两个就是数组，只有一个即为字符串
+      article.keyword = keyword.join
+        ? keyword.join(',')
+        : keyword.toString()
+    }
+    
 
     var onResponse = function(err, result) {
       if (err) {
