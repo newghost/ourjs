@@ -36,11 +36,9 @@
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
           </div>
           <div class="info">
-             {{?article.keyword}}
-             • <a href="/home/{{=article.keyword}}" target="_blank">{{=article.keyword}}</a>
-             {{?}}
-             • <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-             • <span class="formatdate">{{=article.replyTime || article.postDate || 0}}</span>
+            • <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+            • <span class="formatdate">{{=article.replyTime || article.postDate || 0}}</span>
+            {{?article.keyword}} • {{=article.keyword}} {{?}}
           </div>
         </li>
         {{~}}

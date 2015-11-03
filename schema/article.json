@@ -4,7 +4,7 @@
   , "url"         : "url"
   , "content"     : ""
   , "keyword"     : "keywords('key', return +new Date() / 1000 | 0)"
-  , "poster"      : "index('user_article')"
+  , "poster"      : "index('user_article', return +new Date())"
   , "isPublic"    : "index('public', return +new Date())"
   , "visitNum"    : "int"
   , "postDate"    : "int"

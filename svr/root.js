@@ -38,7 +38,7 @@ app.get('/root/edit/:id', function(req, res) {
     if (id == "add") {
       res.render('edit.tmpl', { user: user, article: {}, keywords: keywords })
     } else {
-      Article.getArticlesFromIDs([id], function(articles) {
+      redblade.client.hgetall('article:' + id, function(err, article) {
         /*
         keyword为关键词索引，redblade会自动将所有关词诩都保存到 key 集合中
         提取出来为自动补全控件使用

@@ -271,12 +271,16 @@ var getArticlesFromIDs = function(IDs, cb) {
 /*
 提取已经发布的文章
 */
-var getArticles = function(start, end, cb) {
-  redblade.client.zrange('public:1', start, end, function(err, articleIDs) {
-    console.log(articleIDs)
+var getArticles = function(start, end, cb, keyword) {
+  var where = { isPublic: 1 }
 
+  keyword && (where.keyword = keyword)
+
+  redblade.select('article', where, function(err, articles) {
+  //redblade.client.zrange('public:1', start, end, function(err, articleIDs) {
     if (!err) {
-      getArticlesFromIDs(articleIDs, cb)
+      //getArticlesFromIDs(articleIDs, cb)
+      cb && cb(articles)
     } else {
       cb && cb([])
     }

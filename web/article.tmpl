@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{=it.description}}">
 <!--#include="style.part"-->
-<script>var conf={ _id: "{{=it._id}}", username:"{{=it.user.username || ''}}", useravatar:"{{=it.user.useravatar || ''}}"}</script>
 </head>
 
 <body class="detail">
@@ -33,40 +32,42 @@
       </div>
 
       <div id="summary">
-        {{?it.article.keyword}}
-        <b>关键字</b>
-        <a class="category" target="_blank" href="/bbs/{{=it.article.keyword}}">{{=it.article.keyword}}</a>&nbsp;&nbsp;
-        {{?}}
-
         <b>发布</b>
         <a href="/userinfo/{{=it.article.poster || ''}}" target="_blank">{{=it.article.poster || ''}}</a>&nbsp;
         <span class="formatdate date">{{=it.article.postDate || ''}}</span>
 
-        <br>
+        {{?it.article.keyword}}
+          &nbsp;&nbsp;<b>关键字</b>
+          {{~(it.article.keyword || '').split(','):keyword:index}}
+          <a class="category" target="_blank" href="/home/{{=keyword}}">{{=keyword}}</a>
+          {{~}}
+        {{?}}
 
-        <b>注意</b> 转载须保留原文链接，译文链接，作者译者等信息。&nbsp;&nbsp;
-        {{?it.user.username == it.article.poster || it.user.isAdmin}}
         <br>
-        <b>管理</b>&nbsp;
-        <a href="/root/delete/{{=it.article.id}}" target="_blank">
-          <i class="icon-trash"></i> 删除
-        </a>
-        &nbsp;
-        <a href="/root/edit/{{=it.article.id}}" target="_blank">
-          <i class="icon-pencil"></i> 修改
-        </a>
+        <b>注意</b> 转载须保留原文链接，译文链接，作者译者等信息。&nbsp;&nbsp;
+
+        {{?it.user.username == it.article.poster || it.user.isAdmin}}
+          <br>
+          <b>管理</b>&nbsp;
+          <a href="/root/delete/{{=it.article.id}}" target="_blank">
+            <i class="icon-trash"></i> 删除
+          </a>
+          &nbsp;
+          <a href="/root/edit/{{=it.article.id}}" target="_blank">
+            <i class="icon-pencil"></i> 修改
+          </a>
         {{?}}
         {{?it.user.isAdmin}}
-        &nbsp;
-        {{?it.article.isPublic == 1}}
-        <a href="/root/publish/{{=it.article.id}}/0" target="_blank">
-          <i class="icon-share"></i> 取消发布
-        </a>
-        {{??}}
-        <a href="/root/publish/{{=it.article.id}}/1" target="_blank">
-          <i class="icon-share"></i> 发布
-        </a>
-        {{?}}
+          &nbsp;
+          {{?it.article.isPublic == 1}}
+          <a href="/root/publish/{{=it.article.id}}/0" target="_blank">
+            <i class="icon-share"></i> 取消发布
+          </a>
+          {{??}}
+          <a href="/root/publish/{{=it.article.id}}/1" target="_blank">
+            <i class="icon-share"></i> 发布
+          </a>
+          {{?}}
         {{?}}
       </div>
 

@@ -95,7 +95,7 @@ var showListHandler = function(req, res, url) {
       , keyword   : keyword
       , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
     })
-  })
+  }, keyword)
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
@@ -106,7 +106,7 @@ var showDetailHandler = function(req, res) {
   var tmpl  = req.url.split('/')[1]     //get the template name
     , id    = req.params.id             //get the object id
     , key   = 'article:' + id
-
+    , user  = req.session.get('user') || {}
 
   if (id && tmpl) {
     //Does it existing in the Articles?
@@ -116,7 +116,7 @@ var showDetailHandler = function(req, res) {
         client.hgetall('user:' + article.poster, function(err, posterInfo) {
           res.render(tmpl + ".tmpl", {
               article : article
-            , user    : req.session.get('user')
+            , user    : user
             , poster  : posterInfo || {}
           })
         })
@@ -241,7 +241,7 @@ app.get('/user.signout.post', function(req, res) {
     , opts     = { path: '/', domain: WEBSVR_CONFIG.sessionDomain, httponly: true }
 
   //清空user
-  req.session.set('user', {})
+  req.session.set('user', '')
   res.cookie('t0', null, opts)
   res.cookie('t1', null, opts)
   res.cookie('t2', null, opts)
@@ -282,50 +282,6 @@ var getPagination = function(config, pagerFormat) {
   pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
 
   return pagination
-}
-
-/*
-BBS Club Handler
-handle: /bbs, /bbs/nodejs, /bbs/招聘/0
-page number start from 0
-*/
-var keyListHandler = function(req, res, url) {
-
-  var params      = url ? app.parseUrl('/:keymeta/:keyword/:pageNumber', url) : req.params
-    , keymeta     = req.url.split('/')[1] || ''
-    , keyword     = params.keyword || ''
-    , pageNumber  = parseInt(params.pageNumber) || 0
-    , username    = req.session.get('username')
-    , userInfo    = Users.users[req.session.get('username')] || {}
-    , allArticles = Articles.keywordsArticles[keyword] || []
-    , count       = allArticles.length
-    , pageSize    = 20
-    , articles    = allArticles.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize)
-
-
-  var config = {
-      keyword:  keyword
-    , keymeta:  keymeta
-    , pageSize: pageSize
-    , count:    count
-    , pager:    pageNumber
-    , username: userInfo.username
-  }
-
-  keymeta.indexOf('rss') > -1 && res.type('xml')
-
-  res.render("{0}.tmpl".format(keymeta), {
-      articles    : articles
-    , title       : keywords[keyword] || keywords['']
-    , username    : userInfo.username
-    , useravatar  : userInfo.avatar
-    , keymeta     : keymeta
-    , config      : JSON.stringify(config)
-    , user        : userInfo
-    , hottest     : articlesCount.hottest
-    , keywords    : keywords
-    , pagination  : getPagination(config, '<li {1}><a href="/' + keymeta + '/' + keyword + '/{0}">{0}</a></li>')
-  })
 }
 
 /*
