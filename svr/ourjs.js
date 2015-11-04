@@ -86,16 +86,25 @@ var showListHandler = function(req, res, url) {
     , user        = req.session.get('user') || {}
 
 
-  Article.getArticles(pageNumber * pageSize, (pageNumber + 1) * pageSize, function(articles) {
-    template.indexOf('rss') > -1 && res.type('xml')
+  var where = { isPublic: 1 }
 
+  keyword && (where.keyword = keyword)
+
+  redblade.select('article', where, function(err, articles) {
+    if (err) {
+      res.send(err.toString())
+      return
+    }
+
+    template.indexOf('rss') > -1 && res.type('xml')
     res.render(template + ".tmpl", {
         user      : user
       , articles  : articles
       , keyword   : keyword
       , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
     })
-  }, keyword)
+
+  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize })
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber

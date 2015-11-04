@@ -250,41 +250,14 @@ Refresh cached pool
 
 
 var getArticlesFromIDs = function(IDs, cb) {
-  var count     = 0
-    , articles  = []
-
-  var getArticleFromID = function(id) {
-    redblade.client.hgetall('article:' + id, function(err, article) {
-      if (!err) {
-        articles.push(article)
-      }
-
-      ++count == IDs.length && cb && cb(articles)
-    })
-  }
-
-  IDs && IDs.length
-    ? IDs.forEach(getArticleFromID)
-    : cb && cb(articles)
+  
 }
 
 /*
 提取已经发布的文章
 */
 var getArticles = function(start, end, cb, keyword) {
-  var where = { isPublic: 1 }
 
-  keyword && (where.keyword = keyword)
-
-  redblade.select('article', where, function(err, articles) {
-  //redblade.client.zrange('public:1', start, end, function(err, articleIDs) {
-    if (!err) {
-      //getArticlesFromIDs(articleIDs, cb)
-      cb && cb(articles)
-    } else {
-      cb && cb([])
-    }
-  })
 }
 
 
