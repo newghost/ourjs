@@ -24,10 +24,12 @@ app.use('/root', function(req, res) {
 
   if (!user || !user.username) {
     res.send(401, '没有权限')
+    req.filter.next()
   } else {
     req.filter.next()
   }
-})
+
+}, { session: true })
 
 
 app.get('/root/edit/:id', function(req, res) {
@@ -43,8 +45,6 @@ app.get('/root/edit/:id', function(req, res) {
         keyword为关键词索引，redblade会自动将所有关词诩都保存到 key 集合中
         提取出来为自动补全控件使用
         */
-        var article = articles[0]
-
         if (article && (article.poster === user.username || user.isAdmin)) {
           res.render('edit.tmpl', { user: user, article: article, keywords: keywords })
         } else {
@@ -55,22 +55,6 @@ app.get('/root/edit/:id', function(req, res) {
   })
 
 })
-
-/*
-var getPostInterval = function(userInfo) {
-  if (!userInfo.username) {
-    return 1000000
-  }
-
-  var curDate   = + new Date() / 1000 | 0
-    , interval  = (postIntervals[userInfo.username] | 0) + GENERAL_CONFIG.postInterval - curDate
-
-
-  interval < 0 && (interval = (userInfo.joinedTime / 1000 | 0) + GENERAL_CONFIG.newerInterval - curDate)
-
-  return interval
-}
-*/
 
 
 app.post("/root/edit.post", function(req, res) {

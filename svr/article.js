@@ -11,257 +11,120 @@ Cache articles for sites
 */
 var fs              = require('fs')
   , path            = require('path')
-  // , events          = require('events')
   , utility         = require('./utility')
   , config          = global.CONFIG
 
 
-// var list              = []    //all list order with publish date
-//   , replyList         = []    //all list order with reply date
-//   , all               = {}    //all key/value pair
-//   , categoryArticles  = {}    //all displayed in default page
-//   , keywordsArticles  = {}    //filter articles by keywords
-//   , urlSlugsArticles  = {}    //sort articles by url slugs
-//   , userArticles      = {}
-//   , refreshTimer      = 0
+var redblade  = require('redblade')
 
 
-var User      = require('./user')
-  , redblade  = require('redblade')
 
 
-// var notify = new events.EventEmitter()
 
-/*
-Get and init articles
-*/
-// var initArticles  = function() {
-//   adapter.select('article', function(records) {
-//     //reset category of articles but keep the reference of array object
-//     for (var id in all) {
-//       delete all[id]
-//     }
-
-//     //update article pool
-//     records.forEach(function(article) {
-//       var id = article._id.toString()
-//       formatArticle(article)
-//       all[id] = article
-//     })
-
-//     refreshPool()
-
-//     console.log('Refreshed articles ', records.length)
-
-//     notify.emit('done')
-//   })
-// }
-
-/*
-Format article for outputing/displaying
-*/
-// var formatArticle = function(article) {
-//   article.poster        = article.poster || 'ourjs'
-//   article.avatar        = (Users.users[article.poster] || {}).avatar
-//   //category articles will be displayed on homepage, verified articles
-//   article.postdatetime  = utility.getTimestampFromDate(article.publishTime || article.postdate)
-//   article.category      = article.category  || ""
-//   article.keyword       = article.keyword   || ''
-
-//   if (article.replies) {
-//     for (var i = 0, l = article.replies.length; i < l; i++) {
-//       var reply = article.replies[i]
-//       reply.avatar = (Users.users[reply.poster] || {}).avatar
-//     }
-//   }
-// }
-
-/*
-Refresh cached pool
-*/
-// var refreshPool = function() {
-//   var idx
-//     , len
+//handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
+var showListHandler = function(req, res, url) {
+  var params      = app.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
+    , template    = params.template || 'home'
+    , keyword     = params.keyword  || ''
+    , pageNumber  = parseInt(params.pagerNumber) || 0
+    , pageSize    = 40
+    , user        = req.session.get('user') || {}
 
 
-//   /*
-//   * clean first
-//   */
-//   //list.splice(0, list.length)
-//   list.length       = 0
-//   replyList.length  = 0
+  var where = { isPublic: 1 }
 
-//   for (idx in urlSlugsArticles) {
-//     delete urlSlugsArticles[idx]
-//   }
+  keyword && (where.keyword = keyword)
 
-//   for (idx in categoryArticles) {
-//     delete categoryArticles[idx]
-//   }
+  redblade.select('article', where, function(err, articles) {
+    if (err) {
+      res.send(err.toString())
+      return
+    }
 
-//   for (idx in keywordsArticles) {
-//     delete keywordsArticles[idx]
-//   }
+    template.indexOf('rss') > -1 && res.type('xml')
+    res.render(template + ".tmpl", {
+        user      : user
+      , articles  : articles
+      , keyword   : keyword
+      , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+    })
 
-//   for (idx in userArticles) {
-//     delete userArticles[idx]
-//   }
-
-//   /*
-//   * init
-//   */
-//   categoryArticles['']  = []
-//   keywordsArticles['']  = []
-
-//   for (var _id in all) {
-//     var article = all[_id]
-//     if (article && article.postdate && article.title) {
-//       article.urlSlug && (urlSlugsArticles[article.urlSlug] = article)
-//       list.push(article)
-//       replyList.push(article)
-//     }
-//   }
-
-//   list.sort(function(articleA, articleB) {
-//     return (articleB.publishTime || articleB.postdate) - (articleA.publishTime || articleA.postdate)
-//   })
-
-//   replyList.sort(function(articleA, articleB) {
-//     return (articleB.replyTime || articleB.postdate) - (articleA.replyTime || articleA.postdate)
-//   })
-
-//   /*
-//   * update pool (category & users)
-//   */
-//   for (idx = 0, len = list.length; idx < len; idx++) {
-
-//     var article   = list[idx]
-
-//     if (article) {
-
-//       var category  = article.category
-//         , poster    = article.poster
-
-
-//       //user articles doesn't need to be verified
-//       if (poster) {
-//         !userArticles[poster] && (userArticles[poster] = [])
-//         userArticles[poster].push(article)
-//       }
-
-//       if (article.verify == 1) {
-//         if (category && category != '') {
-//           !categoryArticles[category] && (categoryArticles[category] = [])
-//           categoryArticles[category].push(article)
-//         } 
-//         categoryArticles[''].push(article)
-//       }
-//     } else {
-//       console.log(article, idx, len)
-//     }
-//   }
-
-//   /*
-//   * update reply list pool (category & users)
-//   */
-//   for (idx = 0, len = replyList.length; idx < len; idx++) {
-//     var article   = replyList[idx]
-//     if (article) {
-//       var keyword   = article.keyword
-//       //hidden or delete articles will not displayed here
-//       if (article.verify >= 0) {
-//         if (keyword) {
-//           !keywordsArticles[keyword] && (keywordsArticles[keyword] = [])
-//           keywordsArticles[keyword].push(article)
-//         }
-//         keywordsArticles[''].push(article)
-//       }
-//     }
-//   }
-
-//   console.log('refreshed cache pool!')
-// }
-
-// var update = function(article, updateJSON) {
-//   var _id = article._id
-//   if (_id) {
-//     if (updateJSON) {
-//       for (var key in updateJSON) {
-//         article[key] = updateJSON[key]
-//       }
-//     }
-
-//     formatArticle(article)
-
-//     all[_id] = article
-//     refreshPool()
-//     return true
-//   }
-//   return false
-// }
-
-// var remove = function(article) {
-//   var id = article._id
-
-//   if (id) {
-//     delete all[id]
-//     refreshPool()
-//     return true
-//   }
-//   return false
-// }
-
-// var find = function(urlId) {
-//   return all[urlId] || urlSlugsArticles[urlId] || null
-// }
-
-// var findSimilar = function(article) {
-//   var allSimilar = categoryArticles[article.category] || []
-
-//   return allSimilar.slice(0, 10).map(function(article) {
-//     return {
-//         _id:   (article._id || '').toString()
-//       , title: article.title
-//     }
-//   })
-// }
-
-// var getTitleFromIDs = function(ids, len) {
-//   ids = ids || []
-//   len = len || 10 
-
-//   var result = []
-//   for (var i = 0, l = ids.length; i < ids.length && result.length < len; i++) {
-//     var article = all[ids[i]]
-//     if (article && article.title && article.verify != 0) {
-//       result.push({
-//           _id:   ids[i]
-//         , title: article.title
-//       })
-//     }
-//   }
-//   return result
-// }
-
-// var refresh = function() {
-//   clearTimeout(refreshTimer) //cancel the last refresh within 2 seconds
-//   refreshTimer = setTimeout(initArticles, 2000)
-// }
-
-
-var getArticlesFromIDs = function(IDs, cb) {
-  
+  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize })
 }
 
-/*
-提取已经发布的文章
-*/
-var getArticles = function(start, end, cb, keyword) {
 
+//handle detail.tmpl: content of article
+var showDetailHandler = function(req, res) {
+  var tmpl  = req.url.split('/')[1]     //get the template name
+    , id    = req.params.id             //get the object id
+    , key   = 'article:' + id
+    , user  = req.session.get('user') || {}
+
+  if (id && tmpl) {
+    //Does it existing in the Articles?
+    redblade.client.hgetall(key, function(err, article) {
+      if (article) {
+        redblade.client.hincrby(key, 'visitNum', 1)
+        redblade.client.hgetall('user:' + article.poster, function(err, posterInfo) {
+          res.render(tmpl + ".tmpl", {
+              article : article
+            , user    : user
+            , poster  : posterInfo || {}
+          })
+        })
+      } else {
+        res.write404()
+      }
+    })
+  } else {
+    res.write404()
+  }
 }
+
+
+var getPagination = function(config, pagerFormat) {
+  var interval = 5
+    , curPager = config.pager || 0
+    , maxPager = config.count / config.pageSize | 0
+    , startPos = curPager - (interval / 2 | 0)
+
+
+  maxPager - startPos < interval && (startPos = maxPager - interval)
+  startPos < 1 && (startPos = 1)
+
+  var pagination  = ''
+    , paginations = []
+
+
+  var addPage = function(pager) {
+    paginations.push(
+      pagerFormat.format(pager, curPager == pager ? 'class="active"' : '')
+    )
+  }
+
+  addPage(0)
+  startPos > 1 && paginations.push('<li><a>…</a></li>')
+  for (var i = 0; startPos < maxPager && i < 5; i++, startPos++) {
+    addPage(startPos)
+  }
+  startPos < maxPager && paginations.push('<li><a>…</a></li>')
+  maxPager > 0 && addPage(maxPager)
+
+  pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
+
+  return pagination
+}
+
+
+//127.0.0.1/ or 127.0.0.1/home/category/pagernumber
+app.get(['/home', '/json', '/rss'], showListHandler)
+
+//127.0.0.1/article/2340234erer23343[OjbectID]
+app.get('/article/:id', showDetailHandler)
+
+
 
 
 module.exports = {
-    getArticlesFromIDs  : getArticlesFromIDs
-  , getArticles         : getArticles
+    showListHandler : showListHandler
 }
