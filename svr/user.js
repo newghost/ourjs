@@ -122,7 +122,7 @@ var update = function(userInfo, cb) {
 
 var signHandler = function(req, res, userInfo) {
   if (userInfo && userInfo.username)  {
-    req.session.set('username', userInfo.username)
+    req.session.set('user', userInfo)
 
     if (req.body.autosign === 'on') {
       setAutoSignin(req, res, userInfo)
