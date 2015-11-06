@@ -151,31 +151,24 @@ var signHandler = function(req, res, userInfo) {
 
 app.get('/useredit/:username', function(req, res) {
   var username  = req.params.username
-    , loginUser = req.session.get('username')
+    , user      = req.session.get('user') || {}
 
-
-  if (username == loginUser || (Users.users[loginUser] || {}).isAdmin) {
-    var userInfo = Users.users[username]
-    if (userInfo) {
-      if (userInfo._id) {
-        return res.render('useredit.tmpl', {
-            user:     userInfo
-          , username: loginUser
-        })
-      } else {
-        //User didn't registed in this system but have shared session
-        res.end('You cannot edit profile here!')
-      }
+  redblade.client.hgetall('user:' + username, function(err, userInfo) {
+    if (userInfo && (userInfo.username == user.username || user.isAdmin)) {
+      return res.render('useredit.tmpl', {
+        userInfo : userInfo
+      })
     }
-  }
-  res.send(MESSAGES.NOPERMISSION)
+
+    res.send('参数错误')
+  })
+
 })
 
 
 /*
 App Handlers here
 */
-
 app.post('/user.signup.post', function(req, res) {
   var postInfo = req.body
     , userInfo = {
@@ -207,26 +200,30 @@ app.get('/user.signin.post', function(req, res) {
 * user.edit.post: response json
 */
 app.post('/user.edit.post', function(req, res) {
-  var postInfo  = req.body
-    , loginUser = Users.users[req.session.get('username')]
+  var userInfo  = req.body
+    , user      = req.session.get('user')
 
-  if (loginUser && loginUser._id) {
-    utility.extend(postInfo, {
-        _id           : loginUser._id
-      , username      : loginUser.isAdmin ? postInfo.username : loginUser.username
-    })
+  //密码加密后再比较
+  userInfo.password = utility.getEncryption(userInfo.password || '')
 
-    Users.update(postInfo, function(done) {
+  if ((userInfo && userInfo.username && userInfo.username == user.username && userInfo.password == user.password) || user.isAdmin) {
+
+    var newPassword = userInfo.newPassword
+    if (newPassword) {
+      userInfo.password = utility.getEncryption(newPassword)
+    }
+
+    redblade.update('user', userInfo, function(err, done) {
       if (req.url.indexOf('redirect') < 0) {
-        res.send({done:done})
+        res.send({ done: done })
       } else {
         done
           ? res.redirect('/')
-          : res.send(MESSAGES.USERNAME_PASSWORD_NOT_MATCH)
+          : res.send({ error: (err || '更新失败').toString() })
       }
     })
   } else {
-    res.end(MESSAGES.TIMEOUT)
+    res.send({ error: '参数错误' })
   }
 
 }, 'qs')
@@ -273,7 +270,7 @@ app.get('/user/:username/:pageNumber', function(req, res) {
       redblade.select('article', { poster: username }, function(err, articles) {
         res.render(tmpl + ".tmpl", {
             articles  : articles
-          , user      : userInfo
+          , userInfo  : userInfo
           , nextPage  : nextNumber
         })
       })

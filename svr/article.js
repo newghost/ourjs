@@ -43,8 +43,7 @@ var showListHandler = function(req, res, url) {
 
     template.indexOf('rss') > -1 && res.type('xml')
     res.render(template + ".tmpl", {
-        user      : user
-      , articles  : articles
+        articles  : articles
       , keyword   : keyword
       , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
     })
@@ -68,7 +67,6 @@ var showDetailHandler = function(req, res) {
         redblade.client.hgetall('user:' + article.poster, function(err, posterInfo) {
           res.render(tmpl + ".tmpl", {
               article : article
-            , user    : user
             , poster  : posterInfo || {}
           })
         })

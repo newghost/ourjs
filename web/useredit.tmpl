@@ -16,17 +16,17 @@
   <div class="row-fluid">
     <div class="span4 userAvator">
       <a class="avatar">
-        <img src="http://www.gravatar.com/avatar/{{=it.user.avatar}}" />
+        <img src="http://www.gravatar.com/avatar/{{=it.userInfo.avatar}}" />
       </a>
       <table>
         <tr title="用户名">
           <td><i class="icon-user"></i></td>
-          <td><b>{{=it.user.username}}</b></td>
+          <td><b>{{=it.userInfo.username}}</b></td>
         </tr>
-        {{?it.user.company}}
+        {{?it.userInfo.company}}
         <tr title="公司">
           <td><i class="icon-briefcase"></i></td>
-          <td><b>{{=it.user.company}}</b></td>
+          <td><b>{{=it.userInfo.company}}</b></td>
         </tr>
         {{?}}
       </table>
@@ -41,24 +41,12 @@
             <input type="password" id="signupPassword" name="password" placeholder="原密码">
           </div>
         </div>
-        <div class="control-group">
-          <label class="control-label" for="signupEmail" required>邮箱</label>
-          <div class="controls">
-            <input type="email" id="signupEmail" name="email" placeholder="邮箱" value="{{=it.user.email || ''}}">
-          </div>
-        </div>
         <h4 class="title">选填资料</h4>
         <!-- <hr> -->
         <div class="control-group">
-          <label class="control-label" for="company">公司</label>
-          <div class="controls">
-            <input type="text" id="company" name="company" placeholder="公司" value="{{=it.user.company || ''}}">
-          </div>
-        </div>
-        <div class="control-group">
           <label class="control-label" for="briefinfo">简介</label>
           <div class="controls">
-            <textarea type="text" id="briefinfo" name="briefinfo" placeholder="简介[300字内]" maxlength="300">{{=it.user.briefinfo || ''}}</textarea>
+            <textarea type="text" id="briefinfo" name="briefinfo" placeholder="简介[300字内]" maxlength="300">{{=it.userInfo.briefinfo || ''}}</textarea>
           </div>
         </div>
         <div class="control-group">
@@ -82,14 +70,14 @@
             <button type="submit" class="btn btn-primary btn-large">确定修改</button>
           </div>
         </div>
-        <input type="hidden" name="username" value="{{=it.user.username}}">
+        <input type="hidden" name="username" value="{{=it.userInfo.username}}">
       </form>
     </div>
 
   </div>
 </div>
-<hr>
 
+<!--#include="footer.part"-->
 <!--#include="script.part"-->
 <!--Powered By OurJS -->
 </body>

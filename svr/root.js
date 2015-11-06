@@ -29,7 +29,12 @@ app.use('/root', function(req, res) {
     req.filter.next()
   }
 
-}, { session: true })
+/*
+在ourjs.js中 require('root') 在 app.uss(function() { }) 之前
+root的middleware比ourjs.js的middleware执行要早，
+所以session此时未定义； 添加解析session的参数
+*/
+}, { session: true })  
 
 
 app.get('/root/edit/:id', function(req, res) {

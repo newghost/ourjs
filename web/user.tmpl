@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>{{=it.user.username}} - OurJS.com</title>
+<title>{{=it.userInfo.username}} - OurJS.com</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{=it.description}}">
 <!--#include="style.part"-->
@@ -16,20 +16,16 @@
   <div class="row-fluid">
     <div class="span4 userAvator">
       <a class="avatar">
-        <img src="http://www.gravatar.com/avatar/{{=it.user.avatar}}" />
+        <img src="http://www.gravatar.com/avatar/{{=it.userInfo.avatar}}" />
       </a>
       <table>
         <tr title="用户名">
           <td><i class="icon-user"></i></td>
-          <td><b>{{=it.user.username}}</b></td>
+          <td><b>{{=it.userInfo.username}}</b></td>
         </tr>
-        {{?it.user.company}}
-        <tr title="公司">
-          <td><i class="icon-briefcase"></i></td>
-          <td><b>{{=it.user.company}}</b></td>
-        </tr>
+        {{?it.userInfo.briefinfo}}
         <tr title="简介">
-          <td colspan="2">{{=it.user.briefinfo}}</td>
+          <td colspan="2">{{=it.userInfo.briefinfo}}</td>
         </tr>
         {{?}}
       </table>

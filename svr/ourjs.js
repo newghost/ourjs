@@ -34,8 +34,8 @@ var WEBSVR_CONFIG   = config.WEBSVR_CONFIG
 //Start the WebSvr
 var app = WebSvr(WEBSVR_CONFIG)
 
-//Set default model
-app.model({ user:{} })
+//全局默认model
+//app.model({ property: 'value' })
 
 //change template engine
 //app.engine(require("./doT").compile)
@@ -85,6 +85,9 @@ app.use(function(req, res) {
     , cookies   = req.cookies
 
   var handleNext = function(userInfo) {
+    //将登录用户写入默认model
+    res.model.user = user
+
     //if root dir redirect to home, etc /, /?abc=1234
     if (url == '/' || url[1] == '?') {
       Article.showListHandler(req, res, "/home/")
