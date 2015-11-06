@@ -68,10 +68,12 @@
             </li>
             <li class="divider"></li>
             <li>
-              <p class="nav-header">邮件订阅</p>
+              <p class="nav-header">邮件订阅, 使用
+                <a href="http://list.qq.com/cgi-bin/qf_invite?id=2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" target="_blank">QQ邮件列表</a>
+              </p>
               <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank">
                 <input type="hidden" value="qf_booked_feedback" name="t" />
-                <input type="hidden" value="c13a5bc9044bced9388831616a30239fc33ccfa553f09bdd" name="id" />
+                <input type="hidden" value="2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" name="id" />
                 <input type="email" name="to" id="to" placeholder="Email" />
                 <div class="text-right">
                   <button class="btn" type="submit">订阅邮件</button>
@@ -84,7 +86,7 @@
         <li class="pull-right">
           <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" class="navbar-form">
             <input type="hidden" value="qf_booked_feedback" name="t" />
-            <input type="hidden" value="c13a5bc9044bced9388831616a30239fc33ccfa553f09bdd" name="id" />
+            <input type="hidden" value="2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" name="id" />
             <input type="email" name="to" id="to" placeholder="Email"/>
             <button class="btn" type="submit">订阅邮件</button>
             <a href="/rss" target="_blank" class="rss"><img src="/img/rss.png"></a>

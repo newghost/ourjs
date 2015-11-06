@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:wb="http://open.weibo.com/wb">
 <head>
 <meta charset="utf-8">
 <title>{{=it.article.title}} | anynb</title>
@@ -84,54 +84,10 @@
         <span></span>
       </div>
 
-      <div id="comments">
-        <div>
-          <b style="font-size:20px">社区评论</b> <span style="font-size:12px"> ( Beta版 )</span>
-        </div>
-        <ul id="comments_list" class="unstyled comments">
-          {{~ it.replies :reply:index }}
-          <li>
-            {{?reply.deleted}}
-            <div class="info">
-              #<b class="floor">{{=index}}</b> <s>己删除</s>
-              <span class="formatdate text-right">{{=reply.postdate}}</span>
-            </div>
-            {{??}}
-            <a class="avatar"><img src="http://www.gravatar.com/avatar/{{=reply.avatar}}"></a>
-            <div class="info">
-              #<b class="floor">{{=index}}</b>
-              {{?reply.poster}}
-              <a href="/userinfo/{{=reply.poster || ''}}" target="_blank">{{=reply.poster || ''}}</a>
-              {{??}}
-              <a>{{=reply.nickname || ''}}</a>
-              {{?}}
-              <span class="formatdate">{{=reply.postdate}}</span>
-            </div>
-            <div class="content">{{=reply.reply || ''}}</div>
-            <div class="command">
-              {{?it.username && !reply.deleted && (reply.poster == it.username || it.isAdmin)}}
-              <a class="remove"><i class="icon-remove"></i> 删除</a>
-              {{?}}
-              <a class="reply"><i class="icon-share-alt"></i> 回复</a>
-            </div>
-            {{?}}
-          </li>
-          {{~}}
-        </ul>
-        <form id="addReply">
-          <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
-          <div id="wmd-button-bar"></div>
-          <textarea class="wmd-input" id="wmd-input"></textarea>
-          <div class="toolbar">
-            {{?!it.username}}
-            <label for="nickname">游客 </label>
-            <input name="nickname" id="nickname" class="name" />
-            <i class="icon-refresh"></i>
-            {{?}}
-            <button type="submit" class="btn btn-primary">发布评论</button>
-          </div>
-        </form>
-      </div>
+      <br><br><br>
+      <wb:comments url="http://anynb.com/article/{{=it.article.id}}" border="n" width="auto" appkey="3266919690" ></wb:comments>
+      <br><br><br>
+
     </div>
   </div>
 </div>
@@ -151,6 +107,9 @@
 
 <!--#include="script.part"-->
 <!--Powered By OurJS -->
+
+<script type="text/javascript" src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3266919690" charset="utf-8"></script>
 <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1862627" charset="utf-8"></script>
+
 </body>
 </html>
