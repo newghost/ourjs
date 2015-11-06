@@ -58,7 +58,7 @@ License
 BSD, See our license file
 
 
-OurJS 0.1.x using fedis by defult
+OurJS 0.1.x using redis
 ----
 
 OurJS 0.0.x using file system
