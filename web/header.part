@@ -38,6 +38,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a href="/root/edit/add">发布文章</a></li>
+            <li class="divider"></li>
             <li><a href="/user/{{=it.user.username}}">我的文集</a></li>
             <li class="divider"></li>
             <li><a href="/useredit/{{=it.user.username}}">修改资料</a></li>
@@ -103,12 +104,11 @@
     <div id="about" class="hide">
       <iframe name="subscribeFrame" style="display:none"></iframe>
 
-      <h1 class="brand">Our<b>JS</b></h1>
+      <h1 class="brand">Any<b>NB</b></h1>
       <p class="lead">
         <br>
-        OurJS-我们的JS, 我们的技术-IT文摘; 专注JS相关领域;
+        AnyNB-股市牛博汇
         <br>
-        我们热爱编程, 我们热爱技术;我们是高大上, 有品味的码农; 
       </p>
       <h3>欢迎您订阅我们的技术周刊</h3>
       <br>
@@ -120,7 +120,7 @@
       </p>
       <h3>欢迎分享您的观点，经验，技巧，心得</h3>
       <p class="lead">
-        让我们一起找寻程序员的快乐，探索技术, 发现IT人生的乐趣; 
+        欢迎分享您的观点，经验，技巧，心得
       </p>
       <hr/>
       <p>
