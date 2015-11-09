@@ -35,14 +35,16 @@
         {{~ it.articles :article:index }}
         <div class="article">
           <h2 class="title">
-            <a target="_blank" href="/article/{{=article.id}}">
-              {{=article.title}}
-            </a>
+            {{?article.content}}
+            <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
+            {{??}}
+            <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
+            {{?}}
           </h2>
           <div class="note">
-            <a class="keyword" target="_blank" href="/bbs/{{=article.keyword}}">{{=article.keyword || ''}}</a>
             by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             <span class="formatdate date">{{=article.postTime || ''}}</span>
+            • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
           </div>
         </div>
         {{~}}

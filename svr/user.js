@@ -263,8 +263,9 @@ app.get('/user/:username/:pageNumber', function(req, res) {
   if (username) {
     redblade.client.hgetall('user:' + username, function(err, userInfo) {
       if (!userInfo) {
-        res.send('用户不存在')
-        return
+        userInfo = { username: username }
+        // res.send('用户不存在')
+        // return
       }
 
       redblade.select('article', { poster: username }, function(err, articles) {

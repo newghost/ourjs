@@ -32,12 +32,17 @@
             {{?article.verify=='1'}}
             <i class="icon-star-empty"></i>
             {{?}}
+            {{?article.content}}
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
+            {{??}}
+            <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
+            {{?}}
           </div>
           <div class="info">
             • <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             • <span class="formatdate">{{=article.replyTime || article.postTime || 0}}</span>
             {{?article.keyword}} • {{=article.keyword}} {{?}}
+            • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
           </div>
         </li>
         {{~}}

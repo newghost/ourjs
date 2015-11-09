@@ -20,6 +20,40 @@ var redblade  = require('redblade')
 
 
 
+var getPagination = function(config, pagerFormat) {
+  var interval = 5
+    , curPager = config.pager || 0
+    , maxPager = config.count / config.pageSize | 0
+    , startPos = curPager - (interval / 2 | 0)
+
+
+  maxPager - startPos < interval && (startPos = maxPager - interval)
+  startPos < 1 && (startPos = 1)
+
+  var pagination  = ''
+    , paginations = []
+
+
+  var addPage = function(pager) {
+    paginations.push(
+      pagerFormat.format(pager, curPager == pager ? 'class="active"' : '', (pager + 1))
+    )
+  }
+
+  addPage(0)
+  startPos > 1 && paginations.push('<li><a>…</a></li>')
+  for (var i = 0; startPos < maxPager && i < 5; i++, startPos++) {
+    addPage(startPos)
+  }
+  startPos < maxPager && paginations.push('<li><a>…</a></li>')
+  //maxPager > 0 && addPage(maxPager)
+
+  pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
+
+  return pagination
+}
+
+
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
@@ -27,7 +61,7 @@ var showListHandler = function(req, res, url) {
     , template    = params.template || 'home'
     , keyword     = params.keyword  || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
-    , pageSize    = 40
+    , pageSize    = 100
     , user        = req.session.get('user') || {}
 
 
@@ -35,7 +69,7 @@ var showListHandler = function(req, res, url) {
 
   keyword && (where.keyword = keyword)
 
-  redblade.select('article', where, function(err, articles) {
+  redblade.select('article', where, function(err, articles, count) {
     if (err) {
       res.send(err.toString())
       return
@@ -43,12 +77,17 @@ var showListHandler = function(req, res, url) {
 
     template.indexOf('rss') > -1 && res.type('xml')
     res.render(template + ".tmpl", {
-        articles  : articles
-      , keyword   : keyword
-      , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+        articles    : articles
+      , keyword     : keyword
+      , nextPage    : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+      , pagination  : getPagination({
+            pageSize  : pageSize
+          , pager     : pageNumber
+          , count     : 100000
+        }, '<li {1}><a href="/home/' + keyword + '/{0}">{2}</a></li>')
     })
 
-  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true })
+  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true, count: true })
 }
 
 
@@ -79,39 +118,6 @@ var showDetailHandler = function(req, res) {
   }
 }
 
-
-var getPagination = function(config, pagerFormat) {
-  var interval = 5
-    , curPager = config.pager || 0
-    , maxPager = config.count / config.pageSize | 0
-    , startPos = curPager - (interval / 2 | 0)
-
-
-  maxPager - startPos < interval && (startPos = maxPager - interval)
-  startPos < 1 && (startPos = 1)
-
-  var pagination  = ''
-    , paginations = []
-
-
-  var addPage = function(pager) {
-    paginations.push(
-      pagerFormat.format(pager, curPager == pager ? 'class="active"' : '')
-    )
-  }
-
-  addPage(0)
-  startPos > 1 && paginations.push('<li><a>…</a></li>')
-  for (var i = 0; startPos < maxPager && i < 5; i++, startPos++) {
-    addPage(startPos)
-  }
-  startPos < maxPager && paginations.push('<li><a>…</a></li>')
-  maxPager > 0 && addPage(maxPager)
-
-  pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
-
-  return pagination
-}
 
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber

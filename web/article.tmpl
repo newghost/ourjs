@@ -44,7 +44,6 @@
         {{?}}
 
         <br>
-        <b>注意</b> 转载须保留原文链接，译文链接，作者译者等信息。&nbsp;&nbsp;
 
         {{?it.user.username == it.article.poster || it.user.isAdmin}}
           <br>
@@ -85,6 +84,8 @@
       </div>
 
       <br><br><br>
+
+      <div id="comments"></div>
       <wb:comments url="http://anynb.com/article/{{=it.article.id}}" border="n" width="auto" appkey="3266919690" ></wb:comments>
       <br><br><br>
 
