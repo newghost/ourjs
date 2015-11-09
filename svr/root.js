@@ -117,7 +117,7 @@ app.post("/root/edit.post", function(req, res) {
       article.id        = app.newID(4)
       article.url       = utility.addTag(article.url)
       article.poster    = user.username
-      article.postDate  = +new Date()
+      article.postTime  = +new Date()
       article.visitNum  = 0
 
       redblade.insert('article', article, onResponse)
@@ -174,10 +174,10 @@ app.get('/root/publish/:id/:state', function(req, res) {
     }
 
     /*
-    根据schema中的定义: { "isPublic"    : "index('public', return +new Date())" }
-    使用update, 更新article 同时会自动添加id到 public:1 的集合，权重为当前的时间
+    根据schema中的定义: { "isPublic"    : "index('public', return this.pubTime)" }
+    使用update, 更新article 同时会自动添加id到 public:1 的集合，权重为当前的时间(pubTime整型)
     */
-    redblade.update('article', { id: id, isPublic: state }, function(err, result) {
+    redblade.update('article', { id: id, isPublic: state, pubTime: +new Date() }, function(err, result) {
       res.send((state ? '发布' : '取消发布') + (result ? '成功' : '失败'))
     })
   })

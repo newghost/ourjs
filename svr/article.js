@@ -48,7 +48,7 @@ var showListHandler = function(req, res, url) {
       , nextPage  : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
     })
 
-  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize })
+  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true })
 }
 
 

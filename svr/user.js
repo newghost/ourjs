@@ -244,7 +244,7 @@ app.get('/user.signout.post', function(req, res) {
 
 
 /*
-userInfo: get userInfo and he articles
+userInfo: get userInfo and articles
 */
 app.get('/user/:username/:pageNumber', function(req, res) {
   var url       = req.url
@@ -269,11 +269,11 @@ app.get('/user/:username/:pageNumber', function(req, res) {
 
       redblade.select('article', { poster: username }, function(err, articles) {
         res.render(tmpl + ".tmpl", {
-            articles  : articles
+            articles  : articles || []
           , userInfo  : userInfo
           , nextPage  : nextNumber
         })
-      })
+      }, { desc: true })
     })
   } else {
     res.end()
