@@ -24,7 +24,6 @@ app.use('/root', function(req, res) {
 
   if (!user || !user.username) {
     res.send(401, '没有权限')
-    req.filter.next()
   } else {
     req.filter.next()
   }
@@ -181,72 +180,4 @@ app.get('/root/publish/:id/:state', function(req, res) {
       res.send((state ? '发布' : '取消发布') + (result ? '成功' : '失败'))
     })
   })
-})
-
-
-app.post('/reply/add/:id', function(req, res) {
-  var id          = req.params.id
-    , poster      = req.session.get('username')
-    , last_reply  = req.session.get('last_reply')
-    , reply       = req.body
-    , article     = Articles.all[id]
-
-
-  if (last_reply && article && reply && (poster || reply.nickname)) {
-    var interval  = last_reply + GENERAL_CONFIG.replyInterval - (new Date() / 1000 | 0)
-
-    if ( interval > 0 ) {
-      return res.end(MESSAGES.NEED_WAIT.format(interval))
-    }
-
-    poster && (reply.poster = poster)
-    reply.postdate  = + new Date()
-
-    Schema.filter('reply', reply)
-    reply.reply = utility.safeHTML(reply.reply)
-
-    article.replies
-      ? (article.replies.push(reply))
-      : (article.replies = [reply])
-
-    var updateJSON = { 
-        replies   : article.replies
-      , replyTime : reply.postdate
-    }
-
-    adapter.update(id, 'article', updateJSON, function(result) {
-      res.end(result ? '' : 'error')
-      result && Articles.update(article, updateJSON)
-    })
-
-    req.session.set('last_reply', + new Date() / 1000 | 0)
-
-  } else {
-    res.end(MESSAGES.NOPERMISSION)    
-  }
-
-}, 'json')
-
-
-app.get('/reply/del/:id/:idx', function(req, res) {
-  var id        = req.params.id
-    , idx       = req.params.idx
-    , userInfo  = Users.users[req.session.get('username')]
-    , article   = Articles.all[id]
-
-
-  if (idx && article) {
-    var reply = article.replies[idx]
-    if (reply && userInfo && (userInfo.username == reply.poster || userInfo.isAdmin)) {
-      reply.deleted = true
-
-      Schema.filter('reply', reply)
-
-      var updateJSON = { replies   : article.replies }
-      adapter.update(id, 'article', updateJSON, function(result) {
-        res.end(result ? '' : 'error')
-        result && Articles.update(article, updateJSON)
-      })
-    }
-  }
 })

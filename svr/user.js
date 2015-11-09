@@ -84,42 +84,6 @@ var signin = function(signinUser, cb) {
   }
 }
 
-var update = function(userInfo, cb) {
-  if ( userInfo._id
-    && userInfo.username
-    && userInfo.username.length > 3
-    && userInfo.password
-    && users[userInfo.username]
-    ) {
-
-    userInfo.password = utility.getEncryption(userInfo.password)
-
-    if (users[userInfo.username].password !== userInfo.password) {
-      return cb && cb(false)
-    }
-
-    if (userInfo.newPassword && userInfo.confPassword === userInfo.newPassword ) {
-      userInfo.password = utility.getEncryption(userInfo.newPassword)
-    }
-
-    Schema.filter('user', userInfo)
-
-    adapter.update(userInfo._id, 'user', userInfo, function(done) {
-      //Update cache
-      if (done) {
-        !usersEmail[userInfo.email] && (usersEmail[userInfo.email] = users[userInfo.username])
-        utility.extend(users[userInfo.username], userInfo)
-        utility.extend(usersEmail[userInfo.email], userInfo)
-      }
-      return cb && cb(done)
-    })
-
-  } else {
-    return cb && cb(false)
-  }
-}
-
-
 var signHandler = function(req, res, userInfo) {
   if (userInfo && userInfo.username)  {
     req.session.set('user', userInfo)
@@ -295,5 +259,4 @@ module.exports = {
   , getUser       : getUser
   , signup        : signup
   , signin        : signin
-  , update        : update
 }
