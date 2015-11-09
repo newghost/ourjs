@@ -535,7 +535,7 @@ label.error {
 }
 
 .bbs .comments .content {
-    margin: 0 70px 0 54px;
+    margin: 0 70px 0 0;
     min-height: 25px;
 }
 
@@ -550,7 +550,7 @@ label.error {
 
 .bbs .comments .info {
     font-size: 11px;
-    margin: 4px 70px 18px 54px;
+    margin: 4px 70px 18px 0;
 }
 
 .bbs .comments .info a{
@@ -574,12 +574,12 @@ label.error {
 
 .bbs .comments .num {
   background-color: #EEEEEE;
-  position: absolute;
+  /*position: absolute;*/
   text-align: center;
   width: 46px;
   line-height: 46px;
-  float: left;
-  font-size: 16px;
+  float: right;
+  font-size: 12px;
 }
 
 .bbs .comments .avatar{

@@ -27,8 +27,7 @@
       <ul id="comments_list" class="unstyled comments">
         {{~ it.articles:article:index }}
         <li>
-          <div class="num">{{=(article.replies || []).length}}</div>
-          <a class="avatar"><img src="http://www.gravatar.com/avatar/{{=article.poster}}"></a>
+          <div class="num">{{=article.visitNum || 0}}</div>
           <div class="content">
             {{?article.verify=='1'}}
             <i class="icon-star-empty"></i>
