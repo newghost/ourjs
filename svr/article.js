@@ -61,7 +61,7 @@ var showListHandler = function(req, res, url) {
     , template    = params.template || 'home'
     , keyword     = params.keyword  || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
-    , pageSize    = 100
+    , pageSize    = 20
     , user        = req.session.get('user') || {}
 
 

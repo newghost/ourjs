@@ -1,4 +1,4 @@
-OurJS
+OurJS 0.1.x
 ====
 
 Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS
@@ -6,41 +6,58 @@ Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.
 
 Author : Kris Zhang
 
-Demo : [English](http://code.ourjs.com), [Chinese](http://demo.ourjs.com)
+# [version 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) using redis
+# [version 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) using memory & file system
 
 
 
 OurJS 0.1.x 版
 ====
 
-
-
 OurJS 基于Node.JS的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
+
+
+
+# [ver 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) 基于文件系统
+# [ver 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis
+
+
+常见问题
+====
+
+
+为什么ver 0.1.x版可以应对超大规模并发
 ----
 
-示例 : [英文](http://code.ourjs.com), [中文](http://demo.ourjs.com)
+ver0.0.x 使用内存和文件系统；　相当于在node.js中实现了一个内存数据库，即先读写内存立即返回后，再同步到文件系统； 这种机制的优点是无任何依赖只需要装node.js即可运行，使用非常低的服务器配置就可支撑较大流量，运行稳定，半年多重启一次； ourjs.com 使用这种构架；　缺点是所有状态都在一个node.js线程中，无法分布式集群化部署，理论上无法应对超大规模并发流量，而且数据操作会有些复杂。
+
+ver0.1.x 所有session和内容均存放在redis中，网站进程不存放任何状态， 当需要应对超大规模流量时可布暑多个ourjs实例，通过更改config.js，让每个实例侦听不同端口，然后通过nginx反向代理或 DNS round robin 做负载均衡，集群化布暑和单个布暑不需要更改应用层的任何代码，水平扩展性良好。
+
+
+为什么不用mongodb？如何像mongodb那样操作redis
+----
+
+mongodb是非常好的nosql文档数据库，数据更新查询非常方便，但它是基于文件系统的，硬盘I/O的读写速度会严重限制网站可承受的最大并发量。
+而redis是目前公认的速度最快的基于内存的键值对数据库，但redis的缺点也非常明显，仅提供最基本的hash set, list, sorted set等基于数据类型，不分表，没有schema，没有索引，没有外键，缺少int/date等基本数据类型，操作不便，开发效率低，可维护性不佳； 因此一般不将其视为完整的数据库单独使用，很多网站将redis作为高速缓存和session状态存储层，然后再与其他数据库搭配使用。 
+
+
+
+
+如何安装和快速入门
+----
+
+要运行 ourjs　请先安装　[redis](http://redis.io)
 
 中文支持： http://ourjs.com/bbs/OurJS
 
 
 
-安装
-----
-1. 点击 "Download Zip" or [这里](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) 下载最新版本
-2. 解压并运行: ourjs.cmd 或者 ourjs.newspaper.cmd (windows)， 这里假设你已经安装好了最新版的 [node.js](http://nodejs.org)
-3. 在浏览器中输入 http://localhost:8054 or http://localhost:8052 测试, 首次运行需要刷新一次建立缓存
 
 
-编绎
-----
-如果想要对CSS/JS进行压缩编绎合并的话，需要运行web目录下的build文件，如build.newspaper.sh，在windows环境下运行这个shell需要安装 [msysgit](http://msysgit.github.io/) ，因npm近期越来越慢，目前所有node_module中的依赖已经commit到了github上。如果要使用mongodb数据库，请先运行 npm install下载依赖。
 
 
-中文文档
-----
-1. [OurJS简介即安装](http://ourjs.com/detail/ourjs-%E5%85%8D%E8%B4%B9%E5%BC%80%E6%BA%90%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%BC%95%E6%93%8E-%E8%AE%BA%E5%9D%9B%E7%B3%BB%E7%BB%9F-%E7%BD%91%E7%AB%99%E6%A8%A1%E6%9D%BF%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84cms)
-2. [在OurJS开源博客网站中添加自定义缩略图片](http://ourjs.com/detail/53f5555bc1afbc6e30000005)
-3. [NodeJS on Nginx: 使用nginx反向代理处理静态页面](http://ourjs.com/detail/nodejs-on-nginx-%E4%BD%BF%E7%94%A8nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%A4%84%E7%90%86%E9%9D%99%E6%80%81%E9%A1%B5%E9%9D%A2)
+
+
 
 
 
@@ -56,30 +73,3 @@ License
 ----
 
 BSD, See our license file
-
-
-OurJS 0.1.x using redis
-----
-
-OurJS 0.0.x using file system
-----
-
-
-Install
-----
-1. Install the latest version of NodeJS, Redis, click the "Download Zip" or [Here](https://github.com/newghost/ourjs/raw/master/dist/ourjs-git.zip) to download the latest version.
-2. Unzip and running: ourjs.cmd or ourjs.newspaper.cmd (windows)
-3. Trying at http://localhost:8051 need to refresh twice when the first running
-
-
-Document
-----
-1. [Install NodeJS NPM and OurJS under Debian](http://code.ourjs.com/article/install-nodejs-npm-and-ourjs-under-debian-amazon-ec2-free-tier-)
-2. [Add thumbnail Image to OurJS blog engine](http://code.ourjs.com/article/add-thumbnail-image-to-ourjs-blog-engine)
-
-
-
-Development
-----
-You need to running "npm install" before build the CSS/JS files
-

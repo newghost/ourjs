@@ -60,8 +60,9 @@ var init = function() {
 
   redblade.init({ schema: './schema', client: client }, function(err) {
     /*
+    将websvr的session存放在redis中，注意过期时间的转换
     WEBSVR      : Session过期单位是毫秒(Millisecond)
-    RedisStore  : key的过期时间是秒(Second)
+    RedisStore  : redis key的过期时间单位是秒(Second)
     */
     var redisstore = RedisStore(client, WEBSVR_CONFIG.sessionTimeout / 1000)
     app.sessionStore = redisstore
@@ -77,7 +78,8 @@ var init = function() {
 
 
 /*
-对所有请求均自动解析并附加session方法
+1) 对所有请求附加session(get set)方法
+2) 带自动登录 t0/t1/t2 的cookie
 */
 app.use(function(req, res) {
   var url       = req.url

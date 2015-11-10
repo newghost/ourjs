@@ -784,7 +784,7 @@ label.error {
 
 .keywords {
   border-bottom: 1px solid #ddd;
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 
 .keywords li {
