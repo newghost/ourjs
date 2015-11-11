@@ -14,7 +14,7 @@ WEB_DIR='/var/www/ourjs'
 WEB_APP='svr/ourjs.js'
 
 #location of node you want to use
-NODE_EXE=/root/local/bin/node
+NODE_EXE=/usr/bin/node
 
 start()
 {
@@ -24,7 +24,7 @@ start()
     #make sure it will running forever and error will be logged
     while true; do
         {
-            $NODE_EXE $WEB_DIR/$WEB_APP config.magazine.js
+            $NODE_EXE $WEB_DIR/$WEB_APP config.js
             echo "Stopped unexpected, restarting \r\n\r\n"
         } 2>> $WEB_DIR/error.log
         sleep 1

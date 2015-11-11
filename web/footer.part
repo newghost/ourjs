@@ -3,9 +3,7 @@
 <div class="container">
   <div class="footer">
     <div style="margin:0 0 60px 0">
-      <p style="float:left;line-height: 30px;">
-        沪ICP备13020027号-2
-      </p>
+      <p style="float:left;line-height: 30px;"> 沪ICP备13020027号-5 </p>
       <p style="text-align:right;">&copy; 基于 <a href="http://ourjs.org/" target="_blank">OurJS</a> 开源博客构建</p>
     </div>
   </div>
