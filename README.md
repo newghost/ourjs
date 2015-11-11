@@ -1,4 +1,4 @@
-OurJS@0.1.x
+OurJS 0.1.x
 ====
 
 Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS and Redis
@@ -6,18 +6,18 @@ Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.
 
 Author : Kris Zhang
 
-[ourjs@0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) using redis
-[ourjs@0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) using memory & file system
+[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) using redis
+[ourjs 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) using memory & file system
 
 
 
-OurJS@0.1.x 版
+OurJS 0.1.x 版
 ====
 
 OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 
-[ourjs@0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis
-[ourjs@0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) 基于文件系统
+[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis
+[ourjs 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) 基于文件系统
 
 
 常见问题
@@ -26,7 +26,7 @@ OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，�
 
 
 
-如何安装ourjs@0.1.x
+如何安装ourjs 0.1.x
 ----
 
 首先下载最新的 ourjs，单击右侧的 [Download ZIP](https://github.com/newghost/ourjs/archive/0.1.x.zip) 下载最新版(也可使用 git clone 复制0.1.x的branch, npm中发布的是0.0.x版)； 然后你需要安装　[redis](http://redis.io)，windows版的是由微软维护的，下载编绎好的exe即可: [MSOpenTech](https://github.com/MSOpenTech/redis)； 最后单击 ourjs.sh 或 ourjs.cmd 即可运行, 默认侦听 8051 端口， 即: http://localhost:8051
@@ -38,7 +38,7 @@ OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，�
 
 
 
-ourjs@0.1.x 基于哪些框架
+ourjs 0.1.x 基于哪些框架
 ----
 
 web框架使用的是 [websvr](https://github.com/newghost/websvr)， 只用一个文件实现，支持include模板文件及其嵌套； 
@@ -53,12 +53,12 @@ npm在某些情况下经常出现不用过的情况； 同时ourjs所采用的�
 
 
 
-为什么ourjs@0.1.x版可以应对超大规模并发
+为什么ourjs 0.1.x版可以应对超大规模并发
 ----
 
-ourjs@0.0.x 使用内存和文件系统；　相当于在node.js中实现了一个内存数据库，即先读写内存立即返回后，再同步到文件系统； 这种机制的优点是无任何依赖只需要装node.js即可运行，使用非常低的服务器配置就可支撑较大流量，运行稳定，半年多重启一次； ourjs.com 使用这种构架；　缺点是所有状态都在一个node.js线程中，无法分布式集群化部署，理论上无法应对超大规模并发量，而且数据更操作会略显复杂。
+ourjs 0.0.x 使用内存和文件系统；　相当于在node.js中实现了一个内存数据库，即先读写内存立即返回后，再同步到文件系统； 这种机制的优点是无任何依赖只需要装node.js即可运行，使用非常低的服务器配置就可支撑较大流量，运行稳定，半年多重启一次； ourjs.com 使用这种构架；　缺点是所有状态都在一个node.js线程中，无法分布式集群化部署，理论上无法应对超大规模并发量，而且数据更操作会略显复杂。
 
-ourjs@0.1.x 所有session和内容均存放在redis中，网站进程不存放任何状态， 当需要应对超大规模流量时可布暑多个ourjs实例，通过更改config.js，让每个实例侦听不同端口，然后通过nginx反向代理或 DNS round robin 做负载均衡，集群化布暑和单个实例布暑不需要更改应用层的任何代码。
+ourjs 0.1.x 所有session和内容均存放在redis中，网站进程不存放任何状态， 当需要应对超大规模流量时可布暑多个ourjs实例，通过更改config.js，让每个实例侦听不同端口，然后通过nginx反向代理或 DNS round robin 做负载均衡，集群化布暑和单个实例布暑不需要更改应用层的任何代码。
 
 
 为什么不用mongodb？如何像mongodb那样操作redis
