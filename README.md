@@ -6,8 +6,7 @@ Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.
 
 Author : Kris Zhang
 
-[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) using redis
-
+[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) using redis  
 [ourjs 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) using memory & file system
 
 
@@ -17,8 +16,7 @@ OurJS 0.1.x 版
 
 OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 
-[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis
-
+[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis  
 [ourjs 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) 基于文件系统
 
 
@@ -45,7 +43,7 @@ ourjs 0.1.x 基于哪些框架
 
 web框架使用的是 [websvr](https://github.com/newghost/websvr)， 只用一个文件实现，支持include模板文件及其嵌套； 
 数据库ORM采用的是 [redblade](https://github.com/newghost/redblade)，同样只用一个文件实现； 只要事先定好[schema](https://github.com/newghost/ourjs/tree/0.1.x/schema)，可以让你像mongodb那样更新redis数据， 自动邦你创建index/ keyword等索引； 推荐使用原生redis指令读取数据，redblade更新数据，这样可以发挥redis的超强性能。不过首先你需要对redis指令和数据类型非常熟悉。
-模板引擎采用了我认为性价比最高的 [doT](http://olado.github.io/doT/) 十分钟上手。
+模板引擎采用了我认为性价比最高的 [doT](http://olado.github.io/doT/), 十分钟即可上手。
 
 
 为什么要保留node_modules文件夹
