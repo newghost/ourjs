@@ -33,7 +33,7 @@
 
       <div id="summary">
         <b>发布</b>
-        <a href="/userinfo/{{=it.article.poster || ''}}" target="_blank">{{=it.article.poster || ''}}</a>&nbsp;
+        <a href="/user/{{=it.article.poster || ''}}" target="_blank">{{=it.article.poster || ''}}</a>&nbsp;
         <span class="formatdate date">{{=it.article.postTime || ''}}</span>
 
         {{?it.article.keyword}}
@@ -42,6 +42,8 @@
           <a class="category" target="_blank" href="/home/{{=keyword}}">{{=keyword}}</a>
           {{~}}
         {{?}}
+
+        <br> <b>注意</b> anynb已经自动除去图片，您可 <a href="{{=it.article.url || ''}}" target="_blank">查看原文</a> 
 
         <br>
 

@@ -238,7 +238,7 @@ app.get('/user/:username/:pageNumber', function(req, res) {
           , userInfo  : userInfo
           , nextPage  : nextNumber
         })
-      }, { desc: true })
+      })
     })
   } else {
     res.end()

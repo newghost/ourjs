@@ -110,11 +110,11 @@ var showDetailHandler = function(req, res) {
           })
         })
       } else {
-        res.write404()
+        res.send('没有找到文章')
       }
     })
   } else {
-    res.write404()
+    res.send('参数不完整')
   }
 }
 
