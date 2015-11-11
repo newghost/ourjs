@@ -29,7 +29,7 @@
             <li><a href="#top" id="aboutlink">关于我们</a></li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown pull-right">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <i class="icon-edit"></i>
@@ -52,35 +52,6 @@
             <b class="caret"></b>
           </a>
           {{?}}
-        </li>
-        <li class="dropdown pull-right">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="/">
-            <span>订阅我们</span>
-            <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="nav-header">RSS 订阅</li>
-            <li><a href="/rss" target="_blank">RSS 订阅</a></li>
-            <li class="divider"></li>
-            <li class="nav-header">微信订阅</li>
-            <li class="text-center">
-              <br><img src="/img/weixin.jpg" alt="ourjs官方微信号" width="140" height="140" style="border: solid 1px #666;" /><br><br>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <p class="nav-header">邮件订阅, 使用
-                <a href="http://list.qq.com/cgi-bin/qf_invite?id=2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" target="_blank">QQ邮件列表</a>
-              </p>
-              <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank">
-                <input type="hidden" value="qf_booked_feedback" name="t" />
-                <input type="hidden" value="2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" name="id" />
-                <input type="email" name="to" id="to" placeholder="Email" />
-                <div class="text-right">
-                  <button class="btn" type="submit">订阅邮件</button>
-                </div>
-              </form>
-            </li>
-          </ul>
         </li>
       </ul>
     </div>

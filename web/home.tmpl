@@ -16,7 +16,6 @@
 
 <div class="container">
   <div class="row-fluid">
-    <div class="span2"></div>
     <div id="article" class="span8">
       <div class="keywords" id='keyNav'>
         <ul class="clearfix">
@@ -63,6 +62,41 @@
       </ul>
       <div class="pagination">{{=it.pagination || ''}}</div>
     </div>
+    <div class="span1"></div>
+    <div class="span3">
+      <ul class="dropdown-menu" style="position:static;float:right;display:block">
+        <li class="nav-header">RSS 订阅</li>
+        <li><a href="/rss" target="_blank">RSS 订阅</a></li>
+        <li class="divider"></li>
+        <li class="nav-header">微信订阅</li>
+        <li class="text-center">
+          <div style="margin:14px;">
+            <img src="/img/weixin.jpg" alt="ourjs官方微信号" width="254" height="254" style="border: solid 1px #666;" />
+            </div>
+          <div style="margin:24px 14px;text-align:left;font-size:16px;">
+            我们的微信公众号: <b>anynb-com</b> 或 <b>ourjs</b>
+            <br>
+            打开微信扫一扫即可关注我们，在微信上随时查看牛人们的观点
+          </div>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <p class="nav-header">邮件订阅, 使用
+            <a href="http://list.qq.com/cgi-bin/qf_invite?id=2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" target="_blank">QQ邮件列表</a>
+          </p>
+          <form id="subscribe" method="post" action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank">
+            <input type="hidden" value="qf_booked_feedback" name="t" />
+            <input type="hidden" value="2bd1a80d2aa9dcea40653a04299fc3248c6c30dd9468d0d3" name="id" />
+            <input type="email" name="to" id="to" placeholder="Email" />
+            <div class="text-right">
+              <button class="btn" type="submit">订阅邮件</button>
+            </div>
+          </form>
+        </li>
+      </ul>
+
+    </div>
+
   </div>
 </div>
 
