@@ -10,5 +10,7 @@ while true; do
 
     echo "Server stop working, waiting for restart...\r\n\r\n\r\n\r\n"
     sleep 5
+
+  #启用输出运行错误到本目录的 error.log 文件， 请将"#"移除
   } #2>> ./error.log
 done
