@@ -1,8 +1,8 @@
 {
-    "username"      : "shown;id;minlen(4);maxlen(64)"
+    "username"      : "id;minlen(4);maxlen(64)"
   , "password"      : "minlen(4);maxlen(64)"
   , "briefinfo"     : "minlen(4);maxlen(64)"
-  , "email"         : "shown;minlen(4);maxlen(64);index('email', return +new Date());unique('email')"
-  , "isAdmin"       : "shown;int"
+  , "email"         : "minlen(4);maxlen(64);index('email', return +new Date());unique('email')"
+  , "isAdmin"       : "int"
   , "joinedTime"    : "int;"
 }
