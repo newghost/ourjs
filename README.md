@@ -87,7 +87,7 @@ Bootstrap已经有了很大的更新的，但2.3.2版是对IE7兼容最好的一
 
 1. 中文支持： http://ourjs.com/bbs/OurJS
 2. OurJS 0.1.x 示例网站: [AnyNB](http://anynb.com) 股市牛博汇; 配置: 最低配云服务器: 512Mb内+1核CPU+1M宽带； 运行进程: nodejs 2个( ourjs+自动文章采集)，redis，ftp，nginx
-3. OurJS 0.0.x 示例网站: [OurJS](http://anynb.com) 我们的JavaScript；配置：1G内存+1核CPU+1M宽带; 进行进程： nodejs 5个(网站3个，微信自助查询服务），redis, ftp, nginx, svn等
+3. OurJS 0.0.x 示例网站: [OurJS](http://anynb.com) 我们的JavaScript；配置：1G内存+1核CPU+1M宽带; 运行进程： nodejs 5个(网站3个，微信自助查询服务），redis, ftp, nginx, svn等
 
 
 License
