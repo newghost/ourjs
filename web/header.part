@@ -32,13 +32,11 @@
         <li class="dropdown pull-right">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <i class="icon-edit"></i>
-            <span>{{=it.user.username || '发布'}}</span>
+            <i class="icon-user"></i>
+            <span>{{=it.user.username || '未登录'}}</span>
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="/root/edit/add">发布文章</a></li>
-            <li class="divider"></li>
             <li><a href="/user/{{=it.user.username}}">我的文集</a></li>
             <li class="divider"></li>
             <li><a href="/useredit/{{=it.user.username}}">修改资料</a></li>
@@ -46,10 +44,23 @@
             <li><a href="javascript:OurJS.Users.signout()">退出登录</a></li>
           </ul>
           {{??}}
-          <a href="#signup" data-toggle="modal">
+          <a data-toggle="modal" href="#signup">
+            <i class="icon-user"></i>
+            <span>未登录</span>
+            <b class="caret"></b>
+          </a>
+          {{?}}
+        </li>
+        <li class="pull-right">
+          {{?it.user.username}}
+          <a class="dropdown-toggle" href="/root/edit/add">
             <i class="icon-edit"></i>
             <span>发布</span>
-            <b class="caret"></b>
+          </a>
+          {{??}}
+          <a data-toggle="modal" href="#signup">
+            <i class="icon-edit"></i>
+            <span>发布</span>
           </a>
           {{?}}
         </li>
