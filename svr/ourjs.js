@@ -22,7 +22,7 @@ var fs          = require('fs')
 /*
 * js library used for both front-end and back-end
 */
-require('../lib/string.js')()
+require('./string.js')()
 
 
 var WEBSVR_CONFIG   = config.WEBSVR_CONFIG

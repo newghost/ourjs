@@ -1,8 +1,8 @@
 {
   "name": "ourjs", 
-  "description": "Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS", 
+  "description": "Free Blog Engine, Forum System, Website Template and CMS Platform based on Node.JS and Redis", 
   "repository" : "http://github.com/newghost/ourjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
       "websvr"         : "0.1.x"
     , "websvr-redis"   : "0.0.x"
