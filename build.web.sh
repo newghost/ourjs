@@ -2,29 +2,22 @@
 #display commands
 set -x
 
-SOURCE='./magazine/*'
-TARGET='./magazine.min'
 
-mkdir   $TARGET
+#将css和js合并压缩
+
+TARGET='./web'
+
 mkdir   $TARGET/tmp
 
-cp -rf  $SOURCE $TARGET
+node ./tools/combiner   $TARGET/style.part
+node ./tools/combiner   $TARGET/script.part
 
-node ../tools/combiner   $TARGET/head.part  -r
-node ../tools/combiner   $TARGET/foot.part  -r
+node ./tools/minifier $TARGET/css/prod.min.css       $TARGET/tmp/prod.min.css
+node ./tools/minifier $TARGET/js/prod.min.js         $TARGET/tmp/prod.min.js
 
-node ../tools/minifier $TARGET/css/libs.min.css       $TARGET/tmp/libs.min.css
-node ../tools/minifier $TARGET/css/prod.min.css       $TARGET/tmp/prod.min.css
-
-node ../tools/minifier $TARGET/js/libs.min.js         $TARGET/tmp/libs.min.js
-node ../tools/minifier $TARGET/js/prod.min.js         $TARGET/tmp/prod.min.js
-
-rm -rf $TARGET/css/*.css
-rm -rf $TARGET/js/*.js
-
-mv $TARGET/tmp/libs.min.css         $TARGET/css/libs.min.css
 mv $TARGET/tmp/prod.min.css         $TARGET/css/prod.min.css
-mv $TARGET/tmp/libs.min.js          $TARGET/js/libs.min.js
 mv $TARGET/tmp/prod.min.js          $TARGET/js/prod.min.js
+
+rm -rf $TARGET/tmp
 
 sleep 30

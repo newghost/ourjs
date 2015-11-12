@@ -74,6 +74,11 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
   var pickupFiles = function(line) {
     var formatLine = line.trim().toLowerCase()
 
+    if (formatLine.indexOf('<!--#output=end-->') > -1) {
+      curCSS  = ''
+      curJS   = ''
+    }
+
     //<!--#output="/css/all.css"-->
     if (formatLine.indexOf('<!--#output="') == 0) {
       var file = line.substr(13)
@@ -82,13 +87,13 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
       if (file.indexOf('.css') > 0) {
         TARGET[file] = []
         curCSS = file
-        return '<link rel="stylesheet" type="text/css" href="' + file + '">'
+        return removeLines ? '<link rel="stylesheet" type="text/css" href="' + file + '">' : line
       }
 
       if (file.indexOf('.js') > 0) {
         TARGET[file] = []
         curJS = file
-        return '<script type="text/javascript" src="' + file + '"></script>'
+        return removeLines ? '<script type="text/javascript" src="' + file + '"></script>' : line
       }
 
       return line
@@ -99,7 +104,7 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
 
       if (url) {
         TARGET[curCSS].push(url)
-        return ''
+        return removeLines ? '' : line
       }
     }
 
@@ -108,7 +113,7 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
 
       if (url) {
         TARGET[curJS].push(url)
-        return ''
+        return removeLines ? '' : line
       }
     }
 
@@ -124,8 +129,6 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
       console.error('no input html file')
       return
     }
-
-    !outputFile && (outputFile = inputFile.replace('.htm', '.out.htm'))
 
     fs.readFile(inputFile, function(err, data) {
       var CODES = data.toString()
@@ -143,7 +146,7 @@ var Combine = function(inputFile, outputFile, removeLines, baseFolder) {
 
       mergeCssJs()
 
-      fs.writeFile(outputFile, codes.join(CTRL), function(err) {
+      outputFile && fs.writeFile(outputFile, codes.join(CTRL), function(err) {
         if (err) {
           console.log(err)
         }
@@ -160,7 +163,7 @@ node combiner inputFile ouptFile
 */
 var defaultCommand  = function() {
   var inputFile     = process.argv[2]
-    , outputFile    = process.argv[3]
+    , outputFile    = process.argv[3] || ''
     , removeLines   = process.argv.indexOf('-r') > 0
     , baseIdx       = process.argv.indexOf('-base')
 

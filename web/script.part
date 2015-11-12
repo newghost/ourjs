@@ -8,13 +8,13 @@ ga('create', 'UA-69796956-1', 'auto');
 ga('send', 'pageview');
 </script>
 
-
-<!--#output="/js/libs.min.js"-->
+{{?!it.debug}}
+<script src="/js/prod.min.js"></script>
+{{??}}
+<!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/wysihtml5.js"></script>
-
-<!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.validate.js"></script>
 <script src="/js/jquery.cookie.js"></script>
 <script src="/js/bootstrap-wysihtml5.js"></script>
@@ -27,3 +27,4 @@ ga('send', 'pageview');
 <script src="/js/jquery.browser.js"></script>
 <script src="/js/nprogress.js"></script>
 <script src="/js/ourjs.js"></script>
+{{?}}

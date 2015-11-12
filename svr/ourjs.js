@@ -34,10 +34,10 @@ var WEBSVR_CONFIG   = config.WEBSVR_CONFIG
 //Start the WebSvr
 var app = WebSvr(WEBSVR_CONFIG)
 
-//全局默认model
-//app.model({ property: 'value' })
+//全局默认model: debug 为 true时使用未压缩合并的css/js
+app.model({ debug: WEBSVR_CONFIG.debug })
 
-//change template engine
+//改变默认模板引擎
 //app.engine(require("./doT").compile)
 
 

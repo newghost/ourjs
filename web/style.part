@@ -1,14 +1,16 @@
 <meta name="author" content="OurJS.org">
 <link rel="shortcut icon" href="/favicon.ico">
 
-<!--#output="/css/libs.min.css"-->
-<link rel="stylesheet" href="/css/bootstrap.css">
-
+{{?!it.debug}}
+<link rel="stylesheet" href="/css/prod.min.css">
+{{??}}
 <!--#output="/css/prod.min.css"-->
+<link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
 <link rel="stylesheet" href="/css/magicsuggest.css">
 <link rel="stylesheet" href="/css/ourjs.css">
 <!--#output=end-->
+{{?}}
 
 <!--[if lt IE 8]>
 <link href="/css/ie7.min.css" rel="stylesheet">
