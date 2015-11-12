@@ -53,7 +53,6 @@ var REDIS_CONFIG = {
   , host    : ''
   , auth    : ''
   , select  : 7
-  , clean   : false
 };
 
 /*

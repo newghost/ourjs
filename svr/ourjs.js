@@ -56,7 +56,9 @@ var User    = require('./user')       // 用户登录、注册
 
 var init = function() {
   client = redis.createClient(REDIS_CONFIG)
-  client.select(REDIS_CONFIG.select)
+
+  REDIS_CONFIG.auth   && client.auth(REDIS_CONFIG.auth)
+  REDIS_CONFIG.select && client.select(REDIS_CONFIG.select)
 
   redblade.init({ schema: './schema', client: client }, function(err) {
     /*
@@ -67,10 +69,14 @@ var init = function() {
     var redisstore = RedisStore(client, WEBSVR_CONFIG.sessionTimeout / 1000)
     app.sessionStore = redisstore
 
-    //安装插件
+    //安装插件 addons
     config.PLUGINS.forEach(function(plugin) {
-      //addons
-      require(plugin)
+      try {
+        require(path.join('../') + plugin)
+        console.log('Plugin loaded', plugin)
+      } catch (err) {
+        console.error('Cannot load plugin', plugin, err)
+      }
     })
   })
 }
