@@ -135,23 +135,24 @@ app.get('/root/delete/:id', function(req, res) {
     , user      = req.session.get('user')
     , key       = 'article:' + id
 
-  redblade.client.hmget(key, 'poster', 'isPublic', function(err, article) {
-    if (article) {
-      if (article.isPublic == 1) {
-        res.send('为防止误操作，请先取消发布再删除')
-        return
-      }
+  redblade.client.hmget(key, 'poster', 'isPublic', function(err, result) {
+    result = result || []
 
-      if (article.poster == user.username || user.isAdmin) {
-        //使用remove删除文章和相关索引
-        redblade.remove('article', { id: id }, function(err, result) {
-          res.send("删除" + (result ? '成功' : '失败'))
-        })
-        return
-      }
+    var poster    = result[0]
+      , isPublic  = result[1]
+
+    if (poster != user.username && !user.isAdmin) {
+      return res.send('您没有权限')
     }
 
-    res.send('参数错误')
+    if (isPublic == 1) {
+      return res.send('为防止误操作，请先取消发布再删除')
+    }
+
+    //使用remove删除文章和相关索引
+    redblade.remove('article', { id: id }, function(err, result) {
+      res.send("删除" + (result ? '成功' : '失败'))
+    })
   })
 })
 
