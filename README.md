@@ -61,21 +61,21 @@ ourjs 0.0.x 基于内存和文件系统；相当于在node.js中实现了一个�
 ourjs 0.1.x 所有session和数据均存放在redis中，网站进程不存放任何状态， 当需要应对超大规模流量时可布暑多个ourjs实例，通过更改config.js，让每个实例侦听不同端口，然后通过nginx反向代理或 DNS round robin 做负载均衡，集群化布暑和单个实例布暑不需要更改应用层的任何代码。
 
 
-为什么不用mongodb？
+为什么不用mongodb
 ----
 
 mongodb是非常好的nosql文档数据库，数据更新查询非常方便，但它是基于文件系统的，硬盘I/O的读写速度会严重限制网站可承受的最大并发量。
 而redis是目前公认的速度最快的基于内存的键值对数据库，但redis的缺点也非常明显，仅提供最基本的hash set, list, sorted set等基于数据类型，不分表，没有schema，没有索引，没有外键，缺少int/date等基本数据类型，多条件查询需要通过集合内联(sinter,zinterstore)和连接间接实现，操作不便，开发效率低，可维护性不佳； 因此一般不将其视为完整的数据库单独使用，很多网站将redis作为高速缓存和session状态存储层，然后再与其他数据库搭配使用。 所以我们设计了[redblade](https://github.com/newghost/redblade)用以简化redis的操作。
 
 
-使用Redis内存撑爆了怎么办？
+使用Redis内存撑爆了怎么办
 ----
 
 首先redis是一个非常省内存的数据库，启动时只占用1M多的内存，与node.js一样同为事件非阻塞架构驱动，与多线程架构不同，其内存消耗不会随着并发量的增长而显著增长。 其次目前已经有很多第三方的redis集群化部署方案，通过这些工具，你可以将redis部署成一个内存无限大的数据库。
 
 
 
-前端为什么要用[Bootstrap 2.3.2](http://getbootstrap.com/2.3.2/)版?
+前端为什么要用[Bootstrap 2.3.2](http://getbootstrap.com/2.3.2/)
 ----
 
 Bootstrap已经有了很大的更新的，但2.3.2版是对IE7兼容最好的一个版本。甚至还有一些支持IE6的第三方插件，比较适合中国国情。
@@ -86,8 +86,8 @@ Bootstrap已经有了很大的更新的，但2.3.2版是对IE7兼容最好的一
 ----
 
 1. 中文支持： http://ourjs.com/bbs/OurJS
-2. [AnyNB](http://anynb.com) 股市牛博汇； 基于OurJS 0.1.x版； 服务器配置: 最低配云服务器: 512Mb内存+1核CPU+1M宽带； 运行进程: nodejs 2个( ourjs+自动文章采集)，redis，ftp，nginx
-3. [OurJS](http://ourjs.com) 我们的JavaScript； 基于OurJS 0.0.x； 服务器配置：1G内存+1核CPU+1M宽带； 运行进程： nodejs 4个(网站3个，微信自助查询服务1个），redis，ftp，nginx，svn等； 
+2. [AnyNB](http://anynb.com) 股市牛博汇； 基于OurJS 0.1.x版； 服务器配置: 最低配云服务器: 512Mb内存+1核CPU+1M宽带； 运行进程: nodejs 2个(ourjs+文章自动采集进程)，redis，ftp，nginx等
+3. [OurJS](http://ourjs.com) 我们的JavaScript； 基于OurJS 0.0.x； 服务器配置：1G内存+1核CPU+1M宽带； 运行进程： nodejs 4个(网站3个，微信自助查询服务1个），redis，ftp，nginx，svn等； 从2013年底开始运营，在Google Analytics上观测到最高同时在线1千人时，网站也基本上能够秒开。
 
 License
 ----
