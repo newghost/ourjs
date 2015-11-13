@@ -11,7 +11,7 @@ Author : Kris Zhang
 
 
 
-OurJS 0.1.x 版
+OurJS 0.1.x Beta版
 ====
 
 OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
@@ -82,12 +82,12 @@ Bootstrap已经有了很大的更新的，但2.3.2版是对IE7兼容最好的一
 
 
 
-相关资源
+相关资源、示例
 ----
 
 1. 中文支持： http://ourjs.com/bbs/OurJS
-2. [AnyNB](http://anynb.com) 股市牛博汇； 基于OurJS 0.1.x版； 服务器配置: 最低配云服务器: 512Mb内存+1核CPU+1M宽带； 运行进程: nodejs 2个(ourjs+文章自动采集进程)，redis，ftp，nginx等
-3. [OurJS](http://ourjs.com) 我们的JavaScript； 基于OurJS 0.0.x； 服务器配置：1G内存+1核CPU+1M宽带； 运行进程： nodejs 4个(网站3个，微信自助查询服务1个），redis，ftp，nginx，svn等； 从2013年底开始运营，在Google Analytics上观测到最高同时在线1千人时，网站也基本上能够秒开。
+2. [AnyNB](http://anynb.com) 股市牛博汇； 基于OurJS 0.1.x版； 运行在最低配的云服务器上: 512Mb内存+1核CPU+1M宽带； 运行进程: nodejs 2个(ourjs+文章自动采集进程)，redis，ftp，nginx等
+3. [OurJS](http://ourjs.com) 我们的JavaScript； 基于OurJS 0.0.x版； 服务器配置：1G内存+1核CPU+1M宽带； 运行进程： nodejs 4个(网站3个，微信自助查询服务1个），redis，ftp，nginx，svn等； 从2013年底开始运营，在Google Analytics上观测同时在线1千人时，网站也基本上能够秒开。
 
 License
 ----
