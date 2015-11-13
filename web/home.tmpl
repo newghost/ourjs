@@ -16,11 +16,12 @@
 
 <div class="container">
   <div class="row-fluid">
-    <div id="article" class="span8">
+    <div id="article" class="span8 article-list">
+      <div class="nav-separator"></div>
       <div class="keywords" id='keyNav'>
         <ul class="clearfix">
           <li>{{=it.keyword || '最新文章'}}</li>
-          <li class="pull-right"><a href="/bbs_rss" target="_blank">RSS</a></li>
+          <li class="pull-right"><a href="/rss/{{=it.keyword || ''}}" target="_blank">RSS</a></li>
         </ul>
       </div>
       <ul id="comments_list" class="unstyled comments">
@@ -66,7 +67,7 @@
     <div class="span3">
       <ul class="dropdown-menu" style="position:static;float:right;display:block">
         <li class="nav-header">RSS 订阅</li>
-        <li><a href="/rss" target="_blank">RSS 订阅</a></li>
+        <li><a href="/rss/{{=it.keyword || ''}}" target="_blank">RSS 订阅</a></li>
         <li class="divider"></li>
         <li class="nav-header">微信订阅</li>
         <li class="text-center">

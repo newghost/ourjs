@@ -92,6 +92,52 @@ body {
   margin: 10px 0 0 0;
 }
 
+/*
+
+background: -moz-linear-gradient(left,#eb192d 0,#fdb940 100%);
+background: -webkit-gradient(linear,left top,right top,color-stop(0,#eb192d),color-stop(100%,#fdb940));
+background: -webkit-linear-gradient(left,#eb192d 0,#fdb940 100%);
+background: -o-linear-gradient(left,#eb192d 0,#fdb940 100%);
+background: -ms-linear-gradient(left,#eb192d 0,#fdb940 100%);
+background: linear-gradient(left,#eb192d 0,#fdb940 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb192d', endColorstr='#fdb940', GradientType=1);
+
+*/
+
+.article-list {
+  padding: 0;
+  margin: 2px 0 0;
+  list-style: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.article-list .keywords ul {
+  background: #f9f9f9;
+}
+
+.article-list .comments li {
+  padding: 14px 24px 0;  
+}
+
+.article-list .pagination {
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.nav-separator {
+  background: -moz-linear-gradient(left,#eb192d 0,#fdb940 100%);
+  background: -webkit-gradient(linear,left top,right top,color-stop(0,#eb192d),color-stop(100%,#fdb940));
+  background: -webkit-linear-gradient(left,#eb192d 0,#fdb940 100%);
+  background: -o-linear-gradient(left,#eb192d 0,#fdb940 100%);
+  background: -ms-linear-gradient(left,#eb192d 0,#fdb940 100%);
+  background: linear-gradient(left,#eb192d 0,#fdb940 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb192d', endColorstr='#fdb940', GradientType=1);
+
+  min-height: 4px;
+}
+
 #about{
   padding: 20px 0;
   border-bottom: 1px solid #eee;
@@ -788,20 +834,22 @@ label.error {
 }
 
 .keywords li {
-    display: inline-block;
-    font-size: 16px;
-    padding: 4px 6px;
+  display: inline-block;
+  font-size: 16px;
+  padding: 4px 6px;
 }
 
 .keywords ul{
   margin:0;
 }
 
+/*
 .keywords li.active,
 .keywords li.active a{
   background-color: #333;
   color: #fff;
 }
+*/
 
 .keywords li a{
   color: #000;
@@ -825,7 +873,7 @@ label.error {
 
 
 .pagination {
-  padding-top: 24px;
+  padding: 24px 0;
   text-align: right;
   width: 50%;
 }
@@ -937,11 +985,11 @@ label.error {
   line-height: 1.64em;
 }
 
-.article .summary li{
+.article .summary li {
   line-height: 1.64em;
 }
 
-.article .summary p{
+.article .summary p {
   margin: 0;
 }
 

@@ -333,7 +333,6 @@ Edit Page
 
   var makeActive = function($link) {
     $link.closest('li').addClass('active');
-    $link.attr('href', 'javascript:void(0)');
   };
 
   //navigation selected;
