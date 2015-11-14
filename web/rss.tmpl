@@ -7,8 +7,8 @@
   {{~ it.articles :article:index }}
   <item>
     <title><![CDATA[{{=article.title}}]]></title>
-    <link>http://ourjs.com/detail/{{=article.urlSlug || article._id}}</link>
-    <description><![CDATA[{{=article.summary}}]]></description>
+    <link>http://anynb.com/article/{{=article.id}}</link>
+    <description><![CDATA[{{=article.description || ''}}]]></description>
   </item>
   {{~}}
 </channel>

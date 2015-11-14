@@ -7,13 +7,12 @@
 */
 
 /*
-* Users Cache
+* User Handlers
 */
 var fs              = require('fs')
   , utility         = require('./utility')
   , WEBSVR_CONFIG   = require('../config').WEBSVR_CONFIG
   , redblade        = require('redblade')
-  , app             = global.app
 
 
 var setAutoSignin = function(req, res, userInfo) {
@@ -110,9 +109,6 @@ var signHandler = function(req, res, userInfo) {
 }
 
 
-
-
-
 app.get('/useredit/:username', function(req, res) {
   var username  = req.params.username
     , user      = req.session.get('user') || {}
@@ -130,9 +126,6 @@ app.get('/useredit/:username', function(req, res) {
 })
 
 
-/*
-App Handlers here
-*/
 app.post('/user.signup.post', function(req, res) {
   var postInfo = req.body
     , userInfo = {
@@ -244,10 +237,6 @@ app.get('/user/:username/:pageNumber', function(req, res) {
     res.end()
   }
 })
-
-
-
-
 
 
 

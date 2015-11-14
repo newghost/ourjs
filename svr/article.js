@@ -6,20 +6,15 @@
 * License   : BSD
 */
 
-/*
-Cache articles for sites
-*/
 var fs              = require('fs')
   , path            = require('path')
+  , redblade        = require('redblade')
   , utility         = require('./utility')
   , config          = global.CONFIG
 
-
-var redblade  = require('redblade')
-
-
-
-
+/*
+分页
+*/
 var getPagination = function(config, pagerFormat) {
   var interval = 5
     , curPager = config.pager || 0
@@ -118,10 +113,8 @@ var showDetailHandler = function(req, res) {
   }
 }
 
-
-
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-app.get(['/home', '/json', '/rss'], showListHandler)
+app.get(['/home', '/rss'], showListHandler)
 
 //127.0.0.1/article/2340234erer23343[OjbectID]
 app.get('/article/:id', showDetailHandler)
