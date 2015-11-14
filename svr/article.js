@@ -41,7 +41,7 @@ var getPagination = function(config, pagerFormat) {
     addPage(startPos)
   }
   startPos < maxPager && paginations.push('<li><a>…</a></li>')
-  //maxPager > 0 && addPage(maxPager)
+  maxPager > 0 && addPage(maxPager)
 
   pagination = '<ul class="len{0}" style="table-layout:fixed">{1}</ul>'.format(paginations.length, paginations.join(''))
 
@@ -78,11 +78,11 @@ var showListHandler = function(req, res, url) {
       , pagination  : getPagination({
             pageSize  : pageSize
           , pager     : pageNumber
-          , count     : 100000
+          , count     : count
         }, '<li {1}><a href="/home/' + keyword + '/{0}">{2}</a></li>')
     })
 
-  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true, count: true })
+  }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true })
 }
 
 
