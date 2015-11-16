@@ -16,6 +16,12 @@
 
 <div class="container">
   <div class="row-fluid">
+    <div class="span12">
+      <div style="background:#efefef;font-size:16px;text-align:center;margin:0 0 24px;line-height:44px">股市有风险，投资需紧慎</div>
+    </div>
+  </div>
+
+  <div class="row-fluid">
     <div id="article" class="span8 article-list">
       <div class="nav-separator"></div>
       <div class="keywords" id='keyNav'>
@@ -35,14 +41,15 @@
             {{?article.content}}
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
             {{??}}
-            <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
+            <i class="icon-tags"></i> <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
             {{?}}
           </div>
           <div class="info">
-            • <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+            <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             • <span class="formatdate">{{=article.replyTime || article.postTime || 0}}</span>
             {{?article.keyword}} • {{=article.keyword}} {{?}}
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
+            {{?article.url}}• <a href="{{=article.url}}" target="_blank">原文地址</a>{{?}}
           </div>
         </li>
         {{~}}
