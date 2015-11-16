@@ -93,7 +93,20 @@ var showDetailHandler = function(req, res) {
     , key   = 'article:' + id
     , user  = req.session.get('user') || {}
 
-  if (id && tmpl) {
+  if (id) {
+    //直接访问原文地址前访问量+1，方便做排行榜，只取跳转url即可
+    if (tmpl == 'redirect') {
+      redblade.client.hget(key, 'url', function(err, url) {
+        if (url) {
+          redblade.client.hincrby(key, 'visitNum', 1)
+          res.redirect(url)
+        } else {
+          res.send('不存在的文章')
+        }
+      })
+      return
+    }
+
     //Does it existing in the Articles?
     redblade.client.hgetall(key, function(err, article) {
       if (article) {
@@ -116,8 +129,8 @@ var showDetailHandler = function(req, res) {
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
 app.get(['/home', '/rss'], showListHandler)
 
-//127.0.0.1/article/2340234erer23343[OjbectID]
-app.get('/article/:id', showDetailHandler)
+//redirect访问量+1，防止直接跳转无法计数
+app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 
 
 

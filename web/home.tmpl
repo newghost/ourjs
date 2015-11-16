@@ -41,7 +41,7 @@
             {{?article.content}}
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
             {{??}}
-            <i class="icon-tags"></i> <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
+            <i class="icon-tags"></i> <a href="/redirect/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
             {{?}}
           </div>
           <div class="info">
