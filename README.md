@@ -42,7 +42,7 @@ ourjs 0.1.x 基于哪些框架
 ----
 
 1. web框架使用的是只有一个文件实现的[websvr](https://github.com/newghost/websvr)，支持include模板文件及其嵌套；
-2. 数据库ORM采用的是[redblade](https://github.com/newghost/redblade)，同样只用一个文件实现； 只要事先定好[schema](https://github.com/newghost/ourjs/tree/0.1.x/schema)，就能像mongodb那样操作redis，自动帮你创建index/ keyword等索引； 不过还是推荐使用原生redis指令读取数据，用redblade来更新数据，这样就可以发挥redis的超强性能。在使用时你需要对redis指令和数据类型非常熟悉。  
+2. 数据库ORM采用的是[redblade](https://github.com/newghost/redblade) ( [文档](http://redblade.ourjs.com/) )，同样只用一个文件实现； 只要事先定好[schema](https://github.com/newghost/ourjs/tree/0.1.x/schema)，就能像mongodb那样操作redis，自动帮你创建index/ keyword等索引； 不过还是推荐使用原生redis指令读取数据，用redblade来更新数据，这样就可以发挥redis的超强性能。在使用时你需要对redis指令和数据类型非常熟悉。  
 3. 模板引擎采用了性价比较高的 [doT](http://olado.github.io/doT/), 十分钟即可上手。
 
 
