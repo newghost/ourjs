@@ -16,7 +16,7 @@ OurJS 0.1.x Beta版
 
 OurJS 基于Node.JS和Redis的开源的高性能博客引擎，网站模板，论坛系统和轻量级的CMS系统
 
-[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Reis  
+[ourjs 0.1.x](https://github.com/newghost/ourjs/tree/0.1.x) 基于Redis  
 [ourjs 0.0.x](https://github.com/newghost/ourjs/tree/0.0.x) 基于内存和文件系统
 
 
