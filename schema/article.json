@@ -5,7 +5,7 @@
   , "content"     : ""
   , "keyword"     : "keywords('key', return this.pubTime || +new Date())"
   , "poster"      : "index('user_article', return this.pubTime || +new Date())"
-  , "isPublic"    : "index('public', return this.pubTime)"
+  , "isPublic"    : "index('public', return this.pubTime || +new Date())"
   , "pubTime"     : "int"
   , "visitNum"    : "int"
   , "postTime"    : "int"

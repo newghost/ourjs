@@ -35,11 +35,7 @@
         {{~ it.articles :article:index }}
         <div class="article">
           <h2 class="title">
-            {{?article.content}}
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
-            {{??}}
-            <a href="{{=article.url}}" target="_blank">{{=article.title || ''}}</a>
-            {{?}}
           </h2>
           <div class="note">
             by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>

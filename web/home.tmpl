@@ -50,6 +50,14 @@
             {{?article.keyword}} • {{=article.keyword}} {{?}}
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
             {{?article.url}}• <a href="{{=article.url}}" target="_blank">原文地址</a>{{?}}
+
+            {{?it.user.isAdmin}}
+              {{?article.isPublic == 1}}
+              • <a href="/root/publish/{{=article.id}}/0" target="_blank"> 取消发布 </a>
+              {{??}}
+              • <a href="/root/publish/{{=article.id}}/1" target="_blank"> 发布 </a>
+              {{?}}
+            {{?}}
           </div>
         </li>
         {{~}}

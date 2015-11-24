@@ -75,8 +75,8 @@ app.post("/root/edit.post", function(req, res) {
   if (article.title
     && (!article.poster || article.poster === user.username || user.isAdmin)) {
 
-    //只有管理员可设此值
-    delete article.isPublic
+    //修改或新增的文章都需要管理员重新审核
+    article.isPublic = 0
     /*
     此前端会发过来的关键字是这样的，需要整理一下;
     keyword[]:java  keyword[]:c#

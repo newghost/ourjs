@@ -52,8 +52,8 @@ var getPagination = function(config, pagerFormat) {
 
 //handle: /templatename/category/pagenumber, etc: /home/all/0, /home, /json/all/0
 var showListHandler = function(req, res, url) {
-  var params      = app.parseUrl('/:template/:keyword/:pagerNumber', url || req.url)
-    , template    = params.template || 'home'
+  var params      = app.parseUrl('/:tmpl/:keyword/:pagerNumber', url || req.url)
+    , tmpl        = params.tmpl || 'home'
     , keyword     = params.keyword  || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
     , pageSize    = 20
@@ -62,6 +62,18 @@ var showListHandler = function(req, res, url) {
 
   var where = { isPublic: 1 }
 
+  /*
+  显示最新未审核的文章: isPublic = 0
+  根据schema "isPublic" : "index('public', return this.pubTime)"
+  会自动在redis中执行 zadd isPublic:0 [时间权重如：1448377366038] [article ID]
+  */
+  if (tmpl == 'new') {
+    where.isPublic  = 0
+  }
+
+  /*
+  有keyword同样放到where语句中
+  */
   keyword && (where.keyword = keyword)
 
   redblade.select('article', where, function(err, articles, count) {
@@ -70,16 +82,20 @@ var showListHandler = function(req, res, url) {
       return
     }
 
-    template.indexOf('rss') > -1 && res.type('xml')
-    res.render(template + ".tmpl", {
+    tmpl.indexOf('rss') > -1 && res.type('xml')
+
+    //new和home使用同一个view
+    var tmplate == 'new' ? 'home' : tmpl
+
+    res.render(tmplate + ".tmpl", {
         articles    : articles
       , keyword     : keyword
-      , nextPage    : '/' + template + '/' + keyword + '/' + (pageNumber + 1)
+      , nextPage    : '/' + tmpl + '/' + keyword + '/' + (pageNumber + 1)
       , pagination  : getPagination({
             pageSize  : pageSize
           , pager     : pageNumber
           , count     : count
-        }, '<li {1}><a href="/home/' + keyword + '/{0}">{2}</a></li>')
+        }, '<li {1}><a href="/' + tmpl + '/' + keyword + '/{0}">{2}</a></li>')
     })
 
   }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true })
@@ -127,7 +143,7 @@ var showDetailHandler = function(req, res) {
 }
 
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-app.get(['/home', '/rss'], showListHandler)
+app.get(['/home', '/rss', '/new'], showListHandler)
 
 //redirect访问量+1，防止直接跳转无法计数
 app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
