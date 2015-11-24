@@ -35,10 +35,10 @@ var getAutoSignin = function(cookieInfo, cb) {
 
         if (cookieInfo.t1 == t1 && cookieInfo.t2 == t2) {
           cb && cb(userInfo)
+          return
         }
-      } else {
-        cb && cb()
       }
+      cb && cb()
     })
   } else {
     cb && cb() 
