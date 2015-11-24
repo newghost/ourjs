@@ -85,7 +85,7 @@ var showListHandler = function(req, res, url) {
     tmpl.indexOf('rss') > -1 && res.type('xml')
 
     //new和home使用同一个view
-    var tmplate == 'new' ? 'home' : tmpl
+    var tmplate = 'new' ? 'home' : tmpl
 
     res.render(tmplate + ".tmpl", {
         articles    : articles
