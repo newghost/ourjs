@@ -63,9 +63,9 @@ var showListHandler = function(req, res, url) {
   var where = { isPublic: 1 }
 
   /*
-  显示最新未审核的文章: isPublic = 0
-  根据schema "isPublic" : "index('public', return this.pubTime)"
-  会自动在redis中执行 zadd isPublic:0 [时间权重如：1448377366038] [article ID]
+  当地址是 /new　时，显示最新未审核的文章: isPublic = 0
+  根据schema "isPublic" : "index('public', return this.pubTime || +new Date())"
+  会自动在redis中添加索引 zadd isPublic:0 [时间权重如：1448377366038] [article ID]
   */
   if (tmpl == 'new') {
     where.isPublic  = 0
@@ -85,7 +85,7 @@ var showListHandler = function(req, res, url) {
     tmpl.indexOf('rss') > -1 && res.type('xml')
 
     //new和home使用同一个view
-    var tmplate = 'new' ? 'home' : tmpl
+    var tmplate = tmpl == 'new' ? 'home' : tmpl
 
     res.render(tmplate + ".tmpl", {
         articles    : articles
