@@ -183,6 +183,7 @@ webSvr.handle('/reply/add/:id', function(req, res) {
     , reply       = req.body
     , article     = Articles.all[id]
 
+  reply.nickname && (reply.nickname = utility.safeHTML(reply.nickname))
 
   if (last_reply && article && reply && (poster || reply.nickname)) {
     var interval  = last_reply + GENERAL_CONFIG.replyInterval - (new Date() / 1000 | 0)
@@ -193,9 +194,9 @@ webSvr.handle('/reply/add/:id', function(req, res) {
 
     poster && (reply.poster = poster)
     reply.postdate  = + new Date()
+    reply.reply = utility.safeHTML(reply.reply)
 
     Schema.filter('reply', reply)
-    reply.reply = utility.safeHTML(reply.reply)
 
     article.replies
       ? (article.replies.push(reply))
