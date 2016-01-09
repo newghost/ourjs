@@ -26,5 +26,7 @@ ga('send', 'pageview');
 <script src="/js/string.js"></script>
 <script src="/js/jquery.browser.js"></script>
 <script src="/js/nprogress.js"></script>
+<script src="/js/bootstrap-datepicker.js"></script>
+<script src="/js/bootstrap-datepicker.zh-CN.js"></script>
 <script src="/js/ourjs.js"></script>
 {{?}}

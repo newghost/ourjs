@@ -324,6 +324,12 @@ Edit Page
     , data        : keywords || []
   });
 
+  $('.datetime').datepicker({
+      format: "yyyy-mm-dd"
+    , language: "zh-CN"
+    , todayHighlight: true
+  });
+
 }());
 
 /*Pager*/

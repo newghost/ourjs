@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>AnyNB 股市牛博汇</title>
+<title>爱牛币-股市牛博汇</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -78,9 +78,33 @@
       </ul>
       <div class="pagination">{{=it.pagination || ''}}</div>
     </div>
-    <div class="span1"></div>
-    <div class="span3">
-      <ul class="dropdown-menu" style="position:static;float:right;display:block">
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">本月投资日历</a></li>
+        <li class="divider"></li>
+        <li>
+          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 A股指数熔断机制正式实施</a>
+        </li>
+        <li>
+          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 上市公司大股东、董监高减持股份规定正式实施</a>
+        </li>
+        <li>
+          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 第六届中国物联网产业与智慧城市发展年会</a>
+        </li>
+
+        <li class="divider"></li>
+        <li class="text-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary">本月</button>
+            <button type="button" class="btn btn-default">下月</button>
+            <button type="button" class="btn btn-default">全部</button>
+          </div>
+          <br><br>
+        </li>
+      </ul>
+
+      <ul class="dropdown-menu layout-pane">
         <li class="nav-header">RSS 订阅</li>
         <li><a href="/rss/{{=it.keyword || ''}}" target="_blank">RSS 订阅</a></li>
         <li class="divider"></li>

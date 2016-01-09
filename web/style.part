@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
 <link rel="stylesheet" href="/css/magicsuggest.css">
+<link rel="stylesheet" href="/css/datepicker3.css">
 <link rel="stylesheet" href="/css/ourjs.css">
 <!--#output=end-->
 {{?}}

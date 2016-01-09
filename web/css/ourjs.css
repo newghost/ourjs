@@ -1070,6 +1070,26 @@ label.error {
 
 
 
+
+.layout-pane {
+  position: static;
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+  border-radius: 2px 2px 6px 6px;
+}
+
+.layout-pane li a {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+
+
+
+
 /*for mobile device*/
 @media (max-width: 979px) {
   .jumbotron {

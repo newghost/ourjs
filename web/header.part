@@ -30,6 +30,9 @@
             <li><a href="#top" id="aboutlink">关于我们</a></li>
           </ul>
         </li>
+        <li>
+          <a href="/">投资日历</a>
+        </li>
         <li class="dropdown pull-right">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
