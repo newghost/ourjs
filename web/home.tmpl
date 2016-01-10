@@ -85,7 +85,8 @@
         <li class="divider"></li>
         {{~ it.eventArticles:article:index}}
         <li>
-          <a href="/article/{{=article.id}}" target="_blank">{{=article.holdTime}} {{=article.title}}</a>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">
+          <i>{{=article.holdTime}}</i> {{=article.title}}</a>
         </li>
         {{~}}
 

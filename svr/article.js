@@ -153,31 +153,37 @@ app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 /*
 填充投资日历模块数据: Model
 */
-app.use(['/home', '/new'], function(req, res) {
-  var currDate  = new Date()
-    , currYear  = currDate.getFullYear()
-    , currMonth = currDate.getMonth()
-    , thisMonth = +new Date(currYear + '-' + (currMonth + 1) + '-1')
-    , nextMonth = +new Date(currYear + '-' + (currMonth + 2) + '-1')
+app.use(function(req, res) {
+  var url = req.url
 
-  redblade.client.zrangebyscore('hold_time', thisMonth, nextMonth, function(err, ids) {
-    if (err || ids.length < 1) {
-      res.model.eventArticles = []
-      req.filter.next()
-      return
-    }
+  if ( url == '/' || url.indexOf('/?') == 0                     //默认首页
+    || url.indexOf('/home') == 0 || url.indexOf('/new')  == 0   //真正的首页
+  ) {
+    var currDate  = new Date()
+      , currYear  = currDate.getFullYear()
+      , currMonth = currDate.getMonth()
+      , thisMonth = +new Date(currYear + '-' + (currMonth + 1) + '-1')
+      , nextMonth = +new Date(currYear + '-' + (currMonth + 2) + '-1')
 
-    redblade.select('article', ids, function(err, articles) {
-      for (var i = 0; i < articles.length; i++) {
-        Root.setDateField(articles[i], 'holdTime')
+    redblade.client.zrangebyscore('hold_time', thisMonth, nextMonth, function(err, ids) {
+      if (err || ids.length < 1) {
+        res.model.eventArticles = []
+        req.filter.next()
+        return
       }
 
-      console.log(articles)
+      redblade.select('article', ids, function(err, articles) {
+        for (var i = 0; i < articles.length; i++) {
+          Root.setDateField(articles[i], 'holdTime')
+        }
 
-      res.model.eventArticles = articles
-      req.filter.next()
+        res.model.eventArticles = articles
+        req.filter.next()
+      })
     })
-  })
+  } else {
+    req.filter.next()
+  }
 })
 
 

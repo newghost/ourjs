@@ -1085,6 +1085,10 @@ label.error {
   overflow: hidden;
 }
 
+.layout-pane li a i {
+  margin-right: 18px;
+}
+
 .layout-pane .btn-primary {
   color: #fff;
 }
