@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>爱牛币-股市牛博汇</title>
+<title>爱牛币-股市牛博汇-投资日历</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="">
 <meta name="description" content="">
@@ -83,22 +83,17 @@
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">本月投资日历</a></li>
         <li class="divider"></li>
+        {{~ it.eventArticles:article:index}}
         <li>
-          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 A股指数熔断机制正式实施</a>
+          <a href="/article/{{=article.id}}" target="_blank">{{=article.holdTime}} {{=article.title}}</a>
         </li>
-        <li>
-          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 上市公司大股东、董监高减持股份规定正式实施</a>
-        </li>
-        <li>
-          <a href="/rss/{{=it.keyword || ''}}" target="_blank">2016-01-01 第六届中国物联网产业与智慧城市发展年会</a>
-        </li>
+        {{~}}
 
         <li class="divider"></li>
         <li class="text-center">
           <div class="btn-group">
-            <button type="button" class="btn btn-primary">本月</button>
-            <button type="button" class="btn btn-default">下月</button>
-            <button type="button" class="btn btn-default">全部</button>
+            <a class="btn btn-primary">本月</a>
+            <a class="btn btn-default" href="/home/投资日历">全部</a>
           </div>
           <br><br>
         </li>

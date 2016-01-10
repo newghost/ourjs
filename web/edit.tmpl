@@ -57,14 +57,16 @@
             </div>
           </div>
           <br>
+          {{?it.user.isAdmin}}
           <div class="control-group">
             <label class="control-label" for="holdTime">举办时间</label>
             <div class="controls">
               <div class="span8">
-                <input id="holdTime" class="datetime" type="text" name="holdTime" > [投资日历、可不填]
+                <input id="holdTime" class="datetime" type="text" name="holdTime" value="{{=it.article.holdTime}}" > [投资日历、可不填]
               </div>
             </div>
           </div>
+          {{?}}
         </div>
 
         <div class="text-center row">

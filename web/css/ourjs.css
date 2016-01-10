@@ -1085,6 +1085,9 @@ label.error {
   overflow: hidden;
 }
 
+.layout-pane .btn-primary {
+  color: #fff;
+}
 
 
 

@@ -9,7 +9,7 @@
 var fs              = require('fs')
   , path            = require('path')
   , redblade        = require('redblade')
-  , utility         = require('./utility')
+  , Root            = require('./root')
   , config          = global.CONFIG
 
 /*
@@ -148,6 +148,37 @@ app.get(['/home', '/rss', '/new'], showListHandler)
 //redirect访问量+1，防止直接跳转无法计数
 app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 
+
+
+/*
+填充投资日历模块数据: Model
+*/
+app.use(['/home', '/new'], function(req, res) {
+  var currDate  = new Date()
+    , currYear  = currDate.getFullYear()
+    , currMonth = currDate.getMonth()
+    , thisMonth = +new Date(currYear + '-' + (currMonth + 1) + '-1')
+    , nextMonth = +new Date(currYear + '-' + (currMonth + 2) + '-1')
+
+  redblade.client.zrangebyscore('hold_time', thisMonth, nextMonth, function(err, ids) {
+    if (err || ids.length < 1) {
+      res.model.eventArticles = []
+      req.filter.next()
+      return
+    }
+
+    redblade.select('article', ids, function(err, articles) {
+      for (var i = 0; i < articles.length; i++) {
+        Root.setDateField(articles[i], 'holdTime')
+      }
+
+      console.log(articles)
+
+      res.model.eventArticles = articles
+      req.filter.next()
+    })
+  })
+})
 
 
 

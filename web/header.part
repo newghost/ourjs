@@ -31,7 +31,7 @@
           </ul>
         </li>
         <li>
-          <a href="/">投资日历</a>
+          <a href="/home/投资日历">投资日历</a>
         </li>
         <li class="dropdown pull-right">
           {{?it.user.username}}

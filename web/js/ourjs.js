@@ -41,6 +41,9 @@ Navigation
 */
 (function() {
 
+  /*
+  根据地址栏地址选中默认的菜单
+  */
   OurJS.navi = function() {
 
     var hasActive = false;
@@ -48,11 +51,17 @@ Navigation
     $("ul.nav.toggle li>a").each(function() {
       var $link = $(this)
         , href  = $link.attr('href') || 'NO-ATTR-VALUE'
-        , path  = decodeURIComponent(location.pathname)
+        , path  = location.pathname
+        , idx   = path.indexOf('?')
         ;
 
+      if (idx > 0) {
+        path = path.substr(0, idx)
+      }
+      path = decodeURIComponent(path)
+
       //remove '/'
-      if (path.length > 1 && href.length > 1 && (href.indexOf(path) > -1 || path.indexOf(href) > -1)) {
+      if (path.length > 1 && href.length > 1 && (href == path)) {
         hasActive = true;
         $link.closest("li").addClass("active");
         $link.closest("li.dropdown").addClass("active");

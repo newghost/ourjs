@@ -36,6 +36,19 @@ root的middleware比ourjs.js的middleware执行要早，
 }, { session: true })  
 
 
+var setDateField = function(article, field) {
+  var value = parseInt(article[field])
+
+  if (value) {
+    var time = new Date(value)
+
+    if (time) {
+      var result = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
+      article[field] = result
+    }
+  }
+}
+
 app.get('/root/edit/:id', function(req, res) {
   var user  = req.session.get('user') || {}
     , id    = req.params.id
@@ -50,6 +63,7 @@ app.get('/root/edit/:id', function(req, res) {
         提取出来为自动补全控件使用
         */
         if (article && (article.poster === user.username || user.isAdmin)) {
+          setDateField(article, 'holdTime')
           res.render('edit.tmpl', { user: user, article: article, keywords: keywords })
         } else {
           res.end(MESSAGES.NOPERMISSION)
@@ -90,7 +104,23 @@ app.post("/root/edit.post", function(req, res) {
         ? keyword.join(',')
         : keyword.toString()
     }
-    
+
+    /*
+    存储前将举办时间格式化为整型（索引）
+    */
+    var holdTime = article.holdTime
+    if (holdTime) {
+      holdTime = +new Date(holdTime)
+      holdTime && (article.holdTime = holdTime)
+    }
+
+    /*
+    只有管理员才可以发布，如投资日历
+    */
+    if (!user.isAdmin) {
+      delete article.holdTime
+    }
+
 
     var onResponse = function(err, result) {
       if (err) {
@@ -182,3 +212,9 @@ app.get('/root/publish/:id/:state', function(req, res) {
     })
   })
 })
+
+
+
+module.exports = {
+    setDateField : setDateField
+}
