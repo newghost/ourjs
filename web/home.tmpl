@@ -48,6 +48,7 @@
             <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             • <span class="formatdate">{{=article.replyTime || article.postTime || 0}}</span>
             {{?article.keyword}} • {{=article.keyword}} {{?}}
+            {{?article.holdTime}} • <span class="formatdate date">{{=article.holdTime}}</span> {{?}}
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
             {{?article.url}}• <a href="{{=article.url}}" target="_blank">原文地址</a>{{?}}
 

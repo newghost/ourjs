@@ -954,6 +954,7 @@ label.error {
 
 #article {
   overflow: hidden;
+  margin-bottom: 12px;
 }
 
 .article {
