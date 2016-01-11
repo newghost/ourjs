@@ -1088,6 +1088,8 @@ label.error {
 
 .layout-pane li a i {
   margin-right: 18px;
+  display: inline-block;
+  width: 60px;
 }
 
 .layout-pane .btn-primary {

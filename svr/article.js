@@ -63,18 +63,19 @@ var showListHandler = function(req, res, url) {
   var where = { isPublic: 1 }
 
   /*
-  当地址是 /new　时，显示最新未审核的文章: isPublic = 0
-  根据schema "isPublic" : "index('public', return this.pubTime || +new Date())"
-  会自动在redis中添加索引 zadd isPublic:0 [时间权重如：1448377366038] [article ID]
+  有keyword的全部放到keyword中，不需要是公开的： isPublic = 1
   */
-  if (tmpl == 'new') {
-    where.isPublic  = 0
+  if (keyword) {
+    delete where.isPublic
+    where.keyword = keyword
+  } else {
+    /*
+    当地址是 /new　时，显示最新未审核的文章: isPublic = 0
+    根据schema "isPublic" : "index('public', return this.pubTime || +new Date())"
+    会自动在redis中添加索引 zadd isPublic:0 [时间权重如：1448377366038] [article ID]
+    */
+    where.isPublic = tmpl == 'new' ? 0 : 1
   }
-
-  /*
-  有keyword同样放到where语句中
-  */
-  keyword && (where.keyword = keyword)
 
   redblade.select('article', where, function(err, articles, count) {
     if (err) {
@@ -159,13 +160,10 @@ app.use(function(req, res) {
   if ( url == '/' || url.indexOf('/?') == 0                     //默认首页
     || url.indexOf('/home') == 0 || url.indexOf('/new')  == 0   //真正的首页
   ) {
-    var currDate  = new Date()
-      , currYear  = currDate.getFullYear()
-      , currMonth = currDate.getMonth()
-      , thisMonth = +new Date(currYear + '-' + (currMonth + 1) + '-1')
-      , nextMonth = +new Date(currYear + '-' + (currMonth + 2) + '-1')
+    var currDate  = +new Date()
+      , nextDate  = currDate + 2592000000     //未来30天 30 * 24 * 60 * 60 * 1000
 
-    redblade.client.zrangebyscore('hold_time', thisMonth, nextMonth, function(err, ids) {
+    redblade.client.zrangebyscore('hold_time', currDate, nextDate, function(err, ids) {
       if (err || ids.length < 1) {
         res.model.eventArticles = []
         req.filter.next()
