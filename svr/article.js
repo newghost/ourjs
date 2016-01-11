@@ -160,8 +160,8 @@ app.use(function(req, res) {
   if ( url == '/' || url.indexOf('/?') == 0                     //默认首页
     || url.indexOf('/home') == 0 || url.indexOf('/new')  == 0   //真正的首页
   ) {
-    var currDate  = +new Date()
-      , nextDate  = currDate + 2592000000     //未来30天 30 * 24 * 60 * 60 * 1000
+    var currDate  = +new Date() - 432000000 
+      , nextDate  = currDate    + 3024000000     //未来30天 30 * 24 * 60 * 60 * 1000
 
     redblade.client.zrangebyscore('hold_time', currDate, nextDate, function(err, ids) {
       if (err || ids.length < 1) {
