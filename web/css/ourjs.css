@@ -1074,6 +1074,7 @@ label.error {
 
 .layout-pane {
   position: static;
+  float: none;
   display: block;
   width: 100%;
   margin: 0 0 12px;
@@ -1094,6 +1095,17 @@ label.error {
 
 .layout-pane .btn-primary {
   color: #fff;
+}
+
+
+.layout-pane .nav-header {
+  color: #000;
+  font-size: 14px;
+}
+
+.layout-pane .nav-header a {
+  float: right;
+  padding: 0 12px　4px;
 }
 
 

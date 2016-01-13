@@ -82,7 +82,7 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">投资日历－未来30天</a></li>
+        <li class="nav-header">投资日历－未来30天 <a href='/home/投资日历'>更多</a></li>
         <li class="divider"></li>
         {{~ it.eventArticles:article:index}}
         <li>
@@ -91,14 +91,20 @@
         </li>
         {{~}}
 
+        <li><br/></li>
+      </ul>
+
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">门户头条　<a href='/home/门户头条'>更多</a></li>
         <li class="divider"></li>
-        <li class="text-center">
-          <div class="btn-group">
-            <a class="btn btn-primary">本月</a>
-            <a class="btn btn-default" href="/home/投资日历">全部</a>
-          </div>
-          <br><br>
+        {{~ it.eventArticles:article:index}}
+        <li>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">
+          搜狐　{{=article.title}}</a>
         </li>
+        {{~}}
+        <li><br/></li>
       </ul>
 
       <ul class="dropdown-menu layout-pane">

@@ -56,7 +56,7 @@ var showListHandler = function(req, res, url) {
     , tmpl        = params.tmpl || 'home'
     , keyword     = params.keyword  || ''
     , pageNumber  = parseInt(params.pagerNumber) || 0
-    , pageSize    = 20
+    , pageSize    = 24
     , user        = req.session.get('user') || {}
 
 
