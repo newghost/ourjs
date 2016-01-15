@@ -22,11 +22,57 @@
   </div>
 
   <div class="row-fluid">
-    <div id="article" class="span8 article-list">
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">新浪头条 <a href='/user/sina'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.eventArticles:article:index}}
+        <li>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+
+        <li><br/></li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">搜狐头条 <a href='/user/sohu'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.eventArticles:article:index}}
+        <li>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+
+        <li><br/></li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">网易头条 <a href='/user/sohu'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.eventArticles:article:index}}
+        <li>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+        <li><br/></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span8 article-list">
       <div class="nav-separator"></div>
       <div class="keywords" id='keyNav'>
         <ul class="clearfix">
-          <li>{{=it.keyword || '最新文章'}}</li>
+          <li>{{=it.keyword || '博客观点'}}</li>
           <li class="pull-right"><a href="/rss/{{=it.keyword || ''}}" target="_blank">RSS</a></li>
         </ul>
       </div>
@@ -96,18 +142,6 @@
 
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">门户头条　<a href='/home/门户头条'>更多</a></li>
-        <li class="divider"></li>
-        {{~ it.eventArticles:article:index}}
-        <li>
-          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">
-          搜狐　{{=article.title}}</a>
-        </li>
-        {{~}}
-        <li><br/></li>
-      </ul>
-
-      <ul class="dropdown-menu layout-pane">
         <li class="nav-header">RSS 订阅</li>
         <li><a href="/rss/{{=it.keyword || ''}}" target="_blank">RSS 订阅</a></li>
         <li class="divider"></li>
@@ -139,19 +173,11 @@
           </form>
         </li>
       </ul>
-
-    </div>
-
-  </div>
-</div>
-
-<div id="loader" class="container hide">
-  <div class="row-fluid">
-    <div class="span12">
-      <pre style="text-align:center">加载中...</pre>
     </div>
   </div>
+
 </div>
+
 
 <!--#include="footer.part"-->
 

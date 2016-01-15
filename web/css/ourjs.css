@@ -596,7 +596,7 @@ label.error {
 
 .bbs .comments .info {
     font-size: 11px;
-    margin: 4px 70px 18px 0;
+    margin: 4px 70px 6px 0;
 }
 
 .bbs .comments .info a{
@@ -610,7 +610,7 @@ label.error {
 .bbs .comments li {
     border-bottom: 1px dotted #CCCCCC;
     border-top: medium none;
-    padding-top: 9px;
+    padding-top: 2px;
     position: relative;
 }
 
@@ -1077,7 +1077,7 @@ label.error {
   float: none;
   display: block;
   width: 100%;
-  margin: 0 0 12px;
+  margin: 0 0 24px;
   border-radius: 2px 2px 6px 6px;
 }
 
