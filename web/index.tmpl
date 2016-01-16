@@ -22,6 +22,52 @@
   </div>
 
   <div class="row-fluid">
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">新浪头条 <a href='/user/sina'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.articlesSina:article:index}}
+        <li>
+          <a href="{{=article.url}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+
+        <li><br/></li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">搜狐头条 <a href='/user/sohu'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.articlesSohu:article:index}}
+        <li>
+          <a href="{{=article.url}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+
+        <li><br/></li>
+      </ul>
+    </div>
+
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">网易头条 <a href='/user/163'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.articles163:article:index}}
+        <li>
+          <a href="{{=article.url}}" target="_blank" title="{{=article.title}}">{{=article.title}}</a>
+        </li>
+        {{~}}
+        <li><br/></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
     <div class="span8 article-list">
       <div class="nav-separator"></div>
       <div class="keywords" id='keyNav'>
@@ -48,6 +94,7 @@
             <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             • <span class="formatdate">{{=article.replyTime || article.postTime || 0}}</span>
             {{?article.keyword}} • {{=article.keyword}} {{?}}
+            {{?article.holdTime}} • <span class="formatdate date">{{=article.holdTime}}</span> {{?}}
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
             {{?article.url}}• <a href="{{=article.url}}" target="_blank">原文地址</a>{{?}}
 
@@ -79,6 +126,20 @@
       <div class="pagination">{{=it.pagination || ''}}</div>
     </div>
     <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">投资日历－未来30天 <a href='/home/投资日历'>更多</a></li>
+        <li class="divider"></li>
+        {{~ it.eventArticles:article:index}}
+        <li>
+          <a href="/article/{{=article.id}}" target="_blank" title="{{=article.title}}">
+          <i>{{=article.holdTime}}</i> {{=article.title}}</a>
+        </li>
+        {{~}}
+
+        <li><br/></li>
+      </ul>
+
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">RSS 订阅</li>

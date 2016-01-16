@@ -113,7 +113,7 @@ app.use(function(req, res) {
 
     //if root dir redirect to home, etc /, /?abc=1234
     if (url == '/' || url[1] == '?') {
-      Article.showListHandler(req, res, "/home/")
+      Article.showListHandler(req, res, "/index/")
     } else {
       req.filter.next()
     }

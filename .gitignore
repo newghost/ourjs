@@ -1,4 +1,7 @@
 /node_modules/.bin
+/node_modules/request
+/node_modules/sax
 /config.anynb.js
 /ourjs.anynb.sh
 /mod
+/npm-debug.log
