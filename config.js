@@ -38,10 +38,6 @@ var MESSAGES = {
 };
 
 
-/*
-COMPONETNS
-*/
-var PLUGINS = [ ];
 
 
 /*
@@ -61,6 +57,5 @@ Exports
 typeof module !== 'undefined' && (module.exports = {
     WEBSVR_CONFIG   : WEBSVR_CONFIG
   , MESSAGES        : MESSAGES
-  , PLUGINS         : PLUGINS
   , REDIS_CONFIG    : REDIS_CONFIG
 });

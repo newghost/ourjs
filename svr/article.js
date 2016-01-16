@@ -152,14 +152,13 @@ app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 
 
 /*
-填充投资日历模块数据: Model
+投资日历: 填充模块数据
 */
 app.use(function(req, res) {
   var url = req.url
 
-  if ( url == '/' || url.indexOf('/?') == 0                     //默认首页
-    || url.indexOf('/home') == 0 || url.indexOf('/new')  == 0   //真正的首页
-  ) {
+  //默认首页
+  if ( url == '/' || url.indexOf('/?') == 0 ) {
     var currDate  = +new Date() - 432000000 
       , nextDate  = currDate    + 3024000000     //未来30天 30 * 24 * 60 * 60 * 1000
 
@@ -183,6 +182,31 @@ app.use(function(req, res) {
     req.filter.next()
   }
 })
+
+
+/*
+门户头条数据填充
+*/
+app.use(function(req, res) {
+  var url = req.url
+
+  //默认首页
+  if ( url == '/' || url.indexOf('/?') == 0 ) {
+    redblade.select('article', { user: sina }, function(err, articlesSina) {
+      redblade.select('article', { user: sina }, function(err, articlesSohu) {
+        redblade.select('article', { user: sina }, function(err, articles163) {
+          res.model.articlesSina  = articlesSina  || []
+          res.model.articles163   = articles163   || []
+          res.model.articlesSohu  = articlesSohu  || []
+          req.filter.next()
+        }, { from: 0, to: 20 })
+      }, { from: 0, to: 20 })
+    }, { from: 0, to: 20 })
+  } else {
+    req.filter.next()
+  }
+})
+
 
 
 
