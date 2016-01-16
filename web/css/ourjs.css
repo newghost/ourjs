@@ -45,9 +45,12 @@ body {
 }
 
 .navbar-inverse .brand {
-  color: #000;
   font-weight: 700;
   font-size: 24px;
+  background: url('../img/brand_anynb.png') 24px 0 no-repeat;
+  display: block;
+  width: 120px;
+  height: 20px;
 }
 
 .navbar-inverse .nav li.dropdown > a:hover .caret,
@@ -61,6 +64,7 @@ body {
 }
 
 .brand b{
+  visibility: hidden;
   color:#f00;
 }
 
