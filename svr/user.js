@@ -13,6 +13,7 @@ var fs              = require('fs')
   , utility         = require('./utility')
   , WEBSVR_CONFIG   = require('../config').WEBSVR_CONFIG
   , redblade        = require('redblade')
+  , Article         = require('./article')
 
 
 var setAutoSignin = function(req, res, userInfo) {
@@ -214,8 +215,7 @@ app.get('/user/:username/:pageNumber', function(req, res) {
   */
   var tmpl        = url.split('/')[1] || 'user'
     , pageNumber  = params.pageNumber || 0
-    , nextNumber  = pageNumber + 1
-    , pageSize    = 100
+    , pageSize    = 40
 
   if (username) {
     redblade.client.hgetall('user:' + username, function(err, userInfo) {
@@ -225,13 +225,17 @@ app.get('/user/:username/:pageNumber', function(req, res) {
         // return
       }
 
-      redblade.select('article', { poster: username }, function(err, articles) {
+      redblade.select('article', { poster: username }, function(err, articles, count) {
         res.render(tmpl + ".tmpl", {
-            articles  : articles || []
-          , userInfo  : userInfo
-          , nextPage  : nextNumber
+            articles    : articles || []
+          , userInfo    : userInfo
+          , pagination  : Article.getPagination({
+                pageSize  : pageSize
+              , pager     : pageNumber
+              , count     : count
+            }, '<li {1}><a href="/user/' + username + '/{0}">{2}</a></li>')
         })
-      }, { desc: true })
+      }, { desc: true, from: pageSize * pageNumber, to: pageSize * (pageNumber + 1) })
     })
   } else {
     res.end()

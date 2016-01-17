@@ -214,4 +214,5 @@ app.use(function(req, res) {
 
 module.exports = {
     showListHandler : showListHandler
+  , getPagination   : getPagination
 }

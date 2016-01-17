@@ -41,13 +41,15 @@
             by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
             <span class="formatdate date">{{=article.postTime || ''}}</span>
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
+            {{?it.user.username == article.poster || it.user.isAdmin}}
+            • <a href="/root/delete/{{=article.id}}" target="_blank">删除</a>
+            • <a href="/root/edit/{{=article.id}}" target="_blank">修改</a>
+            {{?}}
           </div>
         </div>
         {{~}}
       </div>
-      <div id="loader" style="display:none">
-        <pre style="text-align:center">加载中...</pre>
-      </div>
+      <div class="pagination">{{=it.pagination || ''}}</div>
       <br><br>
       <div class="jiathis_style_24x24">
         <span>分享到</span>
@@ -65,7 +67,7 @@
 </div>
 <hr>
 
-<!--#include="header.part"-->
+<!--#include="footer.part"-->
 <!--#include="script.part"-->
 
 <!--Powered By OurJS -->
