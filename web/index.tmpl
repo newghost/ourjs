@@ -25,11 +25,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">新浪头条 <a href='/user/sina'>更多</a></li>
+        <li class="nav-header">新浪头条 <a href='/user/sina'　target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articlesSina:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}}</a>
+          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
         </li>
         {{~}}
 
@@ -40,11 +40,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">搜狐头条 <a href='/user/sohu'>更多</a></li>
+        <li class="nav-header">搜狐头条 <a href='/user/sohu'　target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articlesSohu:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}}</a>
+          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
         </li>
         {{~}}
 
@@ -55,11 +55,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">网易头条 <a href='/user/163'>更多</a></li>
+        <li class="nav-header">网易头条 <a href='/user/163'　target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articles163:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}}</a>
+          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
         </li>
         {{~}}
         <li><br/></li>
@@ -127,7 +127,7 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">投资日历－未来30天 <a href='/home/投资日历'>更多</a></li>
+        <li class="nav-header">投资日历－未来30天 <a href='/home/投资日历' target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.eventArticles:article:index}}
         <li>

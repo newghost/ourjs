@@ -188,10 +188,12 @@ app.use(function(req, res) {
 门户头条数据填充
 */
 app.use(function(req, res) {
-  var url = req.url
+  var url   = req.url
 
   //默认首页
   if ( url == '/' || url.indexOf('/?') == 0 ) {
+    var pageSize = 15
+
     redblade.select('article', { poster: 'sina' }, function(err, articlesSina) {
       redblade.select('article', { poster: 'sohu' }, function(err, articlesSohu) {
         redblade.select('article', { poster: '163' }, function(err, articles163) {
@@ -199,9 +201,9 @@ app.use(function(req, res) {
           res.model.articles163   = articles163   || []
           res.model.articlesSohu  = articlesSohu  || []
           req.filter.next()
-        }, { from: 0, to: 19, desc: true })
-      }, { from: 0, to: 19, desc: true })
-    }, { from: 0, to: 19, desc: true })
+        }, { from: 0, to: pageSize, desc: true })
+      }, { from: 0, to: pageSize, desc: true })
+    }, { from: 0, to: pageSize, desc: true })
   } else {
     req.filter.next()
   }

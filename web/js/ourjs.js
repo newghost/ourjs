@@ -247,8 +247,11 @@ Regist/Edit user functionalities
         dateStr = formatDateTime(postTime, isDate);
       }
 
-      $timeSpan.text(dateStr);
+      $timeSpan
+        .text(dateStr)
+        .removeClass('hide')
     });
+
 
   };
 

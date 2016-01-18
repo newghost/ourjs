@@ -1089,12 +1089,15 @@ label.error {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  padding-right: 0;
 }
 
 .layout-pane li a i {
   margin-right: 18px;
-  display: inline-block;
   width: 60px;
+  float: right;
+  text-align: right;
+  font-size: 12px;
 }
 
 .layout-pane .btn-primary {
@@ -1109,7 +1112,7 @@ label.error {
 
 .layout-pane .nav-header a {
   float: right;
-  padding: 0 12px　4px;
+  padding: 0 12px 4px;
 }
 
 
