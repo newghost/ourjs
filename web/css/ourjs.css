@@ -110,7 +110,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb192d', endC
 
 .article-list {
   padding: 0;
-  margin: 2px 0 0;
+  margin: 2px 0 24px;
   list-style: none;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0 0 6px 6px;
@@ -839,8 +839,9 @@ label.error {
 
 .keywords li {
   display: inline-block;
-  font-size: 16px;
-  padding: 4px 6px;
+  font-size: 14px;
+  padding: 4px 15px;
+  line-height: 32px;
 }
 
 .keywords ul{
@@ -859,9 +860,6 @@ label.error {
   color: #000;
 }
 
-#keyNav ul li{
-  font-size: 12px;
-}
 
 .panel {
   color: #000;
@@ -1246,6 +1244,10 @@ label.error {
 
   .pagination{
     width: 100%;
+  }
+
+  .navbar-inverse .brand {
+    background-position: 4px 0;
   }
 }
 

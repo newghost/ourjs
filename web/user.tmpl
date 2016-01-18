@@ -39,7 +39,7 @@
           </h2>
           <div class="note">
             by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-            <span class="formatdate date">{{=article.postTime || ''}}</span>
+            <span class="formatdate">{{=article.postTime || ''}}</span>
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
             {{?it.user.username == article.poster || it.user.isAdmin}}
             • <a href="/root/delete/{{=article.id}}" target="_blank">删除</a>

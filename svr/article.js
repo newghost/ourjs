@@ -192,7 +192,7 @@ app.use(function(req, res) {
 
   //默认首页
   if ( url == '/' || url.indexOf('/?') == 0 ) {
-    var pageSize = 15
+    var pageSize = 23
 
     redblade.select('article', { poster: 'sina' }, function(err, articlesSina) {
       redblade.select('article', { poster: 'sohu' }, function(err, articlesSohu) {

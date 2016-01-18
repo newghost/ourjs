@@ -25,11 +25,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">新浪头条 <a href='/user/sina'　target="_blank">更多</a></li>
+        <li class="nav-header">新浪头条 <a href='/user/sina' target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articlesSina:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
+          <a href="{{=article.url}}" target="_blank"><i class="formatdate hide">{{=article.postTime}}</i> {{=article.title}}</a>
         </li>
         {{~}}
 
@@ -40,11 +40,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">搜狐头条 <a href='/user/sohu'　target="_blank">更多</a></li>
+        <li class="nav-header">搜狐头条 <a href='/user/sohu' target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articlesSohu:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
+          <a href="{{=article.url}}" target="_blank"><i class="formatdate hide">{{=article.postTime}}</i> {{=article.title}}</a>
         </li>
         {{~}}
 
@@ -55,11 +55,11 @@
     <div class="span4">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">网易头条 <a href='/user/163'　target="_blank">更多</a></li>
+        <li class="nav-header">网易头条 <a href='/user/163' target="_blank">更多</a></li>
         <li class="divider"></li>
         {{~ it.articles163:article:index}}
         <li>
-          <a href="{{=article.url}}" target="_blank">{{=article.title}} <i class="formatdate hide">{{=article.postTime}}</i></a>
+          <a href="{{=article.url}}" target="_blank"><i class="formatdate hide">{{=article.postTime}}</i> {{=article.title}}</a>
         </li>
         {{~}}
         <li><br/></li>
@@ -72,7 +72,7 @@
       <div class="nav-separator"></div>
       <div class="keywords" id='keyNav'>
         <ul class="clearfix">
-          <li>{{=it.keyword || '博客观点'}}</li>
+          <li>{{=it.keyword || '名博观点'}}</li>
           <li class="pull-right"><a href="/home" target="_blank">更多</a></li>
         </ul>
       </div>
@@ -108,23 +108,24 @@
           </div>
         </li>
         {{~}}
-        <!--Google广告|可删除或替换成你自己的-->
-        <li style="margin: 0;padding: 4px 0;">
-          <div style="height:90px;overflow:hidden">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1941367294435664"
-                 data-ad-slot="2234709637"
-                 data-ad-format="auto"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </li>
       </ul>
+      <br>
     </div>
     <div class="span4">
+      <!--Google广告|可删除或替换成你自己的-->
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li style="min-height:60px;max-height:300px;overflow:hidden">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1941367294435664"
+               data-ad-slot="2234709637"
+               data-ad-format="auto"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </li>
+      </ul>
+
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">投资日历－未来30天 <a href='/home/投资日历' target="_blank">更多</a></li>
