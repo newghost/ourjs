@@ -230,6 +230,7 @@ cite{
   padding: 14px 0 0;
   margin-top: 12px;
 }
+
 .comments .info {
   color: #999999;
   margin-bottom: 20px;
@@ -1117,6 +1118,19 @@ label.error {
 
 
 
+.layout-pane ul li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout-pane li a {
+  color: #000;
+}
+
+.layout-pane .unstyled {
+  margin: 14px 20px;
+}
 
 
 /*for mobile device*/

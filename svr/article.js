@@ -210,6 +210,42 @@ app.use(function(req, res) {
 })
 
 
+/*
+新闻联播数据填充
+*/
+app.use(function(req, res) {
+  var url   = req.url
+
+  if ( url == '/' || url.indexOf('/?') == 0 ) {
+    res.model.articleCCTV = {}
+
+    //提取单个文章使用原生方法
+    redblade.client.zrevrange('user_article:cctv', 0, 0, function(err, ids) {
+      var id = ids[0]
+
+      if (err || !id) {
+        console.error(err)
+        req.filter.next()
+        return
+      }
+
+      redblade.client.hgetall('article:' + id, function(err, article) {
+        if (err) {
+          console.error(err)
+          req.filter.next()
+          return
+        }
+
+        res.model.articleCCTV = article || {}
+        req.filter.next()
+      })
+    })
+  } else {
+    req.filter.next()
+  }
+})
+
+
 
 
 

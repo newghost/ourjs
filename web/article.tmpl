@@ -74,6 +74,10 @@
 
       <div id="content">
         {{=it.article.content || ''}}
+        {{?it.article.holdTime}}
+        <br><br>
+        <div><b>举办时间:</b> <b class="formatdate date"> {{=it.article.holdTime || ''}}</b> </div>
+        {{?}}        
         {{?it.article.url}}
         <br><br>
         <div> <b>原文地址： <a class="originUrl" href="{{=it.article.url || ''}}" target="_blank">点此</a> </b></div>
