@@ -1132,6 +1132,15 @@ label.error {
   margin: 14px 20px;
 }
 
+.notice {
+  background:#efefef;
+  font-size:16px;
+  text-align:center;
+  margin:0 0 24px;
+  padding:12px
+}
+
+
 
 /*for mobile device*/
 @media (max-width: 979px) {
@@ -1275,7 +1284,19 @@ label.error {
 }
 
 @media (max-width: 320px) {
+  body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .navbar .container {
     position: relative;
+  }
+
+  .navbar-fixed-top,
+  .layout-pane,
+  .article-list,
+  .notice {
+    margin: 0;
   }
 }
