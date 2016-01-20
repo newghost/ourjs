@@ -13,7 +13,7 @@ body {
 
 /* Main marketing message and sign up button */
 .jumbotron {
-  margin: 30px 0;
+  margin: 0;
   text-align: center;
   min-height: 1px;
 }
@@ -65,7 +65,6 @@ body {
 }
 
 .brand b{
-  visibility: hidden;
   color:#f00;
 }
 
@@ -401,7 +400,7 @@ for job scription page
   color: #000;
 }
 
-.navbar-fixed-top .navbar-inner{
+.navbar-inverse .navbar-inner{
   border-width: 0 0 2px;
 }
 
@@ -1132,29 +1131,26 @@ label.error {
   margin: 14px 20px;
 }
 
+
+.layout-pane li > a:hover,
+.layout-pane li > a:focus {
+  
+}
+
+
+
 .notice {
   background:#efefef;
   font-size:16px;
   text-align:center;
-  margin:0 0 24px;
+  margin:24px 0;
   padding:12px
 }
 
 
 
 .stock {
-  border: 1px solid #ddd;
-  border-top: solid #f00;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   font-size: 16px;
-}
-
-.stock.down {
-  border-top-color: #093;
-}
-
-.stock td:last-child {
-  text-align: right;
 }
 
 .stock i {
@@ -1162,10 +1158,12 @@ label.error {
 }
 
 .stock b {
+  float: right;
   color: #f00;
+  margin-right: 20px;
 }
 
-.stock b.down {
+.stock .down b {
   color: #093;
 }
 

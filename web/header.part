@@ -4,10 +4,10 @@
 </div>
 <![endif]-->
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-static-top">
   <div class="navbar-inner">
     <div class="container">
-      <a href="/" class="brand"><b>anynb</b></a>
+      <a href="/" class="brand"></a>
 
       <button type="button" class="btn btn-navbar">
         <span class="icon-bar"></span>
