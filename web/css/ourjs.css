@@ -1142,6 +1142,38 @@ label.error {
 
 
 
+.stock {
+  border: 1px solid #ddd;
+  border-top: solid #f00;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+}
+
+.stock.down {
+  border-top-color: #093;
+}
+
+.stock td:last-child {
+  text-align: right;
+}
+
+.stock i {
+  font-size: 14px;
+}
+
+.stock b {
+  color: #f00;
+}
+
+.stock b.down {
+  color: #093;
+}
+
+
+
+
+
+
 /*for mobile device*/
 @media (max-width: 979px) {
   .jumbotron {
@@ -1296,7 +1328,8 @@ label.error {
   .navbar-fixed-top,
   .layout-pane,
   .article-list,
-  .notice {
+  .notice,
+  .stock {
     margin: 0;
   }
 }
