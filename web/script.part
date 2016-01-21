@@ -9,7 +9,7 @@ ga('send', 'pageview');
 </script>
 
 {{?!it.debug}}
-<script src="/js/prod.min.js"></script>
+<script src="/js/prod.min.js?v=20160120"></script>
 {{??}}
 <!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.min.js"></script>
@@ -25,6 +25,7 @@ ga('send', 'pageview');
 <script src="/js/magicsuggest.js"></script>
 <script src="/js/string.js"></script>
 <script src="/js/jquery.browser.js"></script>
+<script src="/js/jquery.view.js"></script>
 <script src="/js/nprogress.js"></script>
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="/js/bootstrap-datepicker.zh-CN.js"></script>

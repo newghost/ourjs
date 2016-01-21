@@ -152,6 +152,20 @@ app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 
 
 /*
+股市行情
+*/
+app.get('/json/stock', function(req, res) {
+  redblade.client.hgetall('stock', function(err, stock) {
+    if (err) {
+      console.error(err)
+      return
+    }
+    res.send(stock)
+  })
+})
+
+
+/*
 投资日历: 填充模块数据
 */
 app.use(function(req, res) {

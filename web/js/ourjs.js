@@ -409,6 +409,26 @@ Edit Page
 }());
 
 
+/*股市行情*/
+(function() {
+
+  var $stock = $('.stock')
+
+  if ($stock.size() < 1) {
+    return
+  }
+
+  var setStock = function() {
+    $.getJSON('/json/stock', function(json) {
+      $stock.view(json)
+    })
+  }
+
+  setInterval(setStock, 4000)
+
+})();
+
+
 (function() {
 
   var browser   = $.browser || {}
