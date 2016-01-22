@@ -4,7 +4,11 @@ Author: Kris Zhang
 */
 ;(function($) {
 
-  $.fn.view = function(model) {
+  $.fn.view = function(model, options) {
+
+    options = options || {}
+
+    var formatter = options.formatter
 
     var setValue = function() {
       var bind  = this
@@ -12,6 +16,10 @@ Author: Kris Zhang
         , tag   = bind.tagName
         , key   = $bind.attr('data-bind')
         , val   = model[key]
+
+      if (formatter) {
+        val = formatter.call(bind, val)
+      }
 
       if (typeof val != 'undefined') {
         if (tag == 'INPUT' || tag == "TEXTAREA" || tag == "SELECT") {

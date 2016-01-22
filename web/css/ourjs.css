@@ -1161,9 +1161,11 @@ label.error {
   float: right;
   color: #f00;
   margin-right: 20px;
+  text-align: right;
+  min-width: 40px;
 }
 
-.stock .down b {
+.stock b.down {
   color: #093;
 }
 

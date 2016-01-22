@@ -255,7 +255,7 @@ Regist/Edit user functionalities
 
   };
 
-  var formatDateTime = function(date, isDate) {
+  var formatDateTime = function(date, isDate, isTime) {
     var addPrefix = function(n) {
       if (n < 10) {
         return '0' + n;
@@ -263,7 +263,7 @@ Regist/Edit user functionalities
       return n;
     }
 
-    date = new Date(date);
+    date = new Date(parseInt(date));
 
     var Y = date.getFullYear()
       , M = date.getMonth() + 1
@@ -275,6 +275,10 @@ Regist/Edit user functionalities
 
     var date = Y  + '-' + addPrefix(M) + '-' + addPrefix(D);
     var time = addPrefix(h) + ':' + addPrefix(m) + ':' + addPrefix(s);
+
+    if (isTime) {
+      return time
+    }
 
     return isDate ? date : (date + ' ' + time);
   };
@@ -418,13 +422,34 @@ Edit Page
     return
   }
 
+  var maxInterval = 10 * 60 * 1000
+
   var setStock = function() {
     $.getJSON('/json/stock', function(json) {
-      $stock.view(json)
+      if (!json.time || (+ new Date() - json.time > maxInterval)) {
+        return $stock.hide()
+      }
+
+      json.time = OurJS.formatDateTime(json.time, null, true)
+
+      $stock.view(json, { formatter: function(val) {
+        var $tag = $(this)
+
+        if ($tag[0].tagName == 'B') {
+          val < 0
+            ? $tag.addClass('down')
+            : $tag.removeClass('down')
+
+          val = val + '%'
+        }
+
+        return val
+      }})
     })
   }
 
   setInterval(setStock, 4000)
+  setStock()
 
 })();
 
