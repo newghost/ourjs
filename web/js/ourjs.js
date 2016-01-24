@@ -448,7 +448,11 @@ Edit Page
     })
   }
 
-  setInterval(setStock, 4000)
+  //周六周日不需要一直刷新行情
+  var day = (new Date()).getDay()
+  day !== 6 && day !== 0 && setInterval(setStock, 4000)
+
+
   setStock()
 
 })();
