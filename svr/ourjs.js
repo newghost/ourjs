@@ -69,30 +69,10 @@ var init = function() {
     var redisstore = RedisStore(client, WEBSVR_CONFIG.sessionTimeout / 1000)
     app.sessionStore = redisstore
 
-    //安装插件 addons, 根目录mod目录下的所有.js文件均视为插件
-    fs.readdir('./mod', function(err, plugins) {
-      if (err) {
-        console.error(err)
-        return
-      }
-
-      for (var i = 0; i < plugins.length; i++) {
-        var plugin = plugins[i]
-
-        if (plugin.indexOf('.js') !== plugin.length - 3) {
-          return
-        }
-
-        try {
-          require('../mod/' + plugin)
-          console.log('Plugin loaded', plugin)
-        } catch (err) {
-          console.error('Cannot load plugin', plugin, err)
-        }
-      }
-    })
-
-
+    /*
+    安装mod目录下的插件
+    */
+    require('./module.js').init('../mod')
   })
 }
 

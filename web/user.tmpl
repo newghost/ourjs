@@ -2,67 +2,93 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<title>{{=it.userInfo.username}} - OurJS.com</title>
+<title>{{=it.userInfo.username}} 的专集 - anynb</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{=it.description}}">
 <!--#include="style.part"-->
 <script>var conf={{=it.conf}}</script>
 </head>
 
-<body class="userinfo">
+<body class="bbs userinfo">
 <!--#include="header.part"-->
 <div class="container">
 
   <div class="row-fluid">
-    <div class="span4 userAvator">
-      <a class="avatar">
-        <img src="http://www.gravatar.com/avatar/{{=it.userInfo.avatar}}" />
-      </a>
-      <table>
-        <tr title="用户名">
-          <td><i class="icon-user"></i></td>
-          <td><b>{{=it.userInfo.username}}</b></td>
-        </tr>
-        {{?it.userInfo.briefinfo}}
-        <tr title="简介">
-          <td colspan="2">{{=it.userInfo.briefinfo}}</td>
-        </tr>
-        {{?}}
-      </table>
-    </div>
-    <div id="articles" class="span7">
-      <div id="article_container">
-        {{~ it.articles :article:index }}
-        <div class="article">
-          <h2 class="title">
+
+    <div class="span8 article-list">
+      <div class="nav-separator"></div>
+      <div class="keywords" id='keyNav'>
+        <ul class="clearfix">
+          <li><b>{{=it.userInfo.username + '　的文章'}}</b></li>
+        </ul>
+      </div>
+      <ul id="comments_list" class="unstyled comments">
+        {{~ it.articles:article:index }}
+        <li>
+          <div class="num"></div>
+          <div class="content">
+            {{?article.verify=='1'}}<i class="icon-star-empty"></i>{{?}}
             <a href="/article/{{=article.id}}" target="_blank">{{=article.title || ''}}</a>
-          </h2>
-          <div class="note">
-            by <a class="author" href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
-            <span class="formatdate">{{=article.postTime || ''}}</span>
+          </div>
+          <div class="info">
+            <a href="/user/{{=article.poster}}" target="_blank">{{=article.poster}}</a>
+            • <span class="formatdate">{{=article.replyTime || article.postTime || 0}}</span>
+            {{?article.keyword}} • {{=article.keyword}} {{?}}
             • <a href="/article/{{=article.id}}#comments" target="_blank">发表评论</a>
-            {{?it.user.username == article.poster || it.user.isAdmin}}
-            • <a href="/root/delete/{{=article.id}}" target="_blank">删除</a>
-            • <a href="/root/edit/{{=article.id}}" target="_blank">修改</a>
+            {{?article.url}}• <a href="{{=article.url}}" target="_blank">原文地址</a>{{?}}
+
+            {{?it.user.isAdmin}}
+              {{?article.isPublic == 1}}
+              • <a href="/root/publish/{{=article.id}}/0" target="_blank"> 取消发布 </a>
+              {{??}}
+              • <a href="/root/publish/{{=article.id}}/1" target="_blank"> 发布 </a>
+              {{?}}
             {{?}}
           </div>
-        </div>
+        </li>
         {{~}}
-      </div>
+      </ul>
       <div class="pagination">{{=it.pagination || ''}}</div>
-      <br><br>
-      <div class="jiathis_style_24x24">
-        <span>分享到</span>
-        <a class="jiathis_button_qzone"></a>
-        <a class="jiathis_button_tsina"></a>
-        <a class="jiathis_button_tqq"></a>
-        <a class="jiathis_button_weixin"></a>
-        <a class="jiathis_button_renren"></a>
-        <a class="jiathis_button_fb"></a>
-        <a class="jiathis_button_linkedin"></a>
-        <a href="http://www.jiathis.com/share?uid=1862627" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-      </div>
     </div>
+
+    <div class="span4">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">用户信息</li>
+        <li class="divider"></li>
+        <li class="text-center">
+          <div class="userAvator">
+          <a class="avatar">
+            <img src="http://www.gravatar.com/avatar/{{=it.userInfo.avatar}}" />
+          </a>
+          <table>
+            <tr title="用户名">
+              <td><i class="icon-user"></i></td>
+              <td><b>{{=it.userInfo.username}}</b></td>
+            </tr>
+          </table>
+          <hr>
+          <div title="简介">{{=it.userInfo.briefinfo || ''}}</div>
+          </div>
+        </li>
+      </ul>
+
+      <!--Google广告|可删除或替换成你自己的-->
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li style="min-height:60px;max-height:300px;overflow:hidden">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1941367294435664"
+               data-ad-slot="2234709637"
+               data-ad-format="auto"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </li>
+      </ul>
+    </div>
+
+
   </div>
 </div>
 <hr>

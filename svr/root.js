@@ -149,6 +149,11 @@ app.post("/root/edit.post", function(req, res) {
       article.postTime  = +new Date()
       article.visitNum  = 0
 
+      //没有引用地址则指向文章本身
+      if (!article.url) {
+        article.url = 'http://' + req.headers.host + '/article/'　+　article.id
+      }
+
       redblade.insert('article', article, onResponse)
     }
 

@@ -57,8 +57,8 @@ utility.inline = function(str) {
 
 utility.addTag = function(url) {
   url = url || ""
-  if (url && url.indexOf("utm_source=ourjs.com") < 1) {
-    url += (url.indexOf("?") > 0 ? "&utm_source=ourjs.com" : "?utm_source=ourjs.com")
+  if (url && url.indexOf("utm_source=anynb.com") < 1) {
+    url += (url.indexOf("?") > 0 ? "&utm_source=anynb.com" : "?utm_source=anynb.com")
   }
   return url
 }

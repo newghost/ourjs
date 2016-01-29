@@ -23,16 +23,15 @@
           <ul class="dropdown-menu">
             <li class="nav-header">文章分类</li>
             <li class="divider"></li>
-            <li><a href="/home">所有文章</a></li>
+            <li><a href="/home">名博观点</a></li>
             <li><a href="/new">最新文章</a></li>
             <li class="divider"></li>
             <li><a href="/rss" target="_blank">RSS订阅</a></li>
             <li><a href="#top" id="aboutlink">关于我们</a></li>
           </ul>
         </li>
-        <li>
-          <a href="/home/投资日历">投资日历</a>
-        </li>
+        <li><a href="/home/投资日历">投资日历</a></li>
+        <li><a href="/user/cctv">新闻联播</a></li>
         <li class="dropdown pull-right">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">

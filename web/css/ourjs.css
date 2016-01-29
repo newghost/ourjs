@@ -365,6 +365,14 @@ for job scription page
    margin-bottom: 24px;
 }
 
+
+.userinfo .article {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+
+
 .listpage .dl-horizontal dd,
 .listpage .dl-horizontal dt a{
   color: #999;
@@ -374,7 +382,7 @@ for job scription page
 .avatar{
   border: 2px solid #fff;
   display: inline-block;
-  padding: 10px;
+  padding: 10px　!important;
   border-radius: 50%;
   box-shadow: -1px 1px 6px rgba(0,0,0,0.4);
   overflow: hidden;

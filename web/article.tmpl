@@ -2,7 +2,11 @@
 <html lang="zh" xmlns:wb="http://open.weibo.com/wb">
 <head>
 <meta charset="utf-8">
+{{?it.article.poster == 'cctv'}}
+<title>新闻联播 {{=it.article.title}} - 分析挖掘有潜力的股票 | anynb</title>
+{{??}}
 <title>{{=it.article.title}} | anynb</title>
+{{?}}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{=it.description}}">
 <!--#include="style.part"-->
