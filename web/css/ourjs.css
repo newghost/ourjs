@@ -1161,8 +1161,9 @@ label.error {
 
 
 
-.stock {
-  font-size: 16px;
+.stock ul li a {
+  font-size: 14px;
+  padding-left: 12px;
 }
 
 .stock i {
@@ -1172,7 +1173,7 @@ label.error {
 .stock b {
   float: right;
   color: #f00;
-  margin-right: 20px;
+  margin-right: 12px;
   text-align: right;
   min-width: 40px;
 }
@@ -1182,6 +1183,12 @@ label.error {
 }
 
 
+
+
+.row-fluid .span-5 {
+  width: 18.4%;
+  margin-left: 2%;
+}
 
 
 
@@ -1282,6 +1289,12 @@ label.error {
   #subscribe .btn{
     font-size: 12px;
     padding: 4px;
+  }
+
+
+  .row-fluid .span-5 {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

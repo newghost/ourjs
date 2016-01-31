@@ -96,7 +96,7 @@ var showListHandler = function(req, res, url) {
             pageSize  : pageSize
           , pager     : pageNumber
           , count     : count
-        }, '<li {1}><a href="/' + tmpl + '/' + keyword + '/{0}">{2}</a></li>')
+        }, '<li {1}><a href="/' + (tmpl == 'index' ? 'home' : tmpl) + '/' + keyword + '/{0}">{2}</a></li>')
     })
 
   }, { from: pageNumber * pageSize, to: (pageNumber + 1) * pageSize, desc: true })
@@ -206,7 +206,7 @@ app.use(function(req, res) {
 
   //默认首页
   if ( url == '/' || url.indexOf('/?') == 0 ) {
-    var pageSize = 23
+    var pageSize = 16
 
     redblade.select('article', { poster: 'sina' }, function(err, articlesSina) {
       redblade.select('article', { poster: 'sohu' }, function(err, articlesSohu) {

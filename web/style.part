@@ -2,7 +2,7 @@
 <link rel="shortcut icon" href="/favicon.ico">
 
 {{?!it.debug}}
-<link rel="stylesheet" href="/css/prod.min.css">
+<link rel="stylesheet" href="/css/prod.min.css?v=20160131">
 {{??}}
 <!--#output="/css/prod.min.css"-->
 <link rel="stylesheet" href="/css/bootstrap.css">

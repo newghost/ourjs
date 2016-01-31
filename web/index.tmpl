@@ -21,7 +21,7 @@
   </div>
 
   <div class="row-fluid stock">
-    <div class="span3">
+    <div class="span-5">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">沪深指数</li>
@@ -37,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <div class="span3">
+    <div class="span-5">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">亚太指数</li>
@@ -53,7 +53,7 @@
         </li>
       </ul>
     </div>
-    <div class="span3">
+    <div class="span-5">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
         <li class="nav-header">欧美指数</li>
@@ -69,19 +69,35 @@
         </li>
       </ul>
     </div>
-    <div class="span3">
+    <div class="span-5">
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">其它指数</li>
+        <li class="nav-header">期货指数</li>
         <li class="divider"></li>
         <li>
-          <a href="http://finance.sina.com.cn/futures/quotes/GC.shtml" target="_blank"><b data-bind="pGOLD"></b><i data-bind="nGOLD"></i> 黄金</a>
+          <a href="http://finance.sina.com.cn/futures/quotes/GC.shtml" target="_blank"><b data-bind="pJIN"></b><i data-bind="nJIN"></i> 黄金</a>
+        </li>
+        <li>
+          <a href="http://finance.sina.com.cn/futures/quotes/SI.shtml" target="_blank"><b data-bind="pYIN"></b><i data-bind="nYIN"></i> 白银</a>
         </li>
         <li>
           <a href="http://finance.sina.com.cn/futures/quotes/CL.shtml" target="_blank"><b data-bind="pOIL"></b><i data-bind="nOIL"></i> 原油</a>
         </li>
+      </ul>
+    </div>
+    <div class="span-5">
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">汇率指数</li>
+        <li class="divider"></li>
         <li>
-          <a href="http://finance.sina.com.cn/money/forex/hq/USDCNY.shtml" target="_blank"><b data-bind="pRMB"></b><i data-bind="nRMB"></i> 汇率</a>
+          <a href="http://finance.sina.com.cn/futures/quotes/GC.shtml" target="_blank"><b data-bind="pUSD"></b><i data-bind="nUSD"></i> 美元</a>
+        </li>
+        <li>
+          <a href="http://finance.sina.com.cn/money/forex/hq/EURCNY.shtml" target="_blank"><b data-bind="pEUD"></b><i data-bind="nEUD"></i> 欧元</a>
+        </li>
+        <li>
+          <a href="http://finance.sina.com.cn/money/forex/hq/CNYJPY.shtml" target="_blank"><b data-bind="pJPD"></b><i data-bind="nJPD"></i> 日元</a>
         </li>
       </ul>
     </div>
@@ -175,23 +191,10 @@
         </li>
         {{~}}
       </ul>
+      <div class="pagination">{{=it.pagination || ''}}</div>
       <br>
     </div>
     <div class="span4">
-      <!--Google广告|可删除或替换成你自己的-->
-      <div class="nav-separator"></div>
-      <ul class="dropdown-menu layout-pane">
-        <li style="min-height:60px;max-height:300px;overflow:hidden">
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-1941367294435664"
-               data-ad-slot="2234709637"
-               data-ad-format="auto"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </li>
-      </ul>
-
       <!--新闻联播-->
       {{?it.articleCCTV && it.articleCCTV.content}}
       <div class="nav-separator"></div>
@@ -218,6 +221,20 @@
         {{~}}
 
         <li><br/></li>
+      </ul>
+
+      <!--Google广告|可删除或替换成你自己的-->
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li style="min-height:60px;max-height:300px;overflow:hidden">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1941367294435664"
+               data-ad-slot="2234709637"
+               data-ad-format="auto"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </li>
       </ul>
 
       <div class="nav-separator"></div>
