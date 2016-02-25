@@ -493,3 +493,121 @@ Edit Page
   })
 
 }());
+
+
+
+(function() {
+  // var splitData = function(rawData) {
+  //     var categoryData = [];
+  //     var values = []
+  //       , v1 = []
+  //       , v2 = []
+
+  //     for (var i = 0; i < rawData.length; i++) {
+  //       v1.push(rawData[i][1])
+  //       v2.push(rawData[i][4])
+
+  //       categoryData.push(rawData[i].splice(0, 1)[0]);
+  //       values.push(rawData[i])
+  //     }
+  //     return {
+  //         categoryData: categoryData
+  //       , values : values
+  //       , v1     : v1
+  //       , v2     : v2
+  //     };
+  // }
+
+  var drawChart = function(days, rzrq, rqye) {
+    var option = {
+      animation: false,
+      tooltip : {
+          trigger: 'axis'
+      },
+      legend: {
+          data: [0, 1]
+      },
+      toolbox: {
+          feature: {
+              saveAsImage: {}
+          }
+      },
+      grid: {
+          left   : 48
+        , right  : 24
+        , top    : 12
+        , bottom : '24%'
+      },
+      xAxis : [
+          {
+              type : 'category',
+              boundaryGap : false,
+              data : days
+          }
+      ],
+      yAxis : [
+          {
+              type : 'value'
+          }
+      ],
+      dataZoom: [
+        {
+          type: 'inside',
+          start: 50,
+          end: 100
+        },
+        {
+          show: true,
+          type: 'slider',
+          y: '90%',
+          start: 50,
+          end: 100
+        }
+      ],
+      series : [
+          {
+              name:'融资融券',
+              type:'line',
+              stack: '总量',
+              areaStyle: {normal: {}},
+              data: rzrq
+          },
+          {
+              name:'融券余额',
+              type:'line',
+              stack: '总量',
+              areaStyle: {normal: {}},
+              data: rqye
+          }
+      ]
+    }
+
+    var myChart = echarts.init(document.getElementById('chart_rong'))
+    myChart.setOption(option)
+  }
+
+  var init = function() {
+
+    $.getJSON('/json/rzrq_sh', function(data) {
+      var keys = Object.keys(data).sort()
+
+      var days  = []
+        , rzrq  = []
+        , rqye  = []
+
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i]
+          , val = data[key].split(',')
+
+        days.push(key)
+        rqye.push(parseInt(val[0]))
+        rzrq.push(parseInt(val[1]))
+      }
+
+      drawChart(days, rzrq, rqye)
+    })
+  }
+
+  init()
+
+})();

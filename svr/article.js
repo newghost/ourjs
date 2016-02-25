@@ -164,6 +164,16 @@ app.get('/json/stock', function(req, res) {
   })
 })
 
+app.get('/json/rzrq_sh', function(req, res) {
+  redblade.client.hgetall('rzrq_sh', function(err, stock) {
+    if (err) {
+      console.error(err)
+      return
+    }
+    res.send(stock)
+  })
+})
+
 
 /*
 投资日历: 填充模块数据

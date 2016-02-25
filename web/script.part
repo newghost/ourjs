@@ -9,10 +9,11 @@ ga('send', 'pageview');
 </script>
 
 {{?!it.debug}}
-<script src="/js/prod.min.js?v=20160120"></script>
+<script src="/js/prod.min.js?v=20160229"></script>
 {{??}}
 <!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.min.js"></script>
+<script src="/js/echarts.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/wysihtml5.js"></script>
 <script src="/js/jquery.validate.js"></script>

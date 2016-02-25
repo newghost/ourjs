@@ -1351,10 +1351,19 @@ label.error {
   }
 
   .navbar-fixed-top,
+  .navbar-static-top,
   .layout-pane,
   .article-list,
   .notice,
   .stock {
     margin: 0;
+  }
+
+  .navbar-inverse .navbar-inner {
+    padding: 0;
+  }
+
+  #article {
+    padding: 0 12px;
   }
 }
