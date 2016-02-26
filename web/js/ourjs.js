@@ -497,114 +497,139 @@ Edit Page
 
 
 (function() {
-  // var splitData = function(rawData) {
-  //     var categoryData = [];
-  //     var values = []
-  //       , v1 = []
-  //       , v2 = []
 
-  //     for (var i = 0; i < rawData.length; i++) {
-  //       v1.push(rawData[i][1])
-  //       v2.push(rawData[i][4])
+  var $chart = $('#chart_rong')
 
-  //       categoryData.push(rawData[i].splice(0, 1)[0]);
-  //       values.push(rawData[i])
-  //     }
-  //     return {
-  //         categoryData: categoryData
-  //       , values : values
-  //       , v1     : v1
-  //       , v2     : v2
-  //     };
-  // }
-
-  var drawChart = function(days, rzrq, rqye) {
+  var drawChart = function(days, shrq, shall, szrq, szall, rq, all) {
     var option = {
       animation: false,
-      tooltip : {
-          trigger: 'axis'
+      tooltip: {
+        trigger: 'axis'
       },
       legend: {
-          data: [0, 1]
+        data: [0, 1]
       },
       toolbox: {
-          feature: {
-              saveAsImage: {}
-          }
+        feature: {
+            saveAsImage: {}
+        }
       },
       grid: {
-          left   : 48
-        , right  : 24
+          left   : 54
+        , right  : 16
         , top    : 12
         , bottom : '24%'
       },
       xAxis : [
-          {
-              type : 'category',
-              boundaryGap : false,
-              data : days
-          }
+        {
+            type : 'category'
+          , boundaryGap : false
+          , data : days
+        }
       ],
       yAxis : [
-          {
-              type : 'value'
-          }
+        {
+            type : 'value'
+        }
       ],
       dataZoom: [
         {
-          type: 'inside',
-          start: 50,
-          end: 100
+            type: 'inside'
+          , start: 50
+          , end: 100
         },
         {
-          show: true,
-          type: 'slider',
-          y: '90%',
-          start: 50,
-          end: 100
+            show: true
+          , type: 'slider'
+          , y: '90%'
+          , start: 50
+          , end: 100
         }
       ],
       series : [
-          {
-              name:'融资融券',
-              type:'line',
-              stack: '总量',
-              areaStyle: {normal: {}},
-              data: rzrq
-          },
-          {
-              name:'融券余额',
-              type:'line',
-              stack: '总量',
-              areaStyle: {normal: {}},
-              data: rqye
-          }
+        {
+            name:'沪深融资融券余额'
+          , type:'line'
+          //, stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: all
+        },{
+            name:'沪深融券余额'
+          , type:'line'
+          //, stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: rq
+        },{
+            name:'沪市融资融券余额'
+          , type:'line'
+          , stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: shall
+        },{
+            name:'沪市融券余额'
+          , type:'line'
+          , stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: shrq
+        },{
+            name:'深市融资融券余额'
+          , type:'line'
+          , stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: szall
+        },{
+            name:'深市融券余额'
+          , type:'line'
+          , stack: '总量'
+          , areaStyle: {normal: {}}
+          , data: szrq
+        }
       ]
     }
 
-    var myChart = echarts.init(document.getElementById('chart_rong'))
+    var myChart = echarts.init($chart[0])
     myChart.setOption(option)
   }
 
   var init = function() {
+    if ($chart.size() < 1) {
+      return
+    }
 
-    $.getJSON('/json/rzrq_sh', function(data) {
-      var keys = Object.keys(data).sort()
+    $.getJSON('/json/rzrq', function(data) {
+      var keys = Object.keys(data.sh).sort()
 
       var days  = []
-        , rzrq  = []
-        , rqye  = []
+        , shrq  = []
+        , shall = []
+        , szrq  = []
+        , szall = []
+        , rq    = []
+        , all   = []
 
       for (var i = 0; i < keys.length; i++) {
         var key = keys[i]
-          , val = data[key].split(',')
+          , shv = data.sh[key].split(',')
+          , szv = (data.sz[key] || '').split(',')
+          , sh_rq   = parseInt(shv[0])
+          , sh_all  = parseInt(shv[1])
+          , sz_rq   = parseInt(szv[0])
+          , sz_all  = parseInt(szv[1])
 
         days.push(key)
-        rqye.push(parseInt(val[0]))
-        rzrq.push(parseInt(val[1]))
+        shrq.push(sh_rq)
+        shall.push(sh_all)
+        szrq.push(sz_rq)
+        szall.push(sz_all)
+        rq.push(sh_rq + sz_rq)
+        all.push(sz_all + sh_all)
+
+        if (szv.length < 2) {
+          console.log(key, data.sz[key])
+        }
       }
 
-      drawChart(days, rzrq, rqye)
+      drawChart(days, shrq, shall, szrq, szall, rq, all)
     })
   }
 

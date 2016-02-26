@@ -164,13 +164,16 @@ app.get('/json/stock', function(req, res) {
   })
 })
 
-app.get('/json/rzrq_sh', function(req, res) {
-  redblade.client.hgetall('rzrq_sh', function(err, stock) {
-    if (err) {
-      console.error(err)
-      return
-    }
-    res.send(stock)
+app.get('/json/rzrq', function(req, res) {
+  redblade.client.hgetall('rzrq_sh', function(err, sh) {
+    redblade.client.hgetall('rzrq_sz', function(err, sz) {
+      if (err) {
+        console.error(err)
+        return
+      }
+
+      res.send({ sh:sh, sz:sz })
+    })
   })
 })
 
