@@ -150,6 +150,9 @@ app.get(['/home', '/rss', '/new'], showListHandler)
 app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
 
 
+app.get('/rzrq', function(req, res) {
+  res.render('rzrq.tmpl')
+})
 
 /*
 股市行情

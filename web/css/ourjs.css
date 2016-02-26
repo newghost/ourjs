@@ -1142,7 +1142,10 @@ label.error {
 
 .layout-pane li > a:hover,
 .layout-pane li > a:focus {
-  
+  color: #000;
+  background-image: none;
+  background-color: transparent;
+  text-decoration: underline;
 }
 
 
@@ -1301,6 +1304,21 @@ label.error {
 #editArticle {
     background-color: #efefef;
 }
+
+
+#chart_rong {
+  width: 100%;
+  height:240px;
+}
+
+.chart-wrapper {
+  padding: 40px;
+}
+
+.chart-wrapper #chart_rong {
+  height: 640px;
+}
+
 
 @media (max-width: 640px) {
   .article{

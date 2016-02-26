@@ -506,14 +506,6 @@ Edit Page
       tooltip: {
         trigger: 'axis'
       },
-      legend: {
-        data: [0, 1]
-      },
-      toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-      },
       grid: {
           left   : 54
         , right  : 16
@@ -548,19 +540,19 @@ Edit Page
       ],
       series : [
         {
-            name:'沪深融资融券余额'
+            name:'沪深两融总额'
           , type:'line'
           //, stack: '总量'
           , areaStyle: {normal: {}}
           , data: all
         },{
-            name:'沪深融券余额'
+            name:'沪深融券总额'
           , type:'line'
           //, stack: '总量'
           , areaStyle: {normal: {}}
           , data: rq
         },{
-            name:'沪市融资融券余额'
+            name:'沪市两融余额'
           , type:'line'
           , stack: '总量'
           , areaStyle: {normal: {}}
@@ -572,7 +564,7 @@ Edit Page
           , areaStyle: {normal: {}}
           , data: shrq
         },{
-            name:'深市融资融券余额'
+            name:'深市两融余额'
           , type:'line'
           , stack: '总量'
           , areaStyle: {normal: {}}
@@ -586,6 +578,39 @@ Edit Page
         }
       ]
     }
+
+    //如果在行情页面上，复写一些属性
+    $chart.closest('.chart-wrapper').size() && $.extend(option, {
+      legend: {
+          data: ['沪深两融总额','沪深融券总额','沪市两融余额','沪市融券余额','深市两融余额','深市融券余额']
+        , x: 'left' 
+      },
+      toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+      },
+      grid: {
+          left   : 54
+        , right  : 16
+        , top    : 48
+        , bottom : '16%'
+      },
+      dataZoom: [
+        {
+            type: 'inside'
+          , start: 50
+          , end: 100
+        },
+        {
+            show: true
+          , type: 'slider'
+          , y: '90%'
+          , start: 50
+          , end: 100
+        }
+      ],
+    })
 
     var myChart = echarts.init($chart[0])
     myChart.setOption(option)
