@@ -8,14 +8,14 @@ ga('create', 'UA-69796956-1', 'auto');
 ga('send', 'pageview');
 </script>
 
-{{?!it.debug}}
-<script src="/js/prod.min.js?v=20160229"></script>
-{{??}}
-<!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/echarts.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
-<script src="/js/wysihtml5.js"></script>
+<script src="/js/wysihtml5.min.js"></script>
+{{?!it.debug}}
+<script src="/js/prod.min.js?v=20160227"></script>
+{{??}}
+<!--#output="/js/prod.min.js"-->
 <script src="/js/jquery.validate.js"></script>
 <script src="/js/jquery.cookie.js"></script>
 <script src="/js/bootstrap-wysihtml5.js"></script>

@@ -1,11 +1,11 @@
 <meta name="author" content="OurJS.org">
 <link rel="shortcut icon" href="/favicon.ico">
 
+<link rel="stylesheet" href="/css/bootstrap.css">
 {{?!it.debug}}
-<link rel="stylesheet" href="/css/prod.min.css?v=20160131">
+<link rel="stylesheet" href="/css/prod.min.css?v=20160227">
 {{??}}
 <!--#output="/css/prod.min.css"-->
-<link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
 <link rel="stylesheet" href="/css/magicsuggest.css">
 <link rel="stylesheet" href="/css/datepicker3.css">
