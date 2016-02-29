@@ -1356,6 +1356,10 @@ label.error {
     padding-left: 0;
     margin-left: 0;
   }
+
+  .chart-wrapper {
+    padding: 0;
+  }
 }
 
 @media (max-width: 320px) {
