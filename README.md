@@ -106,6 +106,9 @@ WebSvr中有一个模板缓存对象，为了提升响应速度，会直接获�
 1. 中文支持： http://ourjs.com/bbs/OurJS
 2. [AnyNB](http://anynb.com) 股市牛博汇； 基于OurJS 0.1.x版； 运行在最低配的云服务器上: 512Mb内存+1核CPU+1M宽带； 运行进程: nodejs 2个(ourjs+文章自动采集进程)，redis，ftp，nginx等
 3. [OurJS](http://ourjs.com) 我们的JavaScript； 基于OurJS 0.0.x版； 服务器配置：1G内存+1核CPU+1M宽带； 运行进程： nodejs 4个(网站3个，微信自助查询服务1个），redis，ftp，nginx，svn等； 从2013年底开始运营，在Google Analytics上观测千人在线时，网站也基本上能够秒开。
+ 
+AnyNB的分支为[0.1.1](https://github.com/newghost/ourjs/tree/0.1.1)，代码比较杂乱，也没有经过充分测试；0.0.x　和 0.1.x的分支相对稳定和干净。
+
 
 ![https://raw.githubusercontent.com/newghost/blog/master/res/ga_ourjs.png](https://raw.githubusercontent.com/newghost/blog/master/res/ga_ourjs.png)
 
