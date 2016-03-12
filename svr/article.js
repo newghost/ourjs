@@ -143,8 +143,17 @@ var showDetailHandler = function(req, res) {
   }
 }
 
+
+/*
+url      是更为松散的匹配方式，只需前面部分匹配即可
+get/post 匹配更为严格
+
+比如地址： /home/科学/1
+app.url('/home')  //匹配成功
+app.get('/home')  //匹配失败
+*/
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
-app.get(['/home', '/rss', '/new'], showListHandler)
+app.url(['/home', '/rss', '/new'], showListHandler)
 
 //redirect访问量+1，防止直接跳转无法计数
 app.get(['/article/:id', '/redirect/:id'], showDetailHandler)
