@@ -1306,7 +1306,8 @@ label.error {
 }
 
 
-#chart_rong {
+#chart_rong,
+#chart_baozhenjin {
   width: 100%;
   height:240px;
 }
@@ -1315,7 +1316,8 @@ label.error {
   padding: 40px;
 }
 
-.chart-wrapper #chart_rong {
+.chart-wrapper #chart_rong,
+.chart-wrapper #chart_baozhenjin {
   height: 640px;
 }
 

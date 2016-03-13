@@ -32,6 +32,17 @@
         </li>
         <li><a href="/home/投资日历">投资日历</a></li>
         <li><a href="/user/cctv">新闻联播</a></li>
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="/">
+            <span id="categoryText">走势图</span> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-header">数据统计走势图</li>
+            <li class="divider"></li>
+            <li><a href="/rzrq" target="_blank">融资融券走势图</a></li>
+            <li><a href="/baozhenjin" target="_blank">保证金余额走势图</a></li>
+          </ul>
+        </li>
         <li class="dropdown pull-right">
           {{?it.user.username}}
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">

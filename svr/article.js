@@ -166,6 +166,10 @@ app.get('/rzrq', function(req, res) {
   res.render('rzrq.tmpl')
 })
 
+app.get('/baozhenjin', function(req, res) {
+  res.render('baozhenjin.tmpl')
+})
+
 /*
 股市行情
 */
@@ -189,6 +193,17 @@ app.get('/json/rzrq', function(req, res) {
 
       res.send({ sh:sh, sz:sz })
     })
+  })
+})
+
+app.get('/json/baozhenjin', function(req, res) {
+  redblade.client.hgetall('baozhenjin', function(err, baozhenjin) {
+    if (err) {
+      res.send({ error: err })
+      return
+    }
+
+    res.send({ baozhenjin: baozhenjin })
   })
 })
 

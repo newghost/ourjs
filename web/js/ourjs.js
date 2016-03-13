@@ -581,6 +581,10 @@ Edit Page
 
     //如果在行情页面上，复写一些属性
     $chart.closest('.chart-wrapper').size() && $.extend(option, {
+      animation: false,
+      tooltip: {
+        trigger: 'axis'
+      },
       legend: {
           data: ['沪深两融总额','沪深融券总额','沪市两融余额','沪市融券余额','深市两融余额','深市融券余额']
         , x: 'left' 
@@ -655,6 +659,133 @@ Edit Page
       }
 
       drawChart(days, shrq, shall, szrq, szall, rq, all)
+    })
+  }
+
+  init()
+
+})();
+
+
+(function() {
+
+  var $chart = $('#chart_baozhenjin')
+
+  var drawChart = function(dimensions, end, ins, out) {
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'line'
+            }
+        },
+        grid: {
+            left   : 54
+          , right  : 16
+          , top    : 12
+          , bottom : '24%'
+        },
+        xAxis: {
+            type: 'category',
+            data: dimensions,
+            scale: true,
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            splitLine: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+        },
+        yAxis: {
+            scale: true,
+            splitArea: {
+                show: true
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside',
+                start: 50,
+                end: 100
+            },
+            {
+                show: true,
+                type: 'slider',
+                y: '90%',
+                start: 50,
+                end: 100
+            }
+        ],
+        series : [
+          {
+              name:'期末余额'
+            , type:'line'
+            //, stack: '总量'
+            , areaStyle: {normal: {}}
+            , data: end
+          },{
+              name:'转入金额'
+            , type:'line'
+            //, stack: '总量'
+            , areaStyle: {normal: {}}
+            , data: ins
+          },{
+              name:'转出金额'
+            , type:'line'
+            //, stack: '总量'
+            , areaStyle: {normal: {}}
+            , data: out
+          }
+        ]
+    }
+
+
+    //如果在行情页面上，复写一些属性
+    $chart.closest('.chart-wrapper').size() && $.extend(option, {
+      toolbox: {
+        feature: {
+            saveAsImage: {}
+        }
+      },
+      grid: {
+          left   : 54
+        , right  : 16
+        , top    : 48
+        , bottom : '16%'
+      }
+    })
+
+
+    var myChart = echarts.init($chart[0])
+    myChart.setOption(option)
+  }
+
+  var init = function() {
+    if ($chart.size() < 1) {
+      return
+    }
+
+    $.getJSON('/json/baozhenjin', function(data) {
+      var keys = Object.keys(data.baozhenjin).sort(function(a, b) {
+        a = +new Date(a.split('-')[0])
+        b = +new Date(b.split('-')[0])
+        return a - b
+      })
+
+      var end = []
+        , ins = []
+        , out = []
+
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i]
+          , row = data.baozhenjin[key].split(',')
+
+        end.push(parseInt(row[0]))
+        ins.push(parseInt(row[2]))
+        out.push(parseInt(row[3]))
+      }
+      
+      drawChart(keys, end, ins, out)
     })
   }
 

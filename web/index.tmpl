@@ -195,13 +195,6 @@
       <br>
     </div>
     <div class="span4">
-      <div class="nav-separator"></div>
-      <ul class="dropdown-menu layout-pane">
-        <li class="nav-header">融资融券余额走势图（亿） <a href='/rzrq' target="_blank">放大</a></li>
-        <li class="divider"></li>
-        <li><div id="chart_rong"></div></li>
-      </ul>
-
       <!--新闻联播-->
       {{?it.articleCCTV && it.articleCCTV.content}}
       <div class="nav-separator"></div>
@@ -215,6 +208,20 @@
         {{=it.articleCCTV.content}}
       </div>
       {{?}}
+
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">融资融券余额走势图（亿，天） <a href='/rzrq' target="_blank">放大</a></li>
+        <li class="divider"></li>
+        <li><div id="chart_rong"></div></li>
+      </ul>
+
+      <div class="nav-separator"></div>
+      <ul class="dropdown-menu layout-pane">
+        <li class="nav-header">股票保证金余额走势图（亿，周） <a href='/baozhenjin' target="_blank">放大</a></li>
+        <li class="divider"></li>
+        <li><div id="chart_baozhenjin"></div></li>
+      </ul>
 
       <div class="nav-separator"></div>
       <ul class="dropdown-menu layout-pane">
