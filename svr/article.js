@@ -151,6 +151,9 @@ get/post 匹配更为严格
 比如地址： /home/科学/1
 app.url('/home')  //匹配成功
 app.get('/home')  //匹配失败
+
+改变匹配模式: { mode: loose }
+app.get(pattern, function() { }, { mode: 'loose' })
 */
 //127.0.0.1/ or 127.0.0.1/home/category/pagernumber
 app.url(['/home', '/rss', '/new'], showListHandler)
