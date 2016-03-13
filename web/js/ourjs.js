@@ -747,6 +747,10 @@ Edit Page
             saveAsImage: {}
         }
       },
+      legend: {
+          data: ['期末余额','转入金额','转出金额']
+        , x: 'left' 
+      },
       grid: {
           left   : 54
         , right  : 16
