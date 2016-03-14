@@ -183,18 +183,18 @@ app.get('/json/stock', function(req, res) {
   })
 })
 
-var rzrq = {
+var RZRQ = {
     cacheData : {}
   , cacheDate : 0
 }
 
 app.get('/json/rzrq', function(req, res) {
   //第4小时刷新一次
-  if (+new Date() - rzrq.cacheDate < 4 * 60 * 60 * 1000) {
-    return res.send( rzrq.cacheData )
+  if (+new Date() - RZRQ.cacheDate < 4 * 60 * 60 * 1000) {
+    return res.send( RZRQ.cacheData )
   }
 
-  rzrq.cacheDate = +new Date()
+  RZRQ.cacheDate = +new Date()
 
   redblade.client.hgetall('rzrq_sh', function(err, sh) {
     redblade.client.hgetall('rzrq_sz', function(err, sz) {
@@ -203,9 +203,9 @@ app.get('/json/rzrq', function(req, res) {
         return
       }
 
-      rzrq.cacheData = { sh:sh, sz:sz }
+      RZRQ.cacheData = { sh:sh, sz:sz }
 
-      res.send(rzrq.cacheData)
+      res.send(RZRQ.cacheData)
     })
   })
 })
@@ -213,19 +213,21 @@ app.get('/json/rzrq', function(req, res) {
 /*
 保证金数据按周刷新，因此设计一个缓存
 */
-var baozhenjin = {
+var BAOZHENJIN = {
     cacheData : {}
   , cacheDate : 0
 }
 
 app.get('/json/baozhenjin', function(req, res) {
+
+  console.log(BAOZHENJIN.cacheData)
   
   //每天刷新一次
-  if (+new Date() - baozhenjin.cacheDate < 24 * 60 * 60 * 1000) {
-    return res.send(baozhenjin.cacheData)
+  if (+new Date() - BAOZHENJIN.cacheDate < 24 * 60 * 60 * 1000) {
+    return res.send(BAOZHENJIN.cacheData)
   }
 
-  baozhenjin.cacheDate = +new Date()
+  BAOZHENJIN.cacheDate = +new Date()
 
   redblade.client.hgetall('baozhenjin', function(err, baozhenjin) {
     if (err) {
@@ -245,9 +247,9 @@ app.get('/json/baozhenjin', function(req, res) {
       result.push([　key, baozhenjin[key] ])
     })
 
-    baozhenjin.cacheData = { baozhenjin: result }
+    BAOZHENJIN.cacheData = { baozhenjin: result }
 
-    res.send(baozhenjin.cacheData)
+    res.send(BAOZHENJIN.cacheData)
   })
 })
 

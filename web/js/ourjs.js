@@ -673,6 +673,7 @@ Edit Page
 
   var drawChart = function(dimensions, end, ins, out) {
     var option = {
+        animation: false,
         tooltip: {
             trigger: 'axis',
             axisPointer: {
