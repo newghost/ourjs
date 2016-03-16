@@ -184,13 +184,13 @@ app.get('/json/stock', function(req, res) {
 })
 
 var RZRQ = {
-    cacheData : {}
+    cacheData : null
   , cacheDate : 0
 }
 
 app.get('/json/rzrq', function(req, res) {
   //第4小时刷新一次
-  if (+new Date() - RZRQ.cacheDate < 4 * 60 * 60 * 1000) {
+  if (RZRQ.cacheData && (+new Date() - RZRQ.cacheDate < 4 * 60 * 60 * 1000)) {
     return res.send( RZRQ.cacheData )
   }
 
@@ -214,16 +214,14 @@ app.get('/json/rzrq', function(req, res) {
 保证金数据按周刷新，因此设计一个缓存
 */
 var BAOZHENJIN = {
-    cacheData : {}
+    cacheData : null
   , cacheDate : 0
 }
 
 app.get('/json/baozhenjin', function(req, res) {
-
-  console.log(BAOZHENJIN.cacheData)
   
   //每天刷新一次
-  if (+new Date() - BAOZHENJIN.cacheDate < 24 * 60 * 60 * 1000) {
+  if (BAOZHENJIN.cacheData && (+new Date() - BAOZHENJIN.cacheDate < 24 * 60 * 60 * 1000)) {
     return res.send(BAOZHENJIN.cacheData)
   }
 
