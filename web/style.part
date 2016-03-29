@@ -14,5 +14,6 @@
 {{?}}
 
 <!--[if lt IE 8]>
-<link href="/css/ie7.min.css" rel="stylesheet">
+<link ref="stylesheet" href="/css/bootstrap-responsive.min.css">
+<link rel="stylesheet" href="/css/ie7.css">
 <![endif]-->

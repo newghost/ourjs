@@ -1,34 +1,36 @@
-body{
-  overflow: hidden;
+.container {
+  width: 1020px;
 }
 
-.keywords li {
-  float: left;
+.row-fluid .span-5 {
+  width: 18.3%;
 }
 
-.pagination {
-  width: 84%;
+.layout-pane {
+  width: auto;
 }
 
-.pagination ul > li {
-  float: left;
-  padding: 0 9px;
+.layout-pane .nav-header a {
+  margin-top: -24px;
 }
 
-
-.comments .info {
-  margin-top: -20px;
-}
-
-.comments .info span {
-  margin-top: -20px;
-}
-
-.bbs .comments .content {
-  margin-top: -20px;
+.nav-header {
+  padding: 3px 4px;
 }
 
 
-#nprogress{
-  display: none;
+.stock ul li a {
+  font-size: 12px;
+  padding-left: 4px;
 }
+
+.stock b {
+  margin-right: 4px;
+}
+
+.keywords li.pull-right {
+  margin-top: -44px;
+}
+
+
+

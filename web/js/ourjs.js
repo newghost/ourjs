@@ -613,7 +613,7 @@ Edit Page
           , start: 50
           , end: 100
         }
-      ],
+      ]
     })
 
     var myChart = echarts.init($chart[0])
