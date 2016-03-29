@@ -189,8 +189,8 @@ var RZRQ = {
 }
 
 app.get('/json/rzrq', function(req, res) {
-  //第4小时刷新一次
-  if (RZRQ.cacheData && (+new Date() - RZRQ.cacheDate < 4 * 60 * 60 * 1000)) {
+  //第隔一段时间刷新一次
+  if (RZRQ.cacheData && (+new Date() - RZRQ.cacheDate < 20 * 60 * 1000)) {
     return res.send( RZRQ.cacheData )
   }
 
@@ -221,7 +221,7 @@ var BAOZHENJIN = {
 app.get('/json/baozhenjin', function(req, res) {
   
   //每天刷新一次
-  if (BAOZHENJIN.cacheData && (+new Date() - BAOZHENJIN.cacheDate < 24 * 60 * 60 * 1000)) {
+  if (BAOZHENJIN.cacheData && (+new Date() - BAOZHENJIN.cacheDate < 60 * 60 * 1000)) {
     return res.send(BAOZHENJIN.cacheData)
   }
 
