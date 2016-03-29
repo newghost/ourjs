@@ -1,5 +1,5 @@
 .container {
-  width: 1020px;
+  min-width: 1020px;
 }
 
 .row-fluid .span-5 {
@@ -13,6 +13,14 @@
 .layout-pane .nav-header a {
   margin-top: -24px;
 }
+
+
+.layout-pane li a i {
+  float: none;
+}
+
+
+
 
 .nav-header {
   padding: 3px 4px;
@@ -34,3 +42,11 @@
 
 
 
+.pagination {
+  width: 84%;
+}
+
+.pagination ul > li {
+  float: left;
+  padding: 0 9px;
+}
