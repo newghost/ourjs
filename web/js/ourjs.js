@@ -613,7 +613,7 @@ Edit Page
           , start: 50
           , end: 100
         }
-      ],
+      ]
     })
 
     var myChart = echarts.init($chart[0])
@@ -673,6 +673,7 @@ Edit Page
 
   var drawChart = function(dimensions, end, ins, out) {
     var option = {
+        animation: false,
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -770,23 +771,20 @@ Edit Page
     }
 
     $.getJSON('/json/baozhenjin', function(data) {
-      var keys = Object.keys(data.baozhenjin).sort(function(a, b) {
-        a = +new Date(a.split('-')[0])
-        b = +new Date(b.split('-')[0])
-        return a - b
-      })
+      var rows  = data.baozhenjin
+        , keys  = []
+        , end   = []
+        , ins   = []
+        , out   = []
 
-      var end = []
-        , ins = []
-        , out = []
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i]
+          , col = row[1].split(',')
 
-      for (var i = 0; i < keys.length; i++) {
-        var key = keys[i]
-          , row = data.baozhenjin[key].split(',')
-
-        end.push(parseInt(row[0]))
-        ins.push(parseInt(row[2]))
-        out.push(parseInt(row[3]))
+        keys.push(row[0])
+        end.push(parseInt(col[0]))
+        ins.push(parseInt(col[2]))
+        out.push(parseInt(col[3]))
       }
       
       drawChart(keys, end, ins, out)

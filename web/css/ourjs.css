@@ -140,6 +140,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb192d', endC
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb192d', endColorstr='#fdb940', GradientType=1);
 
   min-height: 4px;
+  height: 4px;
 }
 
 #about{

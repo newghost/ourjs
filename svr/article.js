@@ -183,7 +183,19 @@ app.get('/json/stock', function(req, res) {
   })
 })
 
+var RZRQ = {
+    cacheData : null
+  , cacheDate : 0
+}
+
 app.get('/json/rzrq', function(req, res) {
+  //第隔一段时间刷新一次
+  if (RZRQ.cacheData && (+new Date() - RZRQ.cacheDate < 20 * 60 * 1000)) {
+    return res.send( RZRQ.cacheData )
+  }
+
+  RZRQ.cacheDate = +new Date()
+
   redblade.client.hgetall('rzrq_sh', function(err, sh) {
     redblade.client.hgetall('rzrq_sz', function(err, sz) {
       if (err) {
@@ -191,19 +203,51 @@ app.get('/json/rzrq', function(req, res) {
         return
       }
 
-      res.send({ sh:sh, sz:sz })
+      RZRQ.cacheData = { sh:sh, sz:sz }
+
+      res.send(RZRQ.cacheData)
     })
   })
 })
 
+/*
+保证金数据按周刷新，因此设计一个缓存
+*/
+var BAOZHENJIN = {
+    cacheData : null
+  , cacheDate : 0
+}
+
 app.get('/json/baozhenjin', function(req, res) {
+  
+  //每天刷新一次
+  if (BAOZHENJIN.cacheData && (+new Date() - BAOZHENJIN.cacheDate < 60 * 60 * 1000)) {
+    return res.send(BAOZHENJIN.cacheData)
+  }
+
+  BAOZHENJIN.cacheDate = +new Date()
+
   redblade.client.hgetall('baozhenjin', function(err, baozhenjin) {
     if (err) {
       res.send({ error: err })
       return
     }
 
-    res.send({ baozhenjin: baozhenjin })
+    //排序，并输出
+    var keys = Object.keys(baozhenjin).sort(function(a, b) {
+      a = +new Date(a.split('-')[0])
+      b = +new Date(b.split('-')[0])
+      return a - b
+    })
+
+    var result = []
+    keys.forEach(function(key) {
+      result.push([　key, baozhenjin[key] ])
+    })
+
+    BAOZHENJIN.cacheData = { baozhenjin: result }
+
+    res.send(BAOZHENJIN.cacheData)
   })
 })
 
