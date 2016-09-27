@@ -78,9 +78,11 @@ utility.text = function(html) {
 
 utility.safeHTML = function(html) {
   //var html = '<style src="ok">alert(1)</style><STYLE>body{display:none}</STYLE>Outter?'
+  //var html = '<img src="xcvxcv" onerror="javascript:location.href=">'
   html = html || ''
   html = html.replace(/<\/?script[^>]*>/gi, '')
   html = html.replace(/<\/?style[^>]*>/gi, '')
+  html = html.replace(/javascript/gi, 'java_script')
   return html
 }
 
