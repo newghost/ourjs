@@ -7,7 +7,6 @@
       "websvr"         : "0.1.x"
     , "websvr-redis"   : "0.0.x"
     , "cssshrink"      : "0.x"
-    , "uglify-js"      : "1.x"
     , "redis"          : "2.2.5"
     , "redblade"       : "0.0.x"
   }
